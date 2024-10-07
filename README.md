@@ -5,7 +5,7 @@
 2 June 2024
 
 ## About
-This repositry is not yet complete; expect significant change.
+This repository is not yet complete; expect significant change.
 Oh, what change, you ask?
 Here are some of the currently planned resources:
 
