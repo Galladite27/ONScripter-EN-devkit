@@ -1,6 +1,65 @@
-Include in the main readme about information what you can and cannot do - list current supported platforms as a caveat
-
 Quoth chaoskaiser:
 >it might be worthwhile for you or me to add screenshots to our pages to show what nscripter games actually look like, and show what the engine looks like pushed to the limits (WITHOUT lua)
 >my page has always been abstract information but giving people something visual could help them decide
 >as in "yes, the text always looks this plain; yes, the ui choices are limited; no, you can't move sprites without setting the co-ordinates by hand"
+
+Blocks:
+(bg light peach / pale red)
+- code (inline & block) - light grey - cogs?
+- image - white - picture
+- quote - white - quill / quotation marks
+- tip - turquoise - blue exclamation mark
+- warning - yellow - yellow warning triangle
+
+Layout of web pages (will be hosted or available as archive download for offline usage):
+- index
+- about the engine (link to main info page, GH, mention recent changes)
+- resources (offline DL links to important files like Sazanami Gothic font)
+    * Files for a bare project (font, cursors, &c.)
+    * Archive file tools (nscmake, &c. offline DL, info about acquiring newest versions, brief guide to usage (online manpages?))
+    * API reference offline ver.
+    * LUA API reference offline ver.
+- guide
+    * introduction (basics of using the engine, use cases, limitations, past & future, link to general about page)
+    * full guide (for new games and major modifications)
+        - detailed introduction (more detail about ons.cfg, save files, using the API ref in detail, reminder this is NOT complete and to explore yourself)
+        - basics (involved file types, introduction to syntax & terminology, variable types, labels, script structure, directives, peripheral commands (caption, versionstr, language))
+        -       SECTION 1: images and backgrounds (making a working script, so we can discuss backend / theory stuff)
+        - sprites & backgrounds (image types, aliases, backgrounds, effects, drawing basic sprites, animated sprites, sprite manipulation)
+        - standing images (drawing & clearing standing images, key settings)
+        -       SECTION 2: control flow & variables
+        - labels (goto, gosub, defsub, getparam, return, note about using variables safely, subroutine hooks (loadgosub, pretextgosub, rgosub, selgosub, textgosub), note on ~ & jumpf & jumpb)
+        - variables (types (number, string, array) (local, global), setting values, unary & binary operators & commands, debug command (now we know of variables))
+        - conditionals (if & notif, for & next & break)
+        -       SECTION 3: text display (finally)
+        - text display (EN and JP text display, 1-byte text, clickwait types, line breaks, preventing line breaks, basic text settings (textspeed, cursor, textcolor))
+        - pretext tags ([], pretextgosub, gettag)
+        - text window (setwindow variations and graphical examples, formulae for unsuring no overflowing from API ref, showing & hiding text window, clearing window, windowchip)
+        - traps & waits (inline waits, command waits, trap types & usage with labels)
+        - a breather: visual effects (effectblank & effectskip, quakex & quakey, monocro, nega)
+        -       SECTION 4: choices & buttons
+        - basic choices (select, select settings (selectcolor, selectvoice), selgosub (for soon-reconvening choices?), selnum)
+        - buttons (button numbers, image buttons, sprite buttons, text buttons (inline & normal), clearing buttons)
+        -       SECTION 5: audio
+        - audio types (mp3, wav, CD audio)
+        - bgm & mp3 (bgm, loopbgm, bgmonce, fade in and out, bgmdownmode, volume, stopping)
+        - wave & CD / minor audio types (wave start, stop, loop, volume &c., info about CD audio / midi as legacy option, brief review of CD audio commands)
+        - voiceline shorthands & dwave (v (note section: voicelines & pretext tags), mv, dv (as segue to dwave), dwave channels, commands, channel volume shorthands, getting volumes?)
+        -       SECTION 6: menus and gameplay loops & structures
+        - system calls (systemcall - cover each option, mention when, if not already, they will be explained)
+        - other modes (log (maxkaisoupage, lookbackbutton, lookbackcolor, lookbackvoice, lookbacksp), skip (kidokuskip, kidokumode, mode_wave_demo, skipoff), auto (automode, automode_time), exaplain how each can be reaced (keybinds, systemcall, other))
+        - menu customisation (creating main menus (looping with buttons in-detail, perhaps case studies?), rgosub, system calls in-context, savegame & loadgame, savefileexist & savefileremove, maybe saveon & saveoff & savepoint, screenshots, date acquisition, eien case study?)
+        -       SECTION 7: other noteworthy features
+        - other text options (tateyoko, ruby text, kinsoku)
+        - video playback (avi, mpegplay, movie, converting properly to mpeg (ffmpeg))
+        - custom & variable screen resolutions in-detail (;$ recapitulated, setres, getres, warnings about hard-coded values & scaling, automatic scalling in fullscreen mode, ons,cfg's window-width option, combination option)
+        - UTF-8 (enabling, tied to proportional font support, alternative script names, continue to use backticks for consistency & safety, still experimental)
+        - proportional fonts (enabling tied to above, monospaced fonts will still work, setwindow4, defaults adapted to work, still experimental)
+        -       SECTION 8: archive formats & compression
+        - 
+
+    * translator quick-start guide
+        - translating text (extracting & repacking scripts, normal text, choices, text buttons, clickwaits, language command, 1-byte mode)
+        - localising images (extracting & repacking archives, archive compression for BMP, information about file hierarchies (making sure you tell the engine to look in the right place) changing image commands, aliases may be required)
+        - replacing videos & audio (video commands, audio commands including shorthands)
+- contact
