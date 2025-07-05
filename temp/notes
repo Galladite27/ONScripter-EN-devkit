@@ -21,6 +21,18 @@ Layout of web pages (will be hosted or available as archive download for offline
     * LUA API reference offline ver.
 - guide
     * introduction (basics of using the engine, use cases, limitations, past & future, link to general about page)
+    * general quick-start guide
+        - downloading and working with provided template (downloading, running to confirm working, editing script file)
+        - displaying text (backticks, text, clickwait characters)
+        - displaying backgrounds with effects (bg command, aliases & effects already provided)
+        - displaying sprites (standing images ONLY, drawing and clearing, aliases & effects already provided)
+        - bgm, sfx & voice (mp3 only - bgm, mp3, mv - all files provided in template)
+        - choices (basics of labels, select)
+        - congratulations, encouragement to continue, try modifying parts of script given in template, join Discord for help
+    * translator quick-start guide
+        - translating text (extracting & repacking scripts, normal text, choices, text buttons, clickwaits, language command, 1-byte mode)
+        - localising images (extracting & repacking archives, archive compression for BMP, information about file hierarchies (making sure you tell the engine to look in the right place) changing image commands, aliases may be required)
+        - replacing videos & audio (video commands, audio commands including shorthands)
     * full guide (for new games and major modifications)
         - detailed introduction (more detail about ons.cfg, save files, using the API ref in detail, reminder this is NOT complete and to explore yourself)
         - basics (involved file types, introduction to syntax & terminology, variable types, labels, script structure, directives, peripheral commands (caption, versionstr, language))
@@ -60,9 +72,4 @@ Layout of web pages (will be hosted or available as archive download for offline
         - NSA (naming schemes recapitulated, making, extracting, compression)
         - notes on other legacy formats
         - packaging games (structure, making it easy for users, engine versions & OS support, information to convey to users, licensing, any other tips)
-
-    * translator quick-start guide
-        - translating text (extracting & repacking scripts, normal text, choices, text buttons, clickwaits, language command, 1-byte mode)
-        - localising images (extracting & repacking archives, archive compression for BMP, information about file hierarchies (making sure you tell the engine to look in the right place) changing image commands, aliases may be required)
-        - replacing videos & audio (video commands, audio commands including shorthands)
 - contact
