@@ -46,3 +46,9 @@ body {
     font-family: monospace;
     margin-bottom: 0px;
 }   
+
+#main hr {
+    width: 200px;
+    text-align: left;
+    margin-left: 8px;
+}
