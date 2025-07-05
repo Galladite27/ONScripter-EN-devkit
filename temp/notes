@@ -55,8 +55,11 @@ Layout of web pages (will be hosted or available as archive download for offline
         - custom & variable screen resolutions in-detail (;$ recapitulated, setres, getres, warnings about hard-coded values & scaling, automatic scalling in fullscreen mode, ons,cfg's window-width option, combination option)
         - UTF-8 (enabling, tied to proportional font support, alternative script names, continue to use backticks for consistency & safety, still experimental)
         - proportional fonts (enabling tied to above, monospaced fonts will still work, setwindow4, defaults adapted to work, still experimental)
-        -       SECTION 8: archive formats & compression
-        - 
+        -       SECTION 8: archive formats, compression & packaging
+        - NSC (naming schemes recapitulated, making, extracting, note that scripts are concatenated irreversably)
+        - NSA (naming schemes recapitulated, making, extracting, compression)
+        - notes on other legacy formats
+        - packaging games (structure, making it easy for users, engine versions & OS support, information to convey to users, licensing, any other tips)
 
     * translator quick-start guide
         - translating text (extracting & repacking scripts, normal text, choices, text buttons, clickwaits, language command, 1-byte mode)
