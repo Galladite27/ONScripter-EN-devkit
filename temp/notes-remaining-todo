@@ -34,7 +34,7 @@ Layout of web pages (will be hosted or available as archive download for offline
         - pretext tags ([], pretextgosub, gettag)
         - text window (setwindow variations and graphical examples, formulae for unsuring no overflowing from API ref, showing & hiding text window, clearing window, windowchip)
         - traps & waits (inline waits, command waits, trap types & usage with labels)
-        - a breather: visual effects (effectblank & effectskip, quakex & quakey, monocro, nega)
+        - a breather: visual effects (effectblank & effectskip, quakex & quakey, monocro, nega, DLLs?)
         -       SECTION 4: choices & buttons
         - basic choices (select, select settings (selectcolor, selectvoice), selgosub (for soon-reconvening choices?), selnum)
         - buttons (button numbers, image buttons, sprite buttons, text buttons (inline & normal), clearing buttons)
