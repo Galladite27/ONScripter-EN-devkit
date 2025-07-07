@@ -1,0 +1,106 @@
+= Galladite's ONScripter-EN guide, part 8: audio and movies =
+There are a LOT of music playback options in nscripter, but for this I'll cover backgound music, sound effects and voices using mp3 and sometimes wav files.
+I'll note here that audio files have some specific requirements. I don't know the exact specifics but here are some changes which worked for me:
+- Not all mp3 encodings work; try lame (ffmpeg -i input.mp3 -codec:a libmp3lame -qscale:a 2 output.mp3)
+- Wav (and maybe mp3) files don't work unless they have stereo audio (ffmpeg -i input.wav -ac 2 output.wav)
+
+== Background music ==
+There is a set of commands for managing background music. First, a few settings.
+
+$bgmfadein - definition or program block - set an unskippable duration for waiting after background music is started
+$bgmfadein NUM
+$bgmfadein duration_in_milliseconds
+
+$bgmdownmode - definition or program block - set if background music should be lowered while a voice sound is playing
+$bgmdownmode {0,1}
+$bgmdownmode off_or_on
+
+$bgmvol - program block only - set the volume of the background music
+$bgmvol NUM
+$bgmvol 0_to_100
+
+These three commands, and in fact all audio settings related commands, I have found not to persist over loads. This means that if you load a save, and these have not been set yet (for example if the bgm is supposed to be quiet but that was set just before the save) then these will be the defaults. I'll probably write a guide at some point covering how to fix this, but for now just be aware of it. If you have to change the volume midway through the game, at least put the bgmvol command at the beginning of every chapter.
+Now, for commands which play background music.
+
+$bgm - play an mp3 file in a loop
+$bgm STR
+$bgm filename
+
+$loopbgm - play an mp3 file once and then loop another mp3 file
+$loopbgm STR,STR
+$loopbgm file1,file2
+
+$bgmonce - play an mp3 file once
+$bgmonce STR
+$bgmonce filename
+
+$bgmstop - stop playback of the current background music
+$bgmstop
+$bgmstop
+
+These commands supposedly are somewhat equivalent to the mp3 commands (e.g. mp3, mp3loop, mp3vol) and using mp3vol and bgmvol changes the volume of the other too. However, there are a few differences. Firstly, the naming is different; for example, "bgm" loops but "mp3" doesn't - for that you have to use "mp3loop". Secondly, the mp3loop command does not persist over loads, so when you load that save there is no background music. The bgm command fixes this. Also, it's better to use specific commands (like bgm and voice) over general commands (like mp3 and wave) where possible so as to preserve clarity for anyone trying to read your script.
+
+== Sound effects ==
+There is a command called "sevol" which changes the volume of dwave channels 1 and up. I would recommend not using dwave for this however, as the mp3 and wave commands are simpler to understand for basic sound effects.
+
+$mp3 - play mp3 files once
+$mp3 STR
+$mp3 filename
+
+$mp3stop - prematurely stop playback of mp3 files (may interrupt background music)
+$mp3stop
+$mp3stop
+
+$mp3vol - change volume of mp3 playback (also affects bgm)
+$mp3vol NUM
+$mp3vol 1_to_100
+
+$wave - play wav files once
+$wave STR
+$wave filename
+
+$wavestop - prematurely stop playback of wav files
+$wavestop
+$wavestop
+
+There doesn't seem to be an option for changing wav volume. 
+There are also more options for mp3 and wav playback than this, but you shouldn't need more than this to just play a sound effect.
+
+== Voices ==
+There is provided three useful commands to easily play voicelines.
+
+$v - play wav voice files using wave
+$'v'NUM
+$'v'audio_number
+
+$mv - play mp3 voice files using mp3
+$'mv'NUM
+$'mv'audio_number
+
+$dv - play wav voice files using dwave in channel 0
+
+These commands are used in this manner: "v4", "v008" "mv801"
+They are effectively shorthand for this:
+
+!wave "voice/(num).wav"
+
+So the first command is the same as the second:
+
+!mv4
+!mp3 "voice/4.mp3"
+
+In this way you can see how this makes the playback of voice files cleaner to read. To make this even cleaner, you could use a colon to prefix voicelines to the corresponding in-game text:
+
+!v1: `This line will be displayed alongside the corresponding voice file.@
+
+The first two commands are buggy at best; v doesn't work with the bgmdownmode command but mv does, and I've previously had an issue where the mv command just plays audio in a loop. I would recommend using dv.
+Also, there is a command called voicevol which changes the volume of dwave channel 0 (which will affect the dv command).
+
+!voicevol - program block only - change volume of dwave channel 0
+!voicevol NUM
+!voicevol 0_to_100
+
+== A personal note ==
+Music and sfx playback systems in *nscripter are, in my opinion, one of the low points. There are lots of options for playing audio (not mentioned in this tutorial: play, dwave) and yet all of them have some sort of drawback. Mp3 and bgm share the same volume level - in fact, they are very similar, but commands differ enough to make them seperate (e.g. bgm loops but mp3 doesn't, but then mp3loop loops an mp3 track but loopbgm plays 2 audio tracks and loops the second! There is no continuity!). Play doesn't seem to have volume control options. V has its own seperate volume level command, but is supposedly just shorthand for the wave command. Also, v and mv are very buggy. The voicevol command changes the volume for dwave channel 0, but the the v command uses wave instead of dwave, so you have to use dv. Dwave by iteself is... actually really good.
+
+Just use dwave when you can. It's by far the best way to play audio in *nscripter.

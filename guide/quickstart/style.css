@@ -1,11 +1,11 @@
 body {
     /* sat 60 */
-    background-color: #cccccc;
+    background-color: #ffa666;
 }
 
 div.content {
     /* sat 15 */
-    background-color: #eeeeee;
+    background-color: #ffe9d9;
     margin: auto;
     padding: 20px 20px 20px 20px;
     width: 1024px;
@@ -31,9 +31,6 @@ div.image {
 }
 div.quote {
     background-color: #FFF8F8;
-    p {
-        font-size: 20px;
-    }
 }
 div.tip {
     background-color: #FF9999;
@@ -42,21 +39,12 @@ div.warning {
     background-color: #FFEE66;
 }
 
-p.code {
-    background-color: #FF8080;
-    font-family: monospace;
-    font-size: 15px;
-}
-
-p.definition {
-    background-color: #7777FF;
-    font-family: monospace;
-    font-size: 15px;
-}
-
 p.left {
     padding-left: 10px;
     text-align: left;
+}
+.inline {
+    display: inline;
 }
 
 div.box {

@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 9: choices </h1></p>
+            <p>What would a visual novel be without choices? That wasn't a rhetorical question; the answer is a kinetic novel. However, choices can add a lot of depth to a story, so let's make them!</p>
+            
+            <h2>Settings</h2></p>
+            <p>Before we create a choice, let's look at two related settings:</p>
+            
+            <p class="definition">selectcolor - definition block only - sets the mouseover and mouseoff colours for choice text</p>
+            <p class="definition">selectcolor COLOR,COLOR</p>
+            <p class="definition">selectcolor mouseover-colour,mouseoff-colour</p>
+            
+            <p class="definition">selectvoice - definition block only - sets wav files to be played in the choice dialogue for upon choice entry, upon choice mouseover, and when a choice is clicked</p>
+            <p class="definition">selectvoice STR,STR,STR</p>
+            <p class="definition">selectvoice file1,file2,file3</p>
+            
+            <p>The COLOR in selectcolor should be in this format and unquoted: #000000</p>
+            
+            <h2>Choices</h2></p>
+            <p>Choices are based on jumping to labels, so make sure that you have labels for wherever you need to go based on whichever choice is chosen.</p>
+            <p>Here is the basic choice:</p>
+            
+            <p class="definition">select - program block only - present a selection of choices and jump to the label associated with the selected choice</p>
+            <p class="definition">select STR,LABEL[,STR,LABEL[,...]]</p>
+            <p class="definition">select choice1,label1[,choice2,label2[,...]]</p>
+            
+            <p>You can put an empty string ("") as one of the choices to have that choice not be displayed.</p>
+            <p>Be careful however, because having no choices displayed leads to an inescapable situation.</p>
+            
+            <p>As an example of this, the following line gives 2 choices with each choice jumping to its corresponding label:</p>
+            
+            <p class="code">select "Option 1",*option1,"Option 2",*option2</p>
+            
+            <h2>Reconvening choices</h2></p>
+            <p>If both choices should reconnect into one story in the very near future (a.k.a. a pointless choice), you may find the selgosub command useful. The syntax is identical to select, however it is to select what gosub is to goto; the labels it jumps to are expected to return to where that choice took place later.</p>
+            
+            <p class="definition">selgosub - program block only - present a selection of choices and jump to the label associated with the selected choice, with the expectation of returning to where the choice took place later</p>
+            <p class="definition">selgosub STR,LABEL[,STR,LABEL[,...]]</p>
+            <p class="definition">selgosub choice1,label1[,choice2,label2[,...]]</p>
+            
+            <h2>Gathering the choice information without jumping</h2></p>
+            <p>If you want to gather use input from a choice without jumping to any labels, you can use the selnum command.</p>
+            <p>With this command, you cannot give an empty string as an argument unlike the previously covered commands.</p>
+            
+            <p class="definition">selnum - program block only - present a selection of choices and save the result into a numeric variable</p>
+            <p class="definition">selnum %VAR,STR[,STR[,...]]</p>
+            <p class="definition">selnum variable,choice1[,choice2[,...]]</p>
+            
+            <p>More information on how to use this result will be given in the lesson on variables.</p>
+            
+            <p>This section was quite short, so put it to the test and make some nice branching choices!</p>
+            <p>Bonus challenges:</p>
+            <p>- converge the multiple routes into one ending</p>
+            <p>- test out the "pointless choice" use for selgosub</p>
+            <p>- weigh up the use of select and similar against buttons and a loop like how we managed it for the main menu in the menu loop tutorial</p>
+        </div>
+    </body>
+</html>

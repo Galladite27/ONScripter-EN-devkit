@@ -1,0 +1,233 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 12: variables and arrays </h1></p>
+            <p>I've used variables a couple of times before in this set of lessons, but only to aid something relevant to the previous lessons. Now, I'll explain them from the ground up.</p>
+            <p>Also, this lesson won't cover all the possible things to do with variables since there are a lot, especially regarding mathematical calculations.</p>
+            <p>One last thing to note is that to print a character variable you must be in full-width character mode. For example, the top line will print "Hello World!" and the bottom will print "$0":</p>
+            
+            <p class="code">mov $0,"Hello World!"</p>
+            <p class="code">"$0"</p>
+            <p class="code">`$0`</p>
+            
+            <h2>Types of variables</h2></p>
+            <p>There are 2 kinds of variables in ONScripter-EN - numeric and character variables. Numeric variables can hold numbers (positive or negative but no decimals) and character variables can hold text (a.k.a. strings).</p>
+            <p>Numeric variables are prefixed with a % and character variables with a $.</p>
+            <p>There are 4096 possible variables of each kind, ranging from 0 to 4095. 0-199 are "generic", and 200-4095 are "global". The difference is that generic variable are reset on resets or game restarts, and are saved and loaded alongside the game, however global variables maintain the same value throughout such events.</p>
+            <p>To use global variables, you must use the "globalon" command once in the definition block.</p>
+            
+            <p class="definition">globalon - definition block only - allow the use of global variables</p>
+            <p class="definition">globalon</p>
+            <p class="definition">globalon</p>
+            
+            <p>Also, numeric and character variables have seperate namespaces. That is, %0 and $0 are different variables and changing one does not affect the other.</p>
+            
+            <h2>Substitution</h2></p>
+            <p>When you put a variable in place of a number or string, its value is substituted into its place.</p>
+            <p>For example, if %0 is set to 1000, the following commands are equal:</p>
+            
+            <p class="code">delay %0</p>
+            <p class="code">delay 1000</p>
+            
+            <p>Also, if $3 is set to "test.wav", the following commands are equal:</p>
+            
+            <p class="code">wave $3</p>
+            <p class="code">wave "test.wav"</p>
+            
+            <p>In this way, you can make code which changes based on the values of variables.</p>
+            <p>One important thing to note is that you can add a character variable mid-line into a string. For example, if $0 is set to "world", the following commands are equal:</p>
+            
+            <p class="code">"Hello world!"@</p>
+            <p class="code">"Hello $0!"@</p>
+            
+            <p>However, you must know this: variables cannot be substituted into single-byte text. For example, the following will not print "Hello world!" to the screen but "Hello $0!"</p>
+            
+            <p class="code">`Hello world!@</p>
+            <p class="code">`Hello $0@</p>
+            
+            <p>One last interesting thing is that when printing text to the screen, numeric variables can be substituted in unlike in most other cases. For example, if %0 is set to 20, the following commands are equal:</p>
+            
+            <p class="code">"I'm 20 years old."@</p>
+            <p class="code">"I'm %0 years old."</p>
+            
+            <h2>Assigning variables</h2></p>
+            <p>Both kinds of variables can be assigned with the mov command.</p>
+            
+            <p class="definition">mov - definition or program block - assign a value to a variable</p>
+            <p class="definition">mov %VAR,NUM</p>
+            <p class="definition">mov $VAR,STR</p>
+            <p class="definition">mov variable,value</p>
+            
+            <p>For example, the following commands assign 5 to %0 and "hello" to $0:</p>
+            <p class="code">mov %0,5</p>
+            <p class="code">mov $0,"hello"</p>
+            
+            <h2>Modifying variables</h2></p>
+            <p>To change a variable's value, you can simply use the mov command again. However, there are several ways to give a variable a value relative to its current value.</p>
+            <p>To add or subtract 1 from a numeric variable you can use the "inc" and "dec" commands.</p>
+            
+            <p class="definition">inc - definition or program block - increment a numeric variable by 1</p>
+            <p class="definition">inc %VAR</p>
+            <p class="definition">inc variable</p>
+            
+            <p class="definition">dec - definition or program block - decrement a numeric variable by 1</p>
+            <p class="definition">dec %VAR</p>
+            <p class="definition">dec variable</p>
+            
+            <p>Numeric variables can also be added, subtracted, multiplied and divided. In all of these situations, the result is stored in the first variable.</p>
+            
+            <p class="definition">add - definition or program block - add a number to a numeric variable</p>
+            <p class="definition">add %VAR,NUM</p>
+            <p class="definition">add variable,number</p>
+            
+            <p class="definition">sub - definition or program block - subtract a number from a numeric variable</p>
+            <p class="definition">sub %VAR,NUM</p>
+            <p class="definition">sub variable,number</p>
+            
+            <p class="definition">mul - definition or program block - multiply a numeric variable by a number</p>
+            <p class="definition">mul %VAR,NUM</p>
+            <p class="definition">mul variable,number</p>
+            
+            <p class="definition">div - definition or program block - divide a numeric variable by a number, truncating the remainder</p>
+            <p class="definition">div %VAR,NUM</p>
+            <p class="definition">div variable,number</p>
+            
+            <p>The add command also has another use, which is to append a character variable onto the end of another.</p>
+            <p>For example, the following will print "Hello world!" to the screen:</p>
+            
+            <p class="code">mov $0,"Hello "</p>
+            <p class="code">mov $1,"world!"</p>
+            <p class="code">add $0,$1</p>
+            <p class="code">"$0"</p>
+            
+            <h2>Forming mathematical expressions</h2></p>
+            <p>If you want to quickly do a sum but don't want to change the original variables, you can create a mathematical expression using these commands:</p>
+            
+            <p class="definition">+ - definition or program block - build an expression where the first item is added to the second</p>
+            <p class="definition">NUM'+'NUM</p>
+            <p class="definition">num1'+'num2</p>
+            
+            <p class="definition">- - definition or program block - build an expression where the second item is subtracted from the first</p>
+            <p class="definition">NUM'-'NUM</p>
+            <p class="definition">num1'-'num2</p>
+            
+            <p class="definition">* - definition or program block - build an expression where the first item is multiplied by the second</p>
+            <p class="definition">NUM'*'NUM</p>
+            <p class="definition">num1'*'num2</p>
+            
+            <p class="definition">/ - definition or program block - build an expression where the first item is divided by the second</p>
+            <p class="definition">NUM'/'NUM</p>
+            <p class="definition">num1'/'num2</p>
+            
+            <p>For example, the following will double the variable %5 by moving twice the value of %5 into %5:</p>
+            
+            <p class="code">mov %5,%5*2</p>
+            
+            
+            <p>The + command also has another use, which is to append two strings.</p>
+            <p>For example, the following will print "Hello world!" to the screen:</p>
+            
+            <p class="code">mov $0,`Hello`</p>
+            <p class="code">mov $1,` `</p>
+            <p class="code">mov $2,`World`</p>
+            <p class="code">mov $3,`!`</p>
+            <p class="code">mov $4,$0+$1+$2+$3</p>
+            <p class="code">"$4"</p>
+            
+            <h2>Variable conversions</h2></p>
+            <p>Now we will convert between number variables and character variables. To do this, we will use the "itoa" and "atoi" commands.</p>
+            
+            <p class="definition">atoi - definition or program block - convert a character string into a numeric variable</p>
+            <p class="definition">atio %VAR,STR</p>
+            <p class="definition">atoi save_number_here,string_containing_number</p>
+            
+            <p class="definition">itoa - definition or program block - convert a numeric variable into a (half-width digit) character string</p>
+            <p class="definition">itoa $VAR,NUM</p>
+            <p class="definition">itoa save_string_here,number</p>
+            
+            <p class="definition">itoa2 - definition or program block - convert a numeric variable into a (full-width digit) character string</p>
+            <p class="definition">itoa2 $VAR,NUM</p>
+            <p class="definition">itoa2 save_string_here,number</p>
+            
+            <p>As an example, the following will convert the number 47 into a string and print it to the screen:</p>
+            
+            <p class="code">mov %0,47</p>
+            <p class="code">itoa $0,%0</p>
+            <p class="code">"$0"</p>
+            
+            <h2>String manipulation</h2></p>
+            <p>Two commonly used commands in relation to character variables are "len" and "mid".</p>
+            
+            <p class="definition">len - definition or program block - get the length of a string</p>
+            <p class="definition">len %VAR,STR</p>
+            <p class="definition">len save_length_here,string</p>
+            
+            <p class="definition">mid - definition or program block - extract substring from string</p>
+            <p class="definition">mid $VAR,STR,NUM,NUM</p>
+            <p class="definition">mid save_substring_here,string,substring_starting_index,halfwidth_characters_count</p>
+            
+            <p>Remember with "mid" that in computing, indices often begin at 0. For example, this will print out "World" (The "H" is character 0):</p>
+            
+            <p class="code">mov $0,"Hello World!"</p>
+            <p class="code">mid $1,$0,6,5</p>
+            <p class="code">"$1"</p>
+            
+            <h2>Arrays</h2></p>
+            <p>I've rarely used arrays in ONScripter-EN but if you want to use them, this is how.</p>
+            <p>Arrays begin with a question mark, followed by the array ID, then the location along its one or more dimensions in square brackets.</p>
+            <p>For example, this is referring to item (2,1) of array 1: ?1[2][1]</p>
+            <p>To visualise this for if you aren't familiar with arrays:</p>
+            
+            <p class="definition">Array 1 (sample contents)</p>
+            <p class="definition">xx = ?1[2][1]</p>
+            <p class="definition"></p>
+            <p class="definition">         X axis</p>
+            <p class="definition">         0  1  2  3</p>
+            <p class="definition">        +--+--+--+--+</p>
+            <p class="definition">Y axis 0|  |  |  |  |</p>
+            <p class="definition">        +--+--+--+--+</p>
+            <p class="definition">       1|  |  |xx|  |</p>
+            <p class="definition">        +--+--+--+--+</p>
+            
+            <p>With this example, bear in mind that each axis could go on for a lot longer.</p>
+            <p>Any arrays which you will use must be defined in the definition block, along with the sizes of their dimensions.</p>
+            <p>To do this, use the dim command (I won't give the full explaination, it's pretty self-explanitory):</p>
+            
+            <p class="code">*define</p>
+            <p class="code">dim ?0[9][19] ;This will allow you to use array 0 with 2 dimensions of 10 cells and 20 cells (remember the counting starts at 0)</p>
+            <p class="code">game</p>
+            <p class="code">*start</p>
+            <p class="code">click</p>
+            <p class="code">end</p>
+            
+            <p>To write to a cell of an array, you can use mov:</p>
+            
+            <p class="code">*define</p>
+            <p class="code">dim ?0[9][19]</p>
+            <p class="code">game</p>
+            <p class="code">*start</p>
+            <p class="code">mov ?0[0][0],10 ;This will set cell (0,0) of ?0 to 10. Arrays can only hold numbers I think.</p>
+            <p class="code">mov3 ?0[0][1],11,12,13 ;This will set cells (0,1), (0,2) and (0,3) of ?0 to 11, 12 and 13</p>
+            <p class="code">click</p>
+            <p class="code">end</p>
+            
+            <p>To read from the cell of an array, you can simply give the array and index:</p>
+            
+            <p class="code">*define</p>
+            <p class="code">dim ?0[9][19]</p>
+            <p class="code">game</p>
+            <p class="code">*start</p>
+            <p class="code">mov ?0[0][0],10</p>
+            <p class="code">mov3 ?0[0][1],11,12,13</p>
+            <p class="code">itoa $0,?0[0][2]+1 ;This will convert (0,2) of ?0 plus one to a half-width digit and save it into $0</p>
+            <p class="code">"$0" ;This will print "13"</p>
+            <p class="code">click</p>
+            <p class="code">end</p>
+        </div>
+    </body>
+</html>

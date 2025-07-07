@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 1: basic settings, nscripter syntax and flow of a script </h1></p>
+            <h2>Basic syntax</h2></p>
+            <p>Before we begin, I must cover some basic facts.</p>
+            
+            <p class="code">;Lines beginning in semicolons such as this are comments - they are simply ignored</p>
+            <p class="code">some-command ;Comments can be placed on the end of a line like this. For nscripter, this line would be read as "some-command".</p>
+            
+            <p>Lines beginning with an asterisk (*) are labels - they mark important points in the script which can be jumped to from elsewhere in the script.</p>
+            
+            <p>Each line of code usually goes as follows: a one-word command, possibly followed by comma-seperated arguments.</p>
+            <p>For example, in this line:</p>
+            <p class="code">effect 2,17</p>
+            <p>the command is "effect" and the 2 arguments are 2 and 17. The arguments give the command extra information on how it should be carried out, such as the text which should be given when a character speaks.</p>
+            
+            <h2>The core structure of a script</h2></p>
+            <p>An nscripter script is, by default, read and executed line-by-line from the top to the bottom, although this behaviour can be interrupted and changed.</p>
+            <p>There are two main sections: the definition block and the program block. The definition block is where much of the configuration, such as fonts, effects, menu configuration etc. is carried out. The program block defines the actual behaviour of the game, such as the text, the options and the flow between menus and gameplay.</p>
+            
+            <p>There are a few labels and keywords which you should know.</p>
+            <p class="definition">*define - this label should come pretty much right at the beginning of a script and marks the begining of the definition block</p>
+            <p class="definition">game - this command ends the definition block and begins the program block. It isn't strictly necessary from what I've seen, but if used must come before *start</p>
+            <p class="definition">*start - this label comes directly after the game command and marks the beginning of the program block</p>
+            <p>end - this command, if executed at any point, ends and closes the game</p>
+            
+            <p>With these commands, a simple script may look like this:</p>
+            
+            <p class="code">*define</p>
+            <p class="code">;Settings are set here</p>
+            <p class="code">game</p>
+            <p class="code">*start</p>
+            <p class="code">;Gameplay happens here</p>
+            <p class="code">end</p>
+            
+            
+            <h2>Some simple settings</h2></p>
+            <p>One of the important things to go in the define section is information about the game itself. Here are a few settings which you will probably want every time:</p>
+            
+            <p class="definition">caption STR - sets the title of the game window. Replace STR with quoted text, such as "My Title". This is known as a string.</p>
+            <p class="definition">versionstr STR,STR - sets the title and version to be used in the "about" dialogue. STR 1 should be the first line of the version string and STR 2 the second. Example: versionstr "My Game's Name"," v0.1"</p>
+            <p class="definition">language {english/japanese} - sets the preferred language; use either "language english" or "language japanese", for example.</p>
+            
+            <h2>Directives</h2></p>
+            <p>These two settings I use almost all the time, but they have to be set specially; I'll explain how to do that shortly.</p>
+            
+            <p class="definition">mode320 / mode400 / mode800 - changes the window size to 320x240, 400x300 or 800x600 respectively. The default is 640x480</p>
+            <p class="definition">gameid STR - sets the name to use for the save data folder in AppData or similar</p>
+            
+            <p>These two settings are set by adding a comment of them on lines 1 and 2 of the script. ModeX should always be on line 1, and gameid on line 2 unless modeX is not used in which case it should be on line 1. Basically, put modeX on line 1 and gameid on line 2. Also, gameid doesn't seem to require text to be placed inside quotation marks. Yeah, these two are wierd.</p>
+            
+            <p>Now, a script could look like this:</p>
+            
+            <p class="code">;mode800</p>
+            <p class="code">;gameid My Game</p>
+            <p class="code">*define</p>
+            <p class="code"></p>
+            <p class="code">caption "My Game"</p>
+            <p class="code">versionstr "My Game"," version 1.0"</p>
+            <p class="code">language english</p>
+            <p class="code"></p>
+            <p class="code">game</p>
+            <p class="code">*start</p>
+            <p class="code">;Gameplay happens here</p>
+            <p class="code">end</p>
+            
+            
+            <p>Hopefully now you feel a little comfortable with how nscripter scripts are structured. Just remember that some things mentioned in this guide will be ONScripter-EN specific.</p>
+            <p>For the next section, we'll be making a working script so you need the following in a folder if you don't already:</p>
+            <p>-onscripter-en</p>
+            <p>-default.ttf</p>
+            <p>-SDL.dll</p>
+            <p>-my testing assets folder (https://galladite.net/~galladite/nscripter/resources/bits-n-bobs/assets)</p>
+        </div>
+    </body>
+</html>

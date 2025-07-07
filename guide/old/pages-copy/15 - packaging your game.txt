@@ -1,0 +1,40 @@
+= Galladite's ONScripter-EN guide, part 14: date acquisition and screenshots  =
+In this final stage of the tutorial, we will package our game's assets and script into archives so that they cannot be accidentally modified or viewed by users.
+For this section, you will need a copy of the onscripter tools, available here: https://galladite.net/~galladite/nscripter/resources/onscripter/tools%20%28builds%29/
+Make sure that they are installed and you are in a command-line environment in the directory in which your game's files are stored.
+
+== Preparations ==
+To be able to use nsa archives, put the "nsa" command in your 0.txt just under the *define label like this:
+
+!;mode800
+!;gameid My Game
+!*define
+!nsa
+
+== Packaging resources into arc.nsa ==
+To create an arc.nsa file containing the game's resources, use the "nsamake" command in this format:
+
+!nsamake arc.nsa -e folder1 folder2 folder3
+
+All of the mentioned folders will now be packaged into one file, arc.nsa. Files will be accessed from arc.nsa as if the folders were where they are currently.
+
+== Packaging the script into nscript.dat ==
+To create an nscript.dat file containing the script (0.txt), use the "nscmake" command in this format:
+
+!nscmake -o nscript.dat 0.txt
+
+This will be read like the 0.txt file by ONScripter-EN, but it will be unreadable to the user.
+
+== Testing ==
+To test if the packaging has worked properly, try moving out the resource folders and 0.txt so that you are left with the ONScripter-EN executable, nscript.dat, arc.nsa and possibly SDL.dll.
+
+== Making it multi-platform ==
+To make your game multi-platform, include my multiplatform binaries folder (https://galladite.net/~galladite/nscripter/guide/files/)
+
+== Organisation and a README file ==
+Have this versions folder, you game's folder and a README.txt file in the same directory (this isn't necessary but it looks nice).
+To the README.txt, include a short description about your game, how to run it, how to copy in an executable for your system and any possible notes. For an example, see this: https://galladite.net/~galladite/nscripter/guide/projects/calculator/calculator/
+
+== Finishing up ==
+Compress this one final folder into an archive of sime kind (.zip or .tar.gz are good) and give it a suitable name.
+You should now have a professionally presented, multiplatform original english language visual novel (OELVN)!

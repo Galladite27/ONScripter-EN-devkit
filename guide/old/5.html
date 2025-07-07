@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 5: traps, waiting and basic text </h1></p>
+            <h2>Traps</h2></p>
+            <p>In certain sections, such as opening credits, you may want the user to be able to click to skip an entire section of code.</p>
+            <p>One command which you can use for this purpose is "trap".</p>
+            
+            <p class="definition">Trap - program block only - any clicks jump to a specified label</p>
+            <p class="definition">trap LABEL</p>
+            <p class="definition">trap label_to_jump_to_on_click</p>
+            
+            <p>Mouse traps can be cancelled using "trap off".</p>
+            <p>For example, this code would allow the player to skip a 5 second wait by clicking:</p>
+            
+            <p class="code">trap *after_the_wait</p>
+            <p class="code">wait 5000</p>
+            <p class="code">trap off</p>
+            <p class="code">*after_the_wait</p>
+            
+            <p>Note that the trap is disabled before the label. Otherwise, the trap would still be active and clicking would take the user back to the label from anywhere!</p>
+            <p>It is worth remembering that any clenup may be skipped by the user; it is safe to at least clear all sprites, cancel music if it was playing, etc. after the end of a trap.</p>
+            
+            <p class="code">trap off</p>
+            <p class="code">*after_the_wait</p>
+            <p class="code">csp -1 ;removes all sprites</p>
+            <p class="code">erasetextwindow 1 ;if any behaviour such as this was changed, you should change it back after the end of the trap instead of before it</p>
+            
+            <h2>Waiting</h2></p>
+            <p class="code">There are 4 main ways of waiting for an amount of time:</p>
+            <p class="code">!dNUM</p>
+            <p class="code">!wNUM</p>
+            <p class="code">delay NUM</p>
+            <p class="code">wait NUM</p>
+            
+            <p>All four commands accept a number of milliseconds to wait as an argument.</p>
+            <p>"!d" and "delay" can be interrupted by a click whereas "!w" and "wait" cannot.</p>
+            <p>"!d" and "!w" cannot take variables as arguments but "delay" and "wait" can e.g. "delay %0" is valid but "!d %0" is not.</p>
+            <p>Also, !d and !w take the argument without a space, e.g. !d500 or !w2000</p>
+            
+            <h2>Basic Text</h2></p>
+            <p>So now we get onto the fun part, displaying text! By the end of this section, you should be able to create the actual content section of a visual novel with sprites and text.</p>
+            <p>Text is actually one of the easist parts, although there are a few things still to learn.</p>
+            <p>To display basic text, which will slightly darken the background, simply type that text in quotation marks!</p>
+            <p>For example:</p>
+            
+            <p class="code">"This text will display!"</p>
+            
+            <p>Since we are using english, we may as well use 1-byte character mode. This uses 1 byte of storage per character and not every command works within it. I'm not sure of the benefit, but I use it when I can for correctness.</p>
+            <p>There are 2 ways to use 1-byte character mode, both denoted by the ` (grave accent, in the top-right of my keyboard).</p>
+            
+            <p class="code">`This text will display</p>
+            <p class="code">"`This text will also display"</p>
+            
+            <p>It can also be toggled:</p>
+            
+            <p class="code">`This text is in 1-byte character mode. `This isn't anymore. `This is again.</p>
+            
+            <p>Now, displaying text is great but we usually want to wait for the user to click before displaying more.</p>
+            <p>This comes in 2 forms: waiting before the next line and waiting before the next page of text. This is achieved by appending @ or \ to the end of a text line.</p>
+            <p>For example, in the following code the first and second lines wait for a click, however the 3rd line is the end of a page of text so the 4th line begins on a new page:</p>
+            
+            <p class="code">`This is on the first line.@</p>
+            <p class="code">`This is on the second line.@</p>
+            <p class="code">`This is on the third line, and is the final line of this page of text.\</p>
+            <p class="code">`This is on the first line of a new wall of text, and is also the only line on this wall of text.\</p>
+            
+            <p>You can also use the "br" command with no arguments to print a blank line.</p>
+            <p>Already, this is enough to create a basic gameplay section of a visual novel! By alternating text sections and sprite animations & baground changes, you have your content!</p>
+            <p>However, there are a just a couple of commands I'd like to show you to make text sections a bit nicer.</p>
+            
+            <h2>Text-related settings</h2></p>
+            
+            <p class="definition">textspeed - program block only - change the speed at which text is displayed</p>
+            <p class="definition">textspeed NUM</p>
+            <p class="definition">textspeed speed_in_milliseconds</p>
+            
+            <p class="definition">setcursor - program block only - change the cursors which mark that you can click after a line or a page of text is done</p>
+            <p class="definition">setcursor NUM,STR,NUM,NUM</p>
+            <p class="definition">setcursor 0_for_click_wait_or_1_for_page_wait,image_filename,horizontal_displacement,vertical_displacement</p>
+            
+            <p>Textspeed should be fairly explanitory. Setcursor is used to change the little icon that displays when you can click (think the flashing arrow or page in higurashi).</p>
+            <p>As an example, I'll use the higurashi sprites which are in the assets/utility folder.</p>
+            <p>In the define block:</p>
+            
+            <p class="code">stralias click_wait,":l/4,200,0;assets/utility/cursor0.bmp"</p>
+            <p class="code">stralias page_wait,":l/4,200,0;assets/utility/cursor1.bmp"</p>
+            
+            <p>In the program block:</p>
+            
+            <p class="code">setcursor 0,click_wait,3,8</p>
+            <p class="code">setcursor 1,page_wait,5,12</p>
+            
+            <p>Ignore how the string aliases are set for now. This sets the click-wait cursor as one image and the page-wait cursor as another. The numbers on the end are just positional offsets which I think makes it look nice, arbitrarily chosen.</p>
+            <p>Finally, there are a couple more commands which I want to show you related to text:</p>
+            
+            <p class="definition">textoff - hide the text window</p>
+            <p class="definition">textoff</p>
+            <p class="definition">textoff</p>
+            
+            <p class="definition">texton - show the text window</p>
+            <p class="definition">texton</p>
+            <p class="definition">texton</p>
+            
+            <p>These commands can hide and show the text window without clearing the current screen of text. This is useful if, mid-page, you want to show an animation or change a sprite but not have that hidden behind the text.</p>
+            <p>There are other relevant commands however this guide only aims to cover the basics, so if you're interested have a look here: https://galladite.net/~galladite/nscripter/mirrors/archives/reference/NScrAPI.html#category_textwindow https://galladite.net/~galladite/nscripter/mirrors/archives/reference/NScrAPI.html#category_drawtext</p>
+            
+            <p>There is one more command which, while not strictly required since there are defaults, I have found to cause wierd bugs to do with saving and text overlapping.</p>
+            <p>Assuming that you're using an 800x600 resolution window with the sazanami gothic font, just paste this into the program block just under *start:</p>
+            
+            <p class="code">setwindow 16,16,30,20,26,26,0,2,20,1,1,#999999,0,0,799,599</p>
+            
+            <p>Question not, because I don't know why this solves the issue myself. All of the things set by this command should have defaults anyway, but even if you use this command with the default values in it and so nothing should be changed, the issue is still fixed.</p>
+            
+            <p>So that's it! Your homework is to make a character appear, say a few lines, change sprite or move or something mid-page, then disappear. Bonus points for a smooth intro and outro.</p>
+        </div>
+    </body>
+</html>

@@ -1,11 +1,11 @@
 body {
     /* sat 60 */
-    background-color: #cccccc;
+    background-color: #66b3ff;
 }
 
 div.content {
     /* sat 15 */
-    background-color: #eeeeee;
+    background-color: #d9ecff;
     margin: auto;
     padding: 20px 20px 20px 20px;
     width: 1024px;
@@ -25,15 +25,12 @@ div.code {
 div.image {
     background-color: #FFF8F8;
     img {
-        width: 50%;
+        width: 100%;
         margin-top: 10px;
     }
 }
 div.quote {
     background-color: #FFF8F8;
-    p {
-        font-size: 20px;
-    }
 }
 div.tip {
     background-color: #FF9999;
@@ -42,21 +39,12 @@ div.warning {
     background-color: #FFEE66;
 }
 
-p.code {
-    background-color: #FF8080;
-    font-family: monospace;
-    font-size: 15px;
-}
-
-p.definition {
-    background-color: #7777FF;
-    font-family: monospace;
-    font-size: 15px;
-}
-
 p.left {
     padding-left: 10px;
     text-align: left;
+}
+.inline {
+    display: inline;
 }
 
 div.box {

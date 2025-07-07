@@ -1,0 +1,104 @@
+= Galladite's ONScripter-EN guide, part 2: sprites, backgrounds and effects =
+== Using "stralias" to make filenames easier ==
+Before we even start, we should cover the command "stralias". Stralias can be used in the definition block to assign a name to a string (a collection of characters, such as "hello"), so that the string can be referred to as the name in all cases afterwards. For example:
+
+!*define
+!stralias mystring,"This string can now be referred to as mystring from elsewhere"
+
+Note that this is NOT the same as a variable; those will be covered much later.
+
+For the sake of completeness, I will mention that there is a similar command, "numalias", which - as the name might suggest - can be used for numbers in the same way.
+
+== Naming some images and setting a background ==
+To set a background, first we will create an alias to refer to the filename by, and then we will set the background using that alias.
+The commands that we will use are "stralias" and "bg".
+
+Bg can be used in 3 ways. The way we will use is "bg STR,EFFECT" where STR is the name of a file to set as the background and EFFECT is the transition effect to use (which will be covered shortly). For now the effect will be 1.
+Finally, we will use the "wait" command to wait 5000 milliseconds (5 seconds) to allow us to see that the background has been properly set before the script ends.
+Try this script:
+
+!;mode800
+!*define
+!caption "Test"
+!language english
+!stralias background,"assets/bg.jpg"
+!game
+!*start
+!bg background,1
+!wait 5000
+!end
+
+If everything was set up properly, the image should display for 5 seconds then close.
+
+== So what are effects? ==
+Effects are user-defined transitions which can be applied to changing backgrounds, updating sprites and more. They are created using the effect command in the define block and are each assigned a number from 2 to 255. Effects 0 and 1 are reserved; 0 is a background update (i.e. no immediate visible change) and 1 is an immediate trasition (imagine powerpoint with no transitions).
+When defining an effect, the structure goes as follows: effect NUM,NUM[,NUM[,STR]]
+For now, understand this command as this: NUM 1 is the number to assign the effect to (remember, start at 2), NUM 2 is the base effect to use, and NUM 3 (which is optional) is how long the effect should last in milliseconds.
+See this page for reference on the built-in effects: https://galladite.net/~galladite/nscripter/mirrors/archives/reference/NScrAPI.html#effect
+
+For example, the following effect would set effect 2 as a mosaic in for 3 seconds:
+
+!effect 2,17,3000
+
+If you put this line in your define block and then change the effect of the bg command to 2, your background should slowly come into focus!
+
+== Displaying sprites ==
+Sprites can be created, moved, hidden, shown and destroyed. Each sprite has an individual id which you choose at the time when the sprite is created. Once a sprite is destroyed, that id can be used again.
+Sprites can be creates using the command "lsp". The arguments are as follows:
+
+$lsp NUM,STR,NUM,NUM,NUM
+$lsp sprite_id,filename,top_left_X_coordinate,top_left_Y_coordinate,opacity_value
+
+Co-ordinates are measured from the top-left, so an X coordinate of 10 and a Y of 0 means 10 pixels right from the top left. Opacity ranges from 0 to 255 and is optional.
+Whenever sprites are updated, be that being created, modified or destroyed, nothing actually happens on-screen until the "print" command is used. This command draws all of the pending changes to sprites according to a specific effect.
+
+To test this out, add the following line to the define block:
+
+!stralias mion,"assets/mion.png"
+
+Then add these lines to the end of the program block, just before "end":
+
+!lsp 0,mion,50,100
+!print 1
+!wait 5000
+
+This script, 5 seconds after the background fades in, should draw mion!
+To get used to this, try drawing a few more sprites and changing lsp's and print's arguments.
+
+== Moving sprites ==
+Sprites can be moved using the "msp" and "amsp" commands. Msp moves a sprite relative to its current position (e.g. 10 pixels left) and amsp moves a sprite to an absolute position (e.g. x=10 and y=30). They can also change opacity, with msp again changing opacity relative to its current value. This is optional.
+
+The commands go as follows:
+
+$msp NUM,NUM,NUM[,NUM]
+$msp sprite_id,x_offset,y_offset[,opacity_offset]
+
+$asmp NUM,NUM,NUM[,NUM]
+$asmp sprite_id,x_value,y_value[,opacity_value]
+
+For example, the following lines in the program block would move sprite 0 20 pixels down and reduce its opacity by 50 (out of 255):
+
+!msp 0,0,20,-50
+!print 1
+
+Remember, we need to use "print" to update the sprites using an effect! Also, remember to add wait timings otherwise everything will just flash by!
+
+== Hiding, showing and deleting sprites ==
+The command "vsp" can be used to toggle visibility of sprites. The syntax is this:
+
+$vsp NUM,NUM
+$vsp sprite_id,visibility
+
+The second number should be 0 or 1 for invisible and visible.
+
+"allsphide" and "allspresume" are commands, called without arguments (i.e. just the command on one line), which hide and show every currently loaded sprite.
+"csp" can be used to erase sprites, be they hidden or shown. This will free up the sprite's id for use by a new sprite. The syntax is as follows:
+
+$csp NUM
+$csp sprite_id
+
+"csp -1" removes all sprites.
+I can't think of any interesting way to showcase these, so have a play around and get to grips with creating, moving and destroying sprites.
+Always remember to use print to update sprites!
+
+You should now be able to draw some sprites and make them move around!

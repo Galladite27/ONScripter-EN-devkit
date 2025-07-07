@@ -1,0 +1,138 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 6: building a menu system and saving </h1></p>
+            <h2>Creating a game loop</h2></p>
+            <p>We need to start by making a game loop. Currently, when our script is done the game window closes. However, by using a label and a goto command, we can return the player back to the start instead. Once we have a menu in place, this will send them back to the menu after they finish the game.</p>
+            <p>First, add this label just above where the game begins:</p>
+            
+            <p class="code">*gamestart</p>
+            
+            <p>This label can be whatever you want, but I'm chosing this. Then, replace the "end" command at the end of your game's content with this:</p>
+            
+            <p class="code">goto *gamestart</p>
+            
+            <p>Now, once your game's content is done it should go back to the beginning. To exit, you now have to close the window.</p>
+            <p>When the game returns to the menu, there may be some settings in effect which you may not want to stay. Also, depending on where the player went to the menu from, there may still be sprites on screen. You will also probably want a different background. To solve this, you should put a few lines similar to this under the *gamestart label:</p>
+            
+            <p class="code">stop</p>
+            <p class="code">csp -1</p>
+            <p class="code">print 1</p>
+            <p class="code">cl a,1</p>
+            
+            <p>This will, as a bare minimum, stop most music playback and clear all sprites and standing images. If you've changed any settings which need chaging back such as the text window size, put them here.</p>
+            
+            <h2>Creating a menu loop</h2></p>
+            <p>Now, we'll create another loop within the first loop specifically for the menu. This way, if the player's decision on the menu shouldn't cause them to leave it, such as opening and closing the load menu without loading, the game will simply repeat the menu process.</p>
+            <p>Underneath where you've put the commands to reset the game, add a new label:</p>
+            
+            <p class="code">*menuloop</p>
+            
+            <p>Again, this can be whatever you want but I've chosen this.</p>
+            <p>Under this label is where we will create buttons and check which one is clicked to decide what happens.</p>
+            <p>Underneath it write a goto command and another label:</p>
+            
+            <p class="code">goto *menuloop</p>
+            <p class="code">*aftermenu</p>
+            
+            <p>This other label be jumped to in order to exit the menu loop.</p>
+            <p>All this jumping around might be confusing, so read the example I've written in https://galladite.net/~galladite/nscripter/guide/files/examples/0.txt</p>
+            
+            <h2>Drawing text sprites</h2></p>
+            <p>We will use sprites as buttons, but instead of creating loads of words as images to use as sprites let's use a built-in feature to generate text sprites.</p>
+            <p>We will a sprite using lsp, but for the filename put the following:</p>
+            
+            <p class="code">":s/40,35,0;#FFFFFF`Start game"</p>
+            
+            <p>What's happening here? Well, when drawing a sprite, you can put ":<letter>/<potential options>;actual content" to do certain special things. See https://galladite.net/~galladite/nscripter/mirrors/archives/reference/NScrAPI.html#lsp for more details.</p>
+            <p>The :s means that instead of loading a file we are drawing a text sprite. The 40,35,0 is passing in arguments like with a normal command; in this case the character width, the character height and additional X-spacing between characters. Then, after the semicolon we are putting two colour values, one for normal and one for moused-over, and then text. For the text we are entering 1-byte character mode.</p>
+            <p>After this, you can fill in the rest of the arguments for lsp such as the position on the screen, repeat for two more buttons and add a print command:</p>
+            
+            <p class="code">lsp 0,":s/40,35,0;#FFFFFF#A9A9A9`Start game",590,470</p>
+            <p class="code">lsp 1,":s/40,35,0;#FFFFFF#A9A9A9`Load game",610,510</p>
+            <p class="code">lsp 2,":s/40,35,0;#FFFFFF#A9A9A9`Quit",710,550</p>
+            <p class="code">print 1</p>
+            
+            <p>This will place the three sprites in the bottom right corner.</p>
+            
+            <h2>Turning sprites into buttons</h2></p>
+            <p>The "spbtn" command can create a button from a sprite by taking the sprite ID and linking it to a button ID:</p>
+            
+            <p class="definition">spbtn - program block only - create buttons from sprites</p>
+            <p class="definition">spbtn NUM,NUM</p>
+            <p class="definition">spbtn sprite_number,button_number</p>
+            
+            <p>After drawing the text sprites, turn them into buttons like this:</p>
+            
+            <p class="definition">spbtn 1,1</p>
+            <p class="definition">spbtn 2,2</p>
+            <p class="definition">spbtn 3,3</p>
+            
+            <p>We start at one because... we do. Almost all numeric ranges such as sprite numbers start at 0 however according to the documentation button numbers start at 1. Now the sprites have been made into buttons! However, they aren't clickable yet.</p>
+            
+            <h2>A brief explaination of variables</h2></p>
+            <p>In the next section, we will use a numeric variable so I will explain in short how variables work.</p>
+            <p>There are two kinds of variables; numeric variables and character variables. Numeric variables can hold numbers (no decimals) and character variables can hold text.</p>
+            <p>Numeric variable names are prefixed by % and character variable names by $. So, for example, %0 and $0 are different variables.</p>
+            <p>Variables are different to aliases because instead of being like labels, imagine them as containers whose contents can be changed. This is useful because you can do things such as using them as counters which can be incremented and interact with them, for example by looking at how many characters are in a character variable.</p>
+            <p>Whenever you put a vaiable in a command, for example "print %0", its value is usually substituted in. So if %0 is set to 17 then the previous command is treated the same as "print 17".</p>
+            
+            <h2>If statements</h2></p>
+            <p>We will also need to know about if statements. These are a way of comparing two values and either doing something or not doing something based on the result.</p>
+            <p>If statements go as such:</p>
+            
+            <p class="definition">if CONDITION [{&,&&} CONDITION [...]] SENTENCE</p>
+            
+            <p>Basically, they list one or more conditions seperated by & or &&, and if all the conditions are met then the sentence (one or more commands seperated by ":") on the end is run.</p>
+            <p>Conditions are structured like this:</p>
+            
+            <p class="code">(numerical variable) {>,<,=,>=,<=,==,!=,<>} (numeric variable)</p>
+            
+            <p>So, for example, the following are all valid conditions:</p>
+            
+            <p class="code">%1>=5</p>
+            <p class="code">2<%7</p>
+            <p class="code">1==3</p>
+            <p class="code">%4!=%5</p>
+            
+            <p>As one final example, this if statement will check if %5 is equal to %6, and if it is clear all sprites and jump to the label *gohere:</p>
+            
+            <p class="code">if %5==%6 csp -a : goto *gohere</p>
+            
+            <h2>Reading and acting upon button presses</h2></p>
+            <p>First, we will wait to see which button is clicked. Add this line just after the sprites are made buttons:</p>
+            
+            <p class="code">btnwait %1</p>
+            
+            <p>The btnwait command waits to see which button is clicked and then saves its button number into the given numeric variable. If no button was clicked it sets it to 0 and if there was a right-click it sets it to -1.</p>
+            <p>To complete the menu loop, we will add if statements to do certain things based upon which button was pressed:</p>
+            
+            <p class="code">if %1 == 0 goto *menuloop</p>
+            <p class="code">if %1 == -1 goto *menuloop</p>
+            <p class="code">if %1 == 1 csp -1 : goto *aftermenu</p>
+            <p class="code">if %1 == 2 csp -1 : systemcall load</p>
+            <p class="code">if %1 == 3 end</p>
+            
+            <p>If no button was clicked of if the player right-clicked, we will restart the menuloop. If they clicked button 1, "start game", we will clear all sprites (the text sprites for the buttons) and go to the *aftermenu label which is where the game's content begins. If they clicked button 2, "load game", we will clear all sprites and use the systemcall command to open the load menu (nscripter has a default load menu so we can ignore this for now). If they clicked button 3, "quit", we will simply use the "end" command to close the game.</p>
+            
+            <p>Your game now should have a functioning menu system! If you want to, some nice transitions such as a fade to black before going to the menu to give your game a premium feel. A few simple fading transitions go a long way to making your game feel less like a powerpoint presentation and more like a game.</p>
+            
+            <h2>Making a right-click menu</h2></p>
+            <p>When in the content part of your game, you will almost certainly want the player to be able to right-click to open the menu. Luckily, this is really easy to set up in nscripter, at least without any custom styling. Simply add this line to your define block:</p>
+            
+            <p class="code">rmenu "`Save Game",save,"`Load Game",load,"`Hide Text",windowerase,"`  Quit  ",end</p>
+            
+            <p>"rmenu"'s arguments alternate between an item on the list and the command which it executes, similar to the systemcall command which we saw above. Note that these are not commands which you can use in your code; putting "save" in your script will do nothing. A list of possible rmenu commands is available here: https://galladite.net/~galladite/nscripter/mirrors/archives/reference/NScrAPI.html#rmenu</p>
+            
+            <p>One final handy command is "rmode" - it can be used to disable and enable use of the right-click menu using "rmode 0" for off and "rmode 1" for on.</p>
+            
+            <p>So now you have all the pieces to make a simple kinetic novel with main and right-click menu systems (albeit with no sound)!</p>
+            <p>Make sure that you have your head wrapped around the looping mechanics and how buttons, if statements and variables work. Try rewriting all this code yourself and see how far you get! A full example of this lesson is available in https://galladite.net/~galladite/nscripter/guide/files/examples/1.txt</p>
+        </div>
+    </body>
+</html>

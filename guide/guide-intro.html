@@ -7,10 +7,83 @@
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="../guide.html">back</a></p>
-            <h1> Galladite's ONScripter-EN general quick-start guide, part 0: introduction </h1></p>
-            <p>Hello and welcome to my guide to ONScripter-EN! This is structured so that anyone, even without any prior programming experience, should be able to create a visual novel. However, if anything needs clarifying, please do ask. Also, if I've got anything wrong, don't hesitate to correct me.</p>
+            <h1>Galladite's ONScripter-EN guide - general introduction</h1></p>
+            <p>Hello and welcome to my guide to ONScripter-EN! This guide is a major revision (more like a recreation) of my <a href="old/index.html">original guide</a> from 2023.</p>
+            <p>This time around, it is broken down into three sections: firstly, a general quick-start guide, which aims to be a better version of what the old guide was, allowing anybody to create a basic novel game in a short period of time and build his skills from there; secondly, a translation-focused quick-start guide, with information specifically tailored towards translating NScripter games with ONScripter-EN, in even less technical detail than the general quick-start guide, to allow translators to start with the basics as soon as possible; and finally, thanks to my experience using and maintaining the engine over the past two years as well as working on new ports and translations with Eien, a full guide which goes into more detail into all of the main functions of the engine for more serious developers or curious individuals.</p>
+            <p>In this introduction, I will cover some of the very basics of simply using the engine, which the several guides may expand upon as required. Please expect a warmer and more tailored introduction within the relevant guide to you after reading this page.<p>
+            <p>Throughout this guide as a whole, you may see various information boxes. They may be as follows: code, images, quotes, tips, or warnings. I hope these distinct sections help to add clarity and interest compared to the old guide.
 
-            
+            <h2>Use cases</h2>
+            <p>ONScripter-EN is an engine with a lot of history. It is an English-language fork of Ogapee's ONScripter, in turn an open-source port of the very popular Japanese novel game engine NScripter, initally released in 1999. With any software as old as that, there are bound to be very good reasons for its continued usage, but also other reasons for its abandonment in favour of more "modern" solutions.<p>
+            <p>In-brief:</p>
+            <p><strong>What ONScripter-EN is good for:</strong></p>
+            <ul>
+                <li>Running, playing, and translating games originally made for NScripter on modern systems with ease</li>
+                <li>Somehow, a very good and consistent level of documentation and support</li>
+                <li>A distinctive visual style, even when customised by the user, like that of Tsukihime and Higurashi</li>
+                <li>A very simple and easy to learn (BASIC-like), yet powerful, scripting language</li>
+                <li>Portability to various operating systems</li>
+                <li>A small but dedicated community</li>
+                <li>Years of history, and yet modern-ish features!</li>
+            </ul>
+            <p><strong>What ONScripter-EN is <i>not</i> good for:</strong></p>
+            <ul>
+                <li>Technically advanced games (e.g. 3d graphics, advanced animations, integration with external libraries)</li>
+                <li>Less overall available support than larger engines like Ren'Py, or paid solutions</li>
+                <li>Certain limitations in the scripting language mean for less absolute flexibility and extensibility</li>
+                <li>If you want the engine to look a certain way (besides the default), you can't just "download a theme" - you have to make it yourself!</li>
+            </ul>
+
+            <p>For more information about the history of ONScripter-EN, please see the <a href="../about.html">about</a> page. In terms of its future, as of the time of writing (2025) it is still being actively maintained and supported after a period of inactivity from 2011-2023, with no plans to stop. Since 2023, we have implemented various modernisation features such as widescreen &amp; large resolution support, UTF-8, proportional fonts, and more, while being careful to leave the older functionality of the engine entirely intact and isolated for backwards compatibility purposes, since ONScripter-EN is not only a tool for making new games with but also a compatibility tool for running very old and/or Japanese NScripter-based games.</p>
+
+             <h2>Fundamentals of using the engine</h2>
+            <p>There are some game files which are <i>ordinarily required</i> for a game to run, and some which are <i>optional</i>. Please see the following table for a non-exhaustive overview of the most common of these files and their purposes.
+
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Purpose</th>
+                    <th>Required?</th>
+                </tr>
+                <tr>
+                    <td>0.txt</td>
+                    <td>Contains the game "script," or the code for what the game does and when</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>nscript.dat</td>
+                    <td>Obfuscated game script; alternative to 0.txt</td>
+                    <td>Yes (if no 0.txt)</td>
+                </tr>
+                <tr>
+                    <td>default.ttf</td>
+                    <td>Font file</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>arc.nsa</td>
+                    <td>Obfuscated game assets archive (CG, audio, &amp;c.); alternative to loose game assets</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>ons.cfg</td>
+                    <td>Hard-coded engine startup options</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>game.id</td>
+                    <td>Specifies the game ID - primarily for setting save location</td>
+                    <td>No</td>
+                </tr>
+            </table>
+
+            <p>When the engine is run, briefly, it (1) reads startup options from ons.cfg (if it exists), (2) finds the script and interprets any setup instructions, (3) checks for game assets, game.id, and other such files, and then (4) begins interpretation of the script.</p>
+            <p>Therefore, the minimum required files for a game to run are the engine, a script, and a font.</p>
+            <p>Both of the quick-start guides provide a fully set-up and ready to use project which can be immediately be toyed around with alongside the tutorial to build experience and knowledge. The usage of these files in the same quick-start guides will only be covered as necessary for simple VN-creation and translation projects - however, a comprehensive coverage will be given in the full guide.</p>
+
+            <br />
+            <p>If you've read this far, it probably means you are interested enough to give the engine a shot. Good luck! Remember to <a href="../contact.html">get in contact</a> if you need any help!</p>
+
         </div>
     </body>
 </html>

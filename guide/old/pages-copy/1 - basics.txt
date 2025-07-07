@@ -1,0 +1,71 @@
+= Galladite's ONScripter-EN guide, part 1: basic settings, nscripter syntax and flow of a script =
+== Basic syntax ==
+Before we begin, I must cover some basic facts.
+
+!;Lines beginning in semicolons such as this are comments - they are simply ignored
+!some-command ;Comments can be placed on the end of a line like this. For nscripter, this line would be read as "some-command".
+
+Lines beginning with an asterisk (*) are labels - they mark important points in the script which can be jumped to from elsewhere in the script.
+
+Each line of code usually goes as follows: a one-word command, possibly followed by comma-seperated arguments.
+For example, in this line:
+!effect 2,17
+the command is "effect" and the 2 arguments are 2 and 17. The arguments give the command extra information on how it should be carried out, such as the text which should be given when a character speaks.
+
+== The core structure of a script ==
+An nscripter script is, by default, read and executed line-by-line from the top to the bottom, although this behaviour can be interrupted and changed.
+There are two main sections: the definition block and the program block. The definition block is where much of the configuration, such as fonts, effects, menu configuration etc. is carried out. The program block defines the actual behaviour of the game, such as the text, the options and the flow between menus and gameplay.
+
+There are a few labels and keywords which you should know.
+$*define - this label should come pretty much right at the beginning of a script and marks the begining of the definition block
+$game - this command ends the definition block and begins the program block. It isn't strictly necessary from what I've seen, but if used must come before *start
+$*start - this label comes directly after the game command and marks the beginning of the program block
+end - this command, if executed at any point, ends and closes the game
+
+With these commands, a simple script may look like this:
+
+!*define
+!;Settings are set here
+!game
+!*start
+!;Gameplay happens here
+!end
+
+
+== Some simple settings ==
+One of the important things to go in the define section is information about the game itself. Here are a few settings which you will probably want every time:
+
+$caption STR - sets the title of the game window. Replace STR with quoted text, such as "My Title". This is known as a string.
+$versionstr STR,STR - sets the title and version to be used in the "about" dialogue. STR 1 should be the first line of the version string and STR 2 the second. Example: versionstr "My Game's Name"," v0.1"
+$language {english/japanese} - sets the preferred language; use either "language english" or "language japanese", for example.
+
+== Directives ==
+These two settings I use almost all the time, but they have to be set specially; I'll explain how to do that shortly.
+
+$mode320 / mode400 / mode800 - changes the window size to 320x240, 400x300 or 800x600 respectively. The default is 640x480
+$gameid STR - sets the name to use for the save data folder in AppData or similar
+
+These two settings are set by adding a comment of them on lines 1 and 2 of the script. ModeX should always be on line 1, and gameid on line 2 unless modeX is not used in which case it should be on line 1. Basically, put modeX on line 1 and gameid on line 2. Also, gameid doesn't seem to require text to be placed inside quotation marks. Yeah, these two are wierd.
+
+Now, a script could look like this:
+
+!;mode800
+!;gameid My Game
+!*define
+!
+!caption "My Game"
+!versionstr "My Game"," version 1.0"
+!language english
+!
+!game
+!*start
+!;Gameplay happens here
+!end
+
+
+Hopefully now you feel a little comfortable with how nscripter scripts are structured. Just remember that some things mentioned in this guide will be ONScripter-EN specific.
+For the next section, we'll be making a working script so you need the following in a folder if you don't already:
+-onscripter-en
+-default.ttf
+-SDL.dll
+-my testing assets folder (https://galladite.net/~galladite/nscripter/resources/bits-n-bobs/assets)

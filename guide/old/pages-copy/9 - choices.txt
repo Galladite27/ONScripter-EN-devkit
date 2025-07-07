@@ -1,0 +1,53 @@
+= Galladite's ONScripter-EN guide, part 9: choices =
+What would a visual novel be without choices? That wasn't a rhetorical question; the answer is a kinetic novel. However, choices can add a lot of depth to a story, so let's make them!
+
+== Settings ==
+Before we create a choice, let's look at two related settings:
+
+$selectcolor - definition block only - sets the mouseover and mouseoff colours for choice text
+$selectcolor COLOR,COLOR
+$selectcolor mouseover-colour,mouseoff-colour
+
+$selectvoice - definition block only - sets wav files to be played in the choice dialogue for upon choice entry, upon choice mouseover, and when a choice is clicked
+$selectvoice STR,STR,STR
+$selectvoice file1,file2,file3
+
+The COLOR in selectcolor should be in this format and unquoted: #000000
+
+== Choices ==
+Choices are based on jumping to labels, so make sure that you have labels for wherever you need to go based on whichever choice is chosen.
+Here is the basic choice:
+
+$select - program block only - present a selection of choices and jump to the label associated with the selected choice
+$select STR,LABEL[,STR,LABEL[,...]]
+$select choice1,label1[,choice2,label2[,...]]
+
+You can put an empty string ("") as one of the choices to have that choice not be displayed.
+Be careful however, because having no choices displayed leads to an inescapable situation.
+
+As an example of this, the following line gives 2 choices with each choice jumping to its corresponding label:
+
+!select "Option 1",*option1,"Option 2",*option2
+
+=== Reconvening choices ===
+If both choices should reconnect into one story in the very near future (a.k.a. a pointless choice), you may find the selgosub command useful. The syntax is identical to select, however it is to select what gosub is to goto; the labels it jumps to are expected to return to where that choice took place later.
+
+$selgosub - program block only - present a selection of choices and jump to the label associated with the selected choice, with the expectation of returning to where the choice took place later
+$selgosub STR,LABEL[,STR,LABEL[,...]]
+$selgosub choice1,label1[,choice2,label2[,...]]
+
+=== Gathering the choice information without jumping ===
+If you want to gather use input from a choice without jumping to any labels, you can use the selnum command.
+With this command, you cannot give an empty string as an argument unlike the previously covered commands.
+
+$selnum - program block only - present a selection of choices and save the result into a numeric variable
+$selnum %VAR,STR[,STR[,...]]
+$selnum variable,choice1[,choice2[,...]]
+
+More information on how to use this result will be given in the lesson on variables.
+
+This section was quite short, so put it to the test and make some nice branching choices!
+Bonus challenges:
+- converge the multiple routes into one ending
+- test out the "pointless choice" use for selgosub
+- weigh up the use of select and similar against buttons and a loop like how we managed it for the main menu in the menu loop tutorial

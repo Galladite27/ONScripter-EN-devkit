@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 14: date acquisition and screenshots  </h1></p>
+            <p>In this final stage of the tutorial, we will package our game's assets and script into archives so that they cannot be accidentally modified or viewed by users.</p>
+            <p>For this section, you will need a copy of the onscripter tools, available here: https://galladite.net/~galladite/nscripter/resources/onscripter/tools%20%28builds%29/</p>
+            <p>Make sure that they are installed and you are in a command-line environment in the directory in which your game's files are stored.</p>
+            
+            <h2>Preparations</h2></p>
+            <p>To be able to use nsa archives, put the "nsa" command in your 0.txt just under the *define label like this:</p>
+            
+            <p class="code">;mode800</p>
+            <p class="code">;gameid My Game</p>
+            <p class="code">*define</p>
+            <p class="code">nsa</p>
+            
+            <h2>Packaging resources into arc.nsa</h2></p>
+            <p>To create an arc.nsa file containing the game's resources, use the "nsamake" command in this format:</p>
+            
+            <p class="code">nsamake arc.nsa -e folder1 folder2 folder3</p>
+            
+            <p>All of the mentioned folders will now be packaged into one file, arc.nsa. Files will be accessed from arc.nsa as if the folders were where they are currently.</p>
+            
+            <h2>Packaging the script into nscript.dat</h2></p>
+            <p>To create an nscript.dat file containing the script (0.txt), use the "nscmake" command in this format:</p>
+            
+            <p class="code">nscmake -o nscript.dat 0.txt</p>
+            
+            <p>This will be read like the 0.txt file by ONScripter-EN, but it will be unreadable to the user.</p>
+            
+            <h2>Testing</h2></p>
+            <p>To test if the packaging has worked properly, try moving out the resource folders and 0.txt so that you are left with the ONScripter-EN executable, nscript.dat, arc.nsa and possibly SDL.dll.</p>
+            
+            <h2>Making it multi-platform</h2></p>
+            <p>To make your game multi-platform, include my multiplatform binaries folder (https://galladite.net/~galladite/nscripter/guide/files/)</p>
+            
+            <h2>Organisation and a README file</h2></p>
+            <p>Have this versions folder, you game's folder and a README.txt file in the same directory (this isn't necessary but it looks nice).</p>
+            <p>To the README.txt, include a short description about your game, how to run it, how to copy in an executable for your system and any possible notes. For an example, see this: https://galladite.net/~galladite/nscripter/guide/projects/calculator/calculator/</p>
+            
+            <h2>Finishing up</h2></p>
+            <p>Compress this one final folder into an archive of sime kind (.zip or .tar.gz are good) and give it a suitable name.</p>
+            <p>You should now have a professionally presented, multiplatform original english language visual novel (OELVN)!</p>
+        </div>
+    </body>
+</html>

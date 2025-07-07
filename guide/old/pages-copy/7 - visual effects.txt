@@ -1,0 +1,35 @@
+= Galladite's ONScripter-EN guide, part 7: visual effects =
+Visual effects are very simple commands which can easily save you time spent editing artwork or implementing animations.
+
+== Settings ==
+Effectblank can set an amount of time which is waited after an effect takes place before the next command is executed. It is definition block only.
+
+$effectblank NUM
+$effectblank time_in_ms
+
+Effectskip is also reserved only for the definition block. It is used to specify if effects can be skipped with a click. 1 is yes, 0 is no. 1 is the default.
+
+$effectskip NUM
+$effectskip 0_or_1
+
+== Visual effects ==
+Quake, quakex and quakey can all cause screen shake. They are program block only. The syntax for all is the same:
+
+$quake[{x,y}] NUM,NUM
+$quake[{x,y}] amplitude_in_pixels,duration_in_ms
+
+For example, the following will cause a vertical screen shake of 15 pixels for 300 milliseconds:
+
+$quakey 15,300
+
+Monocro can be used to make the screen become monochrome using a given colour as a base. Use "monocro off" to disable. It is program block only. It requires a print to take effect.
+
+$monocro COLOR
+$monocro base_colour
+
+Nega can be used to invert the screen's colours. It is program block only. It requires a print to take effect. If the argument is 0, it disables the effect. If it is 1, it is enabled but is applied after monocro. If it is 2, it is enabled and is applied before monocro.
+
+$nega NUM
+$nega display_flag
+
+These visual effects should allow you to add a little pizzazz to your game.

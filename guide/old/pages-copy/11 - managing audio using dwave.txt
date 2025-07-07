@@ -1,0 +1,127 @@
+= Galladite's ONScripter-EN guide, part 11: managing audio using dwave =
+The dwave commands use directsound to play back specifically and only wav audio. There a 50 audio channels (0-49) which can each play 1 sound at once and have separate volume levels. The dwave commands are very complete.
+
+== The structure of the channels ==
+There are 50 channels. Each channel can be controlled individually, however some commands expect channel 0 to be used for voice playback and channels 1-49 for sound effect playback.
+Each channel can only play 1 audio track at a time; trying to play another immediately stops the first to play the second.
+
+== Direct sound playback and volume control ==
+Audio can be directly played in a dwave channel with the dwave command. For example, dwave 0,"audio/song.wav" will play song.wav in channel 0.
+
+$dwave - program block only - play a wav file in a dwave channel
+$dwave NUM,STR
+$dwave channel_number,filename
+
+$dwaveloop - program block only - play a wav file on loop in a dwave channel
+$dwaveloop NUM,STR
+$dwave channel_number,filename
+
+$dwavestop - program block only - stop playback of audio in a dwave channel
+$dwavestop NUM
+$dwavestop channel_number
+
+$chvol - program block only - change the volume of a dwave channel
+$chvol NUM,NUM
+$chvol channel_number,volume_0_to_100
+
+If you need to load audio into a dwave channel ready to be played later for any reason, check out the dwaveload, dwaveplay, and dwaveplayloop commands.
+
+== Voice commands ==
+The dv command can be used as a shorthand to play files in dwave channel 0, similarly to the v and mv commands from before.
+
+$dv - program block only - play a wav file in dwave channel 0
+$'dv'NUM
+$'dv'file_number
+
+For example, the first line is equivalent to the second:
+
+!dv05: `Hello there.
+!dwave 0,"voice/05.wav": `hello there
+
+If you have bgmdownmode enabled, any audio being played in dwave channel 0 (whether by the dv command or played manually) will cause the bgm to go quiet until dwave channel 0 has nothing playing in it.
+
+The voicevol command mentioned before is a shorthand to change the volume for dwave channel 0.
+
+$voicevol - program block only - change the volume of dwave channel 0
+$voicevol NUM
+$voicevol volume_0_to_100
+
+== Sfx commands ==
+There are no built-in commands to play sound effects, but the sevol command changes the volume of every dwave channel apart from 0.
+
+$sevol - program block only - change the volume of all dwave channels apart from 0
+$sevol NUM
+$sevol volume_0_to_100
+
+If you want to create a shorthand command to play sound effects, you could do it like this (provided you only want 1 sound effect playing at once):
+
+!*define
+!defsub se ;Defines se as a command
+!game
+!*start
+!se 1 ;Jumps to the *se label and passes the numerical argument "1" into the getparam command below
+!click ;Stops the program from ending so you can hear the sound effect play
+!end ;Stops interpreter from reaching the command definition
+!*se
+!getparam %199 ;Saves argument into numeric variable %199 (the highest non-global one)
+!itoa $199,%199 ;Converts that into the character variable $199 so it's not a number but text now
+!mov $198,"sfx/" ;Sets the character string $198 as "sfx/"
+!add $198,$199 ;Appends $199 onto the end of $198 - $198 is now "sfx/1"
+!add $198,".wav" ;Appends ".wav" onto the end of $198 - $198 is now "sfx/1.wav"
+!dwave 1,$198 ;Plays $198 ("sfx/1.wav") in dwave channel 1
+!return ;Returns to the "se 1" command
+
+If you do use this method, you may as well redefine sevol to only change the volume of channel 1 as channels 2-49 will no longer be used for sound effects.
+
+!*define
+!defsub se
+!defsub sevol ;Defines sevol as a custom command
+!game
+!*start
+!sevol 50 ;Sets the volume of dwave channel 1 to 50 instead of channels 1-49
+!se 1
+!click
+!end
+!*se
+!getparam %199
+!itoa $199,%199
+!mov $198,"sfx/"
+!add $198,$199
+!add $198,".wav"
+!dwave 1,$198
+!return
+!*sevol
+!getparam %199 ;Saves argument into numeric variable %199 (the highest non-global one)
+!chvol 1,%199 ;Sets the volume of dwave channel 1 as %199
+!return ;Returns to the "sevol 50" command
+
+Don't worry about these commands for now, but if you just copy and paste these into your script it will add an "se" command and slightly change the behaviour of the "sevol" command as described above.
+
+== Bgm commands ==
+There are no inbuilt commands to play bgm with dwave. This isn't to say that you can't, just that there are no shorthands.
+If you use dwave to play background music, be wary of other commands messing with volume levels or stopping the bgm to play something else. The inbuilt bgm commands are pretty good (especially compared to some other audio playback systems) so I keep bgm away from dwave.
+Also, if you use dwave to play your bgm then it won't be quieted by voices being blayed in channel 0, so that's another reason not to use dwave for bgm.
+
+== A better "stop" command ==
+The inbuilt stop command only stops bgm, mp3 and wave playback. It doesn't stop loopbgm, play, or dwave playback.
+Here is a custom stop command which stops everything including loopbgm, play and every dwave channel.
+Again, anything you don't understand will be explained in a later lesson. The point is to quickly provide you with a useful command; the understanding of how that commands works can come later.
+
+!*define
+!defsub stopall ;Defines stopall as a command
+!game
+!*start
+!bgm "song.mp3" ;Starts playing a song
+!dwave 5,"sfx.wav" ;Starts playing a sound effect in dwave channel 5
+!delay 1000 ;Waits for 1 second (unskippable)
+!stopall ;Runs our stopall command
+!click ;Stops program from closing after completion until click
+!end ;Stops script from reaching command definitions
+!*stopall
+!stop ;Stop bgm, mp3 and wave
+!loopbgmstop ;Stop loopbgm
+!playstop ;Stop play
+!for %199=0 to 49 ;Counts from 0 to 49 and saves the current iteration's value into %199
+!dwavestop %199 ;Stops a dwave channel based on the current iteration
+!next ;Jumps back up to the for command fo the variable %199 to be incremented
+!return ;Returns to the stopall command
