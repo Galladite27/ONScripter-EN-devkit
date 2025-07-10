@@ -20,8 +20,7 @@ Layout of web pages (will be hosted or available as archive download for offline
         - replacing videos & audio (video commands, audio commands including shorthands)
         - similar conclusion, what else you might find, what to do next
     * full guide (for new games and major modifications)
-        - detailed introduction (division of the guide, comparison to similar engines, using the API ref in detail, reminder this is NOT complete and to explore yourself)
-        - basics (involved file types, save files, introduction to syntax & terminology, variable types, labels, script structure, directives, peripheral commands (caption, versionstr, language))
+        - basics (involved file types, save files, introduction to syntax & terminology, variable types, labels, script structure, directives, peripheral commands (caption, versionstr, language, nsa, globalon))
         -       SECTION 1: images and backgrounds (making a working script, so we can discuss backend / theory stuff)
         - sprites & backgrounds (image types, aliases, backgrounds, effects, drawing basic sprites, animated sprites, sprite manipulation)
         - standing images (drawing & clearing standing images, key settings)

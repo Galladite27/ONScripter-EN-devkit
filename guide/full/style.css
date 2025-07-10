@@ -43,6 +43,10 @@ p.left {
     padding-left: 10px;
     text-align: left;
 }
+.inlinecode {
+    background-color: #EEDDDD;
+    font-family: monospace;
+}
 .inline {
     display: inline;
 }

@@ -7,8 +7,62 @@
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN full guide: 0 - further introduction, division of the guide</h1></p>
+            <h1>ONScripter-EN full guide: 1 - externals and internals of the engine</h1>
+            <p>This page will cover
 
+            <h2>Involved files, types and locations</h2>
+            <p>Although some information concerning file types was given in the general introduction, this section contains a proper treatment.
+
+            <h3>Script files</h3>
+            <p>Plaintext - <span class="inlinecode">0.txt</span>, <span class="inlinecode">0.utf</span>, <span class="inlinecode">0.utf.txt</span>, <span class="inlinecode">00.</span> (and up) version of those files</p>
+            <p>Obfuscated - <span class="inlinecode">nscript.dat</span>, <span class="inlinecode">pscript.dat</span></p>
+            <p>Encrypted - <span class="inlinecode">nscr_sec.dat</span>, <span class="inlinecode">nscript.___</span></p>
+
+            <h3>Asset files</h3>
+            <p>Normal - (list key file types)</p>
+            <p>Game archive files - <span class="inlinecode">arc.nsa</span>, <span class="inlinecode">arc.sar</span>, <span class="inlinecode">arcXX.ns2</span>.</p>
+            <p>Double-check how these can be numbered</p>
+
+            <h3>Other game files</h3>
+            <p><span class="inlinecode">ons.cfg</span>, <span class="inlinecode">default.ttf</span> (and others), <span class="inlinecode">SDL.dll</span> (mention as legacy, and its purpose)</p>
+
+            <h3>Save files</h3>
+            <p>Traditional save files (check all are actually traditional) - <span class="inlinecode">envdata</span>, <span class="inlinecode">gloval.sav</span>, <span class="inlinecode">saveX.dat</span></p>
+            <p>Recent save files - <span class="inlinecode">screen.dat</span>, <span class="inlinecode">*.csv</span></p>
+            <p>This current list may be incomplete</p>
+
+            <h3>Comparison with NScripter and compatibility notes</h3>
+
+            <h2>Introduction to syntax</h2>
+            <p>Comments, commands, text, labels (below)<p>
+            <p>Command syntax: names, arguments</p>
+
+            <h3>Variable types</h3>
+            <p>Number, string, array<p>
+            <p>Variable number range, possible values, acccess syntax</p>
+
+            <h3>Labels</h3>
+            <p>Marking with asterisk, naming scheme</p>
+
+            <h2>Script structure</h2>
+            <p>Definition and prgram block, how they are marked and their usages</p>
+            <p>The precise behaviour of *define, game, and *start</p>
+            <p>Ending the script - <span class="inlinecode">end</span> command or EOF</p>
+
+            <h3>Directives</h3>
+            <p><span class="inlinecode">;modeXXX</span>, <span class="inlinecode">;value</span>, <span class="inlinecode">;gameid</span>, <span class="inlinecode">;$</span></p>
+
+            <h2>Engine setup and operation</h2>
+            <h3>An overview of operation</h3>
+            <p>How the engine begins, reads arguments, checks ons.cfg options, looks for various game files, begins from script<p>
+            <p>The engine as a state machine</p>
+
+            <h3>Setup-related NScript commands</h3>
+            <p>These are commands which are not all necceesarily required to be included, but which ought to be considered, and which pertain to the setup of the engine itself, similarly to directives and command-line options.</p>
+            <h3>Command-line options</h3>
+            <h3>The ons.cfg file</h3>
+
+            <!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -26,7 +80,7 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
-            
+            --!>
         </div>
     </body>
 </html>
