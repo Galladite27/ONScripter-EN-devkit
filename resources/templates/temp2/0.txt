@@ -1,0 +1,51 @@
+;mode800
+;gameid template1
+; Above: screen resolution, global variable starting number & save directory directives
+
+; ========== BEGIN DEFINITION BLOCK ==========
+; Label to mark the beginning of the definition block
+*define
+
+; Look for arc.nsa archive (disabled)
+;nsa
+
+; Enable global variables (disabled)
+;globalon
+
+; Basic settings
+language english
+versionstr "Template 1"," v1.0"
+caption "Template 1"
+
+; Set lookback buttons
+lookbackbutton "assets/uoncur.bmp","assets/uoffcur.bmp","assets/doncur.bmp","assets/doffcur.bmp"
+
+; Set basic right-click menu
+rmenu "`Save",save,"`Load",load,"`Log",lookback
+
+; Aliases for BGs, sprites, BGMs, SFX
+stralias bg_alley,"bg/01.jpg"
+stralias bg_street,"bg/01.jpg"
+stralias bg_moon,"bg/01.jpg"
+stralias sp_girl1,"sprites/character1.png"
+stralias sp_girl2,"sprites/character2.png"
+stralias sp_girl3,"sprites/character3.png"
+stralias sp_miontoko,"sprites/miontoko.png"
+
+; ========== END DEFINITION BLOCK ==========
+
+; Command which causes the engine to switch from definition to program block
+game
+
+; ========== BEGIN PROGRAM BLOCK ==========
+; Label to mark the beginning of the program block
+*start
+
+; Set animated clickwait cursors
+setcursor 0,":l/4,200,0;assets/cursor0.bmp",3,8
+setcursor 1,":l/4,200,0;assets/cursor1.bmp",5,12
+
+`Game goes here.\
+
+end
+; ========== END PROGRAM BLOCK ==========
