@@ -237,14 +237,14 @@
                 <p>`Change the !s10text speed!sd for those two words, then reset it`</p>
             </div>
 
-            <p>An at symbol and a backslash will both cause a clickwait, with the former being a line wait (inline or at the end of a line) and the latter a page wait. An underscore before the clickwait character will make it to be treated as normal text; a backslash at the end of a line will cause no carriage return to take place.</p>
+            <p>An at symbol and a backslash will both cause a clickwait, with the former being a line wait (inline or at the end of a line) and the latter a page wait. An underscore before the clickwait character will make it to be treated as normal text; a slash at the end of a line will cause the newline to be ignored, making the next line a continuation of that text.</p>
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
                 <p>`Waiting after a line@</p>
                 <p>`And at the end of the page\</p>
                 <br />
                 <p>`This symbol: _@ will be printed normally</p>
                 <p>`These two lines\</p>
-                <p>` will be printed as one, due to the automatic carraige return being ignored</p>
+                <p>will be treated as one, due to the newline being ignored</p>
             </div>
 
             <h3>Labels</h3>
