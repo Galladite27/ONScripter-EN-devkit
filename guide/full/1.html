@@ -111,7 +111,22 @@
 
 
             <h2>Introduction to syntax</h2>
-            <p>Two perhaps unfamiliar terms must be given before we proceed. Firstly, what the engine refers to as a "name" may be more easily recgnised as being a "symbol" in other languages - in other words, a particularly formatted group of characters used to refer to built-in or user-defined values of various types, such as aliases or command names. In the case of ONScripter-EN, a name is a "case-insensitive string of alphanumerics and/or '_'" which "must begin with an alphabet letter or '_'." The use of this generically defined "name" will be covered below when explaining aliases, commands, and labels. Secondly, what the engine refers to as a "sentence" is defined as "a single command, or multiple commands separated by ':'," or in other words, one or more commands on a single line. This will be covered below in the section on commands.</p>
+            <p>If examples seem out of order in this section by including things not yet explained, be assured that they will be explained in short order, and it is better to give immediate examples than to give the whole description followed by a large number of disconnected examples.</p>
+            <p>Two perhaps unfamiliar terms must be given before we proceed. Firstly, what the engine refers to as a "name" may be more easily recognised as being a "symbol" in other languages - in other words, a particularly formatted group of characters used to refer to built-in or user-defined values of various types, such as aliases or command names. In the case of ONScripter-EN, a name is a "case-insensitive string of alphanumerics and/or '_'" which "must begin with an alphabet letter or '_'." The use of this generically defined "name" will be covered below when explaining aliases, commands, and labels. Secondly, what the engine refers to as a "sentence" is defined as "a single command, or multiple commands separated by ':'" without any space required, or in other words, one or more commands on a single line. This will be covered below in the section on commands.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; Examples of names:</p>
+                <p>name</p>
+                <p>a_name</p>
+                <p>_another</p>
+                <p>_4th_name</p>
+                <br />
+                <p>; Examples of sentences:</p>
+                <p>a_command</p>
+                <p>a_command_with_arguments 10,20</p>
+                <p>one_command_with_arg "argument" : another_command</p>
+                <p>lots: of:commands</p>
+            </div>
+
             <p>In addition, a word on namespaces - due to their being either denoted using specific symbols (such as in the case of labels), or by their being used in mutually exclusive sections of code, and due to NScript not supporting first-class functions, there are individual namespaces for every type of nameable value in ONScripter-EN (counting string and number aliases as one). That is, it is possible to have an alias, label, and command with the same name and never have syntactic ambiguity as to which is being referenced.</p>
 
             <br />
@@ -119,52 +134,184 @@
 
             <h3>Variables and aliases</h3>
             <p>An alias is a particular name (as per the above definition) which has a static (unchangeable) value. An alias may be either a string alias (where the value it represents is certain text) or a number alias. Aliases are defined using the <span class="inlinecode">stralias</span> and <span class="inlinecode">numalias</span> commands, which will be covered in a later article. The relevant point concerning syntax is that after being defined, an alias appearing in place of <i>any</i> string or number literal in code will be replaced with the value it represents.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; Define a number alias</p>
+                <p>numalias my_alias,100</p>
+                <br />
+                <p>...</p>
+                <br />
+                <p>; In this command, "my_alias" will be substituted for the number 100</p>
+                <p>do_a_thing my_alias</p>
+            </div>
 
             <br />
             <p>The three types of variable (number, string, and array - the latter of which can only be an array of numbers) are each denoted by a specific symbol, and enumerated according to variable numbers specific to each variable type. For the first part - number variables are prefixed with a <span class="inlinecode">%</span> symbol, string variables with a <span class="inlinecode">$</span> symbol, and array variables with a <span class="inlinecode">?</span> symbol. For the second part - variable numbers are allowed from 0 to 4095, and there is a separate range of numbers for each type of variable (so %0 and $0 can exist independently of each other, since the first 0 is referring to a number variable number, and the second 0 to a string variable number).<p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; In this command, $0 will be substituted for a certain string, and ?0[0] (with ?0 assumed to be a 1d array) will be substituted for a certain number</p>
+                <p>a_command $0,?0[0]</p>
+            </div>
+
+            <br />
             <p>ONScripter-EN also has a feature called "extended variable data," which allows for variable numbers above 4095 to be used and saved with no extra setup required by the user. This will receive additional treatment under global variables on a later page.</p>
             <p>Particularly concerning the syntax of referencing array variables - simply the symbol and a number e.g. <span class="inlinecode">?0</span> refers to the array as a whole. Arrays can store any number of values (although the limit is pre-defined when the array is created), and a particular index of the array is referred to using directly adjacent square brackets containing the index number (again, particular to each individual array) e.g. <span class="inlinecode">?0[2]</span> being the third element of the first array (since indexing for variables and arrays, and indeed many numbered sequences of the engine, begins at 0).<p>
             <p>It is also possible to have multi-dimensional number arrays, again in any number of dimensions, using more sets of directly adjacent square brackets e.g. <span class="inlinecode">?0[0][0]</span>. In the case of that example of a two-dimensional array, <span class="inlinecode">?0[0]</span> would be referring to a simgle dimension of the array and <span class="inlinecode">?0[0][0]</span> an individual value. The number of dimensions of an array is specified alongside the size of each dimension when the array is defined.</p>
 
             <br />
-            <p>Related to these aliases and variables which can represent / store either numbers or strings, there also exist number and string literals, which mean simple numbers or strings, not somethings which represents them. Number literals contain only characters 0-9, and can be negative (denoted with a prefixed <span class="inlinecode">-</span> symbol, e.g. <span class="inlinecode">-10</span>) or positive, but not with a decimal point. Strings are marked as such (rather than being aliases, commands, &amp;c.) with quotation marks, e.g. <span class="inlinecode">"a string literal :-)"</span>, and may contain any characters, with quotation marks requiring escaping with a backslash (and backslashes in turn with a backslash), e.g. <span class="inlinecode">"This quotation mark: \" is escaped with a backslash so it doesn't end the string literal"</span> or <span class="inlinecode">"Jack says\"hello!\""</span>.
+            <p>Related to these aliases and variables which can represent / store either numbers or strings, there also exist number and string literals, which mean simple numbers or strings, not somethings which represents them. Number literals contain only characters 0-9, and can be negative (denoted with a prefixed <span class="inlinecode">-</span> symbol, e.g. <span class="inlinecode">-10</span>) or positive, but not with a decimal point. Strings are marked as such (rather than being aliases, commands, &amp;c.) with quotation marks, e.g. <span class="inlinecode">"`a string literal :-)"</span>, and may contain any characters, with quotation marks requiring escaping with a backslash (and backslashes in turn with a backslash), e.g. <span class="inlinecode">"`This quotation mark: \" is escaped with a backslash so it doesn't end the string literal"</span> or <span class="inlinecode">"`Jack says\"hello!\""</span>. Note the use of backticks for string literals containing 1-byte text, explained below in the section on text.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; A command receiving two number arguments and two string arguments</p>
+                <p>; One of each type of argument is a literal, and the other a variable</p>
+                <p>another_command 10,%0,"`testing",$0</p>
+            </div>
 
+            
             <h3>Comments</h3>
             <p>A line beginning with a semicolon (<span class="inlinecode">;</span>) is counted as a comment and is ignored during interpretation; for the two exceptions to this rule, see the below section on jump targets, and the very below section on directives.</p>
             <p>ONScripter-EN does not have any special syntax for multi-line comments.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; This line is a comment.</p>
+                <p>; The engine will ignore it entirely during execution.</p>
+                <p>;The space it not necessary, but adds clarity.</p>
+            </div>
+
             <p><strong>Overlap</strong> - any semicolon on even a non-comment line which is not part of a string literal will cause the rest of the line after it to be counted as a comment. This can be useful for commenting on individual sentences without adding more lines to the script.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>a_command 10,20 ; Following the semicolon, the rest of the line is treated as a comment.</p>
+            </div>
 
             <h3>Commands</h3>
-            <p>Command syntax: sentences, names, arguments</p>
-            <p>Arguments: val args may be vals or vars, var args must be vars</p>
+            <p>As described above, a line beginning with a name is counted as a sentence. A sentence may contain multiple commands, separated by a colon (<span class="inlinecode">:</span>) which need not have space on either side to be recognised as such a divider (see examples under "intrduction to syntax"). Each command in a sentence is comprised of a name (the command name), possibly followed (after a space) by comma-separated values of any argument type ONScripter-EN supports, as listed in the API reference under "Argument Type Explanations."</p>
+            <p>Many commands accept number or string arguments. In this case, aliases and variables may be referenced in the format described above (under "variables and aliases"), and their values will be substituted. Other functions require variables themselves as arguments - in this case, a variable must be provided rather than a literal value, since the command wants to work with the variable itself rather than the value it contains.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; An argument requiring a value may be literal or referenced:</p>
+                <p>bgmvol 100</p>
+                <p>bgmvol %0</p>
+                <br />
+                <p>; An argument requiring a variable must be referenced:</p>
+                <p>inc %0</p>
+            </div>
 
             <h3>Text</h3>
-            <p>Pretext tags, japanese text, 1-byte mode (backtick), colour change, variable interpolation, inline text buttons, curly brackets, clickwait characters, underscores, backslashes, inline delays (special text commands in general?)</p>
+            <p>Especially under this heading will be shown various novel features and mentioned not yet covered terminology. We are only concerned here with the syntax - these features will be treated properly on thir own pages later on.</p>
+            <p>A line beginning with a full-width character (whether in SJIS or UTF-8 mode) is counted as text.<p>
+            <p>ONScripter-EN introduces a meanting to the backtick symbol for the sake of English text, allowing it to mark the beginning and end of 1-byte text at any point in the script rather than that being interpreted as a sentence; therefore, a line beginning with a backtick is also counted as text. Another backtick at the end of the line is not required - the line break ends the text. 1-byte text mode prevents some inline text commands from being interpreted, while others are allowed. Note also that 1-byte mode can be entered during string literals, and the end quotation mark automatically leaves that mode (since it is the end of that text).</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>テクストです</p>
+                <p>`This is some 1-byte mode (although multi-byte characters are still allowed) text</p>
+                <p>command "`1-byte text","`gets exited after each string literal"
+            </div>
+
+            <p>Square brackets are used to denote pretext (pre-text) tags, which can pass certain information to a user-defined pre-text processing function. Within the square brackets, values (number or string) are separated by a forward slash. Strings in the tag are not surrounded by quotation marks like ordinary string literals; make sure to surround them in backticks for non-Japanese text.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>[10/20]`English text with a pretext tag</p>
+                <p>[`Taro Mendo`/0001.wav]`Taro speaking.</p>
+            </div>
+
+            <p>Text colour can be changed inline by inserting an RGB value - a hash symbol followed by six heaxadecimal digits.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; Note how 1-byte mode is temporarily exited for the RGB value, then re-entered</p>
+                <p>`White text, followed by `#FF0000`red text</p>
+            </div>
+
+            <p>Variables can be interpolated into text by referencing them as normal. String variables cannot be interpolated in 1-byte mode, while number variables can be. Variables can also be assigned inline using curly brackets, containing comma-separated values alternating between variable and value to assign.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>`A number: %0</p>
+                <p>`A string: `$0</p>
+                <p>`Assigning some values...`{$0,"`hi",%0,10}
+            </div>
+
+            <p>Text buttons can also be created inline using less than and greater than symbols, used to contain the button number and button text.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; The comment below shows what is (1) and is not (0) in 1-byte mode for clarity.</p>
+                <p>; The characters interpreted as text are marked as 1-byte text,</p>
+                <p>; while those not marked as such serve a particular function like any other symbols.</p>
+                <br />
+                <p>;11111111111111111 00 111111 0 1 </p>
+                <p>`Some text with a `&lt;0`button`&gt;`.</p>
+            </div>
+
+            <p>Pauses can be included inline using an exclamation mark, a "w" (wait) or "d" (delay) for whether the pause is click-skippable (w cannot be), and the time in milliseconds.</p>
+            <p>The text speed can be changed and reset in a similar way, using an exclamatin mark, "s," and value (in ms again) to set the text speed, and an exclamation mark with "sd" to set it back to the default.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>`Pause for a second,!w1000 then five seconds,!d5000 but skippable the second time by clicking</p>
+                <p>`Change the !s10text speed!sd for those two words, then reset it`</p>
+            </div>
+
+            <p>An at symbol and a backslash will both cause a clickwait, with the former being a line wait (inline or at the end of a line) and the latter a page wait. An underscore before the clickwait character will make it to be treated as normal text; a backslash at the end of a line will cause no carriage return to take place.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>`Waiting after a line@</p>
+                <p>`And at the end of the page\</p>
+                <br />
+                <p>`This symbol: _@ will be printed normally</p>
+                <p>`These two lines\</p>
+                <p>` will be printed as one, due to the automatic carraige return being ignored</p>
+            </div>
 
             <h3>Labels</h3>
             <p>A line beginning with an asterisk followed without a space by a name (according to the proper definition) e.g. <span class="inlinecode">*a_label</span> is counted as a label. It has no immediate effect when executed, but acts as a reference point for interpretation of the script to jump to at the instruction of other commands; like a logical heading of sorts for a particular section of, or point in, code.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>*label</p>
+                <p>*another_label</p>
+                <p>*_3_labels</p>
+            </div>
 
             <h3>Jump targets</h3>
             <p>A line beginning with and containing a single tilde (<span class="inlinecode">~</span>) is counted as a jump target. Like a label, it serves no immediate effect when executed, but acts as a reference point for two particular commands, <span class="inlinecode">jumpf</span> and <span class="inlinecode">jumpb</span>, to cause interpretation of the script to jump to, in a manner useful for simple iteration or small jumps without needing to create a label and add to the label namespace.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; A jump target:</p>
+                <p>~</p>
+            </div>
+
             <p><strong>Overlap</strong> - any tilde, even part or a string literal or comment, even on a line serving another purpose, is also counted as a jump target.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; Beware! even this: ~ is a jump target!</p>
+            </div>
+
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Like you shouldn't mess around with magnets near electronics even if it's <i>probably</i> fine, do not use tildes in comments to protect against accidentally meddling with jumps. Only use tildes in string literals when necessary, and be careful those do not interfere with the logic.</p>
             </div>
 
             <h2>Script structure</h2>
-            <p>Definition and program block, how they are marked and their usages</p>
-            <p>The precise behaviour of *define, game, and *start</p>
-            <p>Ending the script - <span class="inlinecode">end</span> command or EOF</p>
+            <p>A script is divided into the definition and program block. The script begins with potentially certain "directives", and any other commands to run only once at engine startup. Then the label "*define" is given, which marks the beginning of the definition block, which contains commands run once at startup, but also whenever the script is restarted (using a define reset, as opposed to a normal reset, which simply returns to the start of the program block). The definition block is ended with the "game" command, which as well as preventing definition-block commands from being used and allowing for program-block commands to be used, causes various setup steps to be run internally. Program block commands may here follow which are to be run only once (following a define reset), before the label "*start" is given, marking the beginning of the script content which will be run every time a normal reset is given.</p>
+            <p>The two reserved labels serve as markers for when the game needs to perform a normal or define reset. The "game" command causes the actual change of state between the definition and program blocks. In practice, a threefold division of directives, definition block, and program block almost always suffices. It is very rare to find a use case for pre-*define or post-"game" but pre-*start commands.</p>
+            <p>Interpretation of the script will end when reaching an EOF, or the "end" command.
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>; Directives</p>
+                <br />
+                <p>*define</p>
+                <br />
+                <p>; Definition block</p>
+                <br />
+                <p>game</p>
+                <p>*start</p>
+                <br />
+                <p>; Program block</p>
+                <br />
+                <p>end</p>
+            </div>
 
             <h3>Directives</h3>
-            <p><span class="inlinecode">;modeXXX</span>, <span class="inlinecode">;value</span>, <span class="inlinecode">;gameid</span>, <span class="inlinecode">;$</span></p>
-            <p>Only ;$ and ;gameid necessary - ;$ supercedes ;mode and ;value
+            <p>Directives provide certain early setup information right at the beginning of the script, pertaining to fundamental things. They are a specially formatted type of comment which actually serves a purpose in the script. They are the only exception to the normal parsing of comments. They are formatted as a semicolon directly followed by the directive name and setting.</p>
+            <p>;modeXXX sets a screen resolution from a set of values defined by NScripter. ;value sets the global variable start boundary for when local variable numbers become global variable numbers. ;gameid sets a game ID without the need for an external file or ons.cfg option. ;$ does four things - sets the total number of variables, the global variable start boundary, the screen width (any resolution, or variable), and the maximum number of labels.
+            <p>Traditionally, there is a very particular order for the directives to ensure they are read. Assuming multiple directives are used, the order in NScripter was ;modeXXX followed by ;value. In ONScripter-EN, ;gameid rather alternatively than ;value may follow ;modeXXX. The quite new (but also in NScripter) ;$ directive entirely supercedes the ;modeXXX and ;value directives, and so in new scripts there should be used ;$ followed by ;gameid.</p>
+            <p>Traditional ordering example:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>;mode800</p>
+                <p>;value500</p>
+            </div>
+            <p>Modern ordering example (providing the same functinality as above, with an additional game ID):</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>;$s800,600g500</p>
+                <p>;gameid example</p>
+            </div>
+
+            <p>Please see the API reference for more information and the possible options for these directives. For new games, it is recommended you follow the modern ordering example.
 
             <h3>Setup-related NScript commands</h3>
-            <p>These are commands which are not all necceesarily required to be included, but which ought to be considered, and which pertain to the setup of the engine itself, similarly to directives and command-line options.</p>
+            <p>We will now look at a couple of setup-related commands, which will give us everything we need to create a barebones script with the structure, directives, and some setup commands, ready to get scripting on the next guide page.<p>
 
             <!--
-            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
             </div>

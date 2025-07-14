@@ -20,6 +20,7 @@ div.code {
     p {
         font-family: monospace;
         font-size: 14px;
+        margin: 0;
     }
 }
 div.image {
