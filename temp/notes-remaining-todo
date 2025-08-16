@@ -20,13 +20,12 @@ Layout of web pages (will be hosted or available as archive download for offline
         - replacing videos & audio (video commands, audio commands including shorthands)
         - similar conclusion, what else you might find, what to do next
     * full guide (for new games and major modifications)
-        - basics (involved file types, save files, introduction to syntax & terminology, variable types, labels, script structure, directives, peripheral commands (caption, versionstr, language, nsa, globalon))
         -       SECTION 1: images and backgrounds (making a working script, so we can discuss backend / theory stuff)
         - sprites & backgrounds (image types, aliases, backgrounds, effects, drawing basic sprites, animated sprites, sprite manipulation)
         - standing images (drawing & clearing standing images, key settings)
         -       SECTION 2: control flow & variables
         - labels (goto, gosub, defsub, getparam, return, note about using variables safely, subroutine hooks (loadgosub, pretextgosub, rgosub, selgosub, textgosub), note on ~ & jumpf & jumpb)
-        - variables (types (number, string, array) (local, global), setting values, unary & binary operators & commands, debug command (now we know of variables))
+        - variables (types (number, string, array) (local, global & globalon), setting values, unary & binary operators & commands, debug command (now we know of variables))
         - conditionals (if & notif, for & next & break)
         -       SECTION 3: text display (finally)
         - text display (EN and JP text display, 1-byte text, clickwait types, line breaks, preventing line breaks, basic text settings (textspeed, cursor, textcolor))
@@ -54,6 +53,6 @@ Layout of web pages (will be hosted or available as archive download for offline
         - proportional fonts (enabling tied to above, monospaced fonts will still work, setwindow4, defaults adapted to work, still experimental)
         -       SECTION 8: archive formats, compression & packaging
         - NSC (naming schemes recapitulated, making, extracting, note that scripts are concatenated irreversably)
-        - NSA (naming schemes recapitulated, making, extracting, compression)
+        - NSA (naming schemes recapitulated, making, extracting, compression, nsa command in script)
         - notes on other legacy formats
         - packaging games (structure, making it easy for users, engine versions & OS support, information to convey to users, licensing, any other tips)

@@ -47,6 +47,13 @@ p.code {
     font-family: monospace;
     font-size: 15px;
 }
+span.inlinecode {
+    background-color: #EEDDDD;
+    font-family: monospace;
+}
+p.comment {
+    color: #666666;
+}
 
 p.definition {
     background-color: #7777FF;

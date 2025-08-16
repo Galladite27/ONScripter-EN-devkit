@@ -22,7 +22,6 @@ lookbackbutton "assets/uoncur.bmp","assets/uoffcur.bmp","assets/doncur.bmp","ass
 
 ; Set basic right-click menu
 rmenu "`Save",save,"`Load",load,"`Log",lookback
-
 ; ========== END DEFINITION BLOCK ==========
 
 ; Command which causes the engine to switch from definition to program block

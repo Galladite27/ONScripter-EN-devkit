@@ -44,9 +44,12 @@ p.left {
     padding-left: 10px;
     text-align: left;
 }
-.inlinecode {
+span.inlinecode {
     background-color: #EEDDDD;
     font-family: monospace;
+}
+p.comment {
+    color: #666666;
 }
 .inline {
     display: inline;

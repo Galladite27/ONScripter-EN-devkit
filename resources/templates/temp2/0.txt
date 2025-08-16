@@ -31,7 +31,6 @@ stralias sp_girl1,"sprites/character1.png"
 stralias sp_girl2,"sprites/character2.png"
 stralias sp_girl3,"sprites/character3.png"
 stralias sp_miontoko,"sprites/miontoko.png"
-
 ; ========== END DEFINITION BLOCK ==========
 
 ; Command which causes the engine to switch from definition to program block
