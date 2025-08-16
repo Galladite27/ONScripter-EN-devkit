@@ -1,0 +1,115 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 2: sprites, backgrounds and effects </h1></p>
+            <h2>Using "stralias" to make filenames easier</h2></p>
+            <p>Before we even start, we should cover the command "stralias". Stralias can be used in the definition block to assign a name to a string (a collection of characters, such as "hello"), so that the string can be referred to as the name in all cases afterwards. For example:</p>
+            
+            <p class="code">*define</p>
+            <p class="code">stralias mystring,"This string can now be referred to as mystring from elsewhere"</p>
+            
+            <p>Note that this is NOT the same as a variable; those will be covered much later.</p>
+            
+            <p>For the sake of completeness, I will mention that there is a similar command, "numalias", which - as the name might suggest - can be used for numbers in the same way.</p>
+            
+            <h2>Naming some images and setting a background</h2></p>
+            <p>To set a background, first we will create an alias to refer to the filename by, and then we will set the background using that alias.</p>
+            <p>The commands that we will use are "stralias" and "bg".</p>
+            
+            <p>Bg can be used in 3 ways. The way we will use is "bg STR,EFFECT" where STR is the name of a file to set as the background and EFFECT is the transition effect to use (which will be covered shortly). For now the effect will be 1.</p>
+            <p>Finally, we will use the "wait" command to wait 5000 milliseconds (5 seconds) to allow us to see that the background has been properly set before the script ends.</p>
+            <p>Try this script:</p>
+            
+            <p class="code">;mode800</p>
+            <p class="code">*define</p>
+            <p class="code">caption "Test"</p>
+            <p class="code">language english</p>
+            <p class="code">stralias background,"assets/bg.jpg"</p>
+            <p class="code">game</p>
+            <p class="code">*start</p>
+            <p class="code">bg background,1</p>
+            <p class="code">wait 5000</p>
+            <p class="code">end</p>
+            
+            <p>If everything was set up properly, the image should display for 5 seconds then close.</p>
+            
+            <h2>So what are effects?</h2></p>
+            <p>Effects are user-defined transitions which can be applied to changing backgrounds, updating sprites and more. They are created using the effect command in the define block and are each assigned a number from 2 to 255. Effects 0 and 1 are reserved; 0 is a background update (i.e. no immediate visible change) and 1 is an immediate trasition (imagine powerpoint with no transitions).</p>
+            <p>When defining an effect, the structure goes as follows: effect NUM,NUM[,NUM[,STR]]</p>
+            <p>For now, understand this command as this: NUM 1 is the number to assign the effect to (remember, start at 2), NUM 2 is the base effect to use, and NUM 3 (which is optional) is how long the effect should last in milliseconds.</p>
+            <p>See this page for reference on the built-in effects: https://galladite.net/~galladite/nscripter/mirrors/archives/reference/NScrAPI.html#effect</p>
+            
+            <p>For example, the following effect would set effect 2 as a mosaic in for 3 seconds:</p>
+            
+            <p class="code">effect 2,17,3000</p>
+            
+            <p>If you put this line in your define block and then change the effect of the bg command to 2, your background should slowly come into focus!</p>
+            
+            <h2>Displaying sprites</h2></p>
+            <p>Sprites can be created, moved, hidden, shown and destroyed. Each sprite has an individual id which you choose at the time when the sprite is created. Once a sprite is destroyed, that id can be used again.</p>
+            <p>Sprites can be creates using the command "lsp". The arguments are as follows:</p>
+            
+            <p class="definition">lsp NUM,STR,NUM,NUM,NUM</p>
+            <p class="definition">lsp sprite_id,filename,top_left_X_coordinate,top_left_Y_coordinate,opacity_value</p>
+            
+            <p>Co-ordinates are measured from the top-left, so an X coordinate of 10 and a Y of 0 means 10 pixels right from the top left. Opacity ranges from 0 to 255 and is optional.</p>
+            <p>Whenever sprites are updated, be that being created, modified or destroyed, nothing actually happens on-screen until the "print" command is used. This command draws all of the pending changes to sprites according to a specific effect.</p>
+            
+            <p>To test this out, add the following line to the define block:</p>
+            
+            <p class="code">stralias mion,"assets/mion.png"</p>
+            
+            <p>Then add these lines to the end of the program block, just before "end":</p>
+            
+            <p class="code">lsp 0,mion,50,100</p>
+            <p class="code">print 1</p>
+            <p class="code">wait 5000</p>
+            
+            <p>This script, 5 seconds after the background fades in, should draw mion!</p>
+            <p>To get used to this, try drawing a few more sprites and changing lsp's and print's arguments.</p>
+            
+            <h2>Moving sprites</h2></p>
+            <p>Sprites can be moved using the "msp" and "amsp" commands. Msp moves a sprite relative to its current position (e.g. 10 pixels left) and amsp moves a sprite to an absolute position (e.g. x=10 and y=30). They can also change opacity, with msp again changing opacity relative to its current value. This is optional.</p>
+            
+            <p>The commands go as follows:</p>
+            
+            <p class="definition">msp NUM,NUM,NUM[,NUM]</p>
+            <p class="definition">msp sprite_id,x_offset,y_offset[,opacity_offset]</p>
+            
+            <p class="definition">asmp NUM,NUM,NUM[,NUM]</p>
+            <p class="definition">asmp sprite_id,x_value,y_value[,opacity_value]</p>
+            
+            <p>For example, the following lines in the program block would move sprite 0 20 pixels down and reduce its opacity by 50 (out of 255):</p>
+            
+            <p class="code">msp 0,0,20,-50</p>
+            <p class="code">print 1</p>
+            
+            <p>Remember, we need to use "print" to update the sprites using an effect! Also, remember to add wait timings otherwise everything will just flash by!</p>
+            
+            <h2>Hiding, showing and deleting sprites</h2></p>
+            <p>The command "vsp" can be used to toggle visibility of sprites. The syntax is this:</p>
+            
+            <p class="definition">vsp NUM,NUM</p>
+            <p class="definition">vsp sprite_id,visibility</p>
+            
+            <p>The second number should be 0 or 1 for invisible and visible.</p>
+            
+            <p>"allsphide" and "allspresume" are commands, called without arguments (i.e. just the command on one line), which hide and show every currently loaded sprite.</p>
+            <p>"csp" can be used to erase sprites, be they hidden or shown. This will free up the sprite's id for use by a new sprite. The syntax is as follows:</p>
+            
+            <p class="definition">csp NUM</p>
+            <p class="definition">csp sprite_id</p>
+            
+            <p>"csp -1" removes all sprites.</p>
+            <p>I can't think of any interesting way to showcase these, so have a play around and get to grips with creating, moving and destroying sprites.</p>
+            <p>Always remember to use print to update sprites!</p>
+            
+            <p>You should now be able to draw some sprites and make them move around!</p>
+        </div>
+    </body>
+</html>

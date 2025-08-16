@@ -1,0 +1,45 @@
+= Galladite's ONScripter-EN guide, part 14: date acquisition and screenshots  =
+== Date and time acquisition ==
+The date command will retrieve the current date in numeric values.
+
+$date - program block only - retrieves the current date in numeric values
+$date %VAR,%VAR,%VAR
+$date year,month,date
+
+The time command will retrieve the current time.
+
+$time - program block only - retrieves the current time
+$time %VAR,%VAR,%VAR
+$time hour,minute,second
+
+== Screenshot management ==
+Screenshots can be taken and saved to memory with the "getscreenshot", "savescreenshot", and "deletescreenshot" commands.
+
+$getscreenshot - program block only - collect a screenshot and save it to memory
+$getscreenshot NUM,NUM
+$getscreenshot width,height
+
+$savescreenshot - program block only - save a screenshot from memory to a file as a bitmap (.bmp) image
+$savescreenshot STR
+$savescreenshot filename
+
+$deletescreenshot - program block only - delete the screenshot currently saved in memory from memory
+$deletescreenshot
+$deletescreenshot
+
+This process could be simplified with a custom command:
+
+!;mode800
+!*define
+!defsub screenshot
+!game
+!*start
+!click
+!end
+!*screenshot
+!getscreenshot 800,600
+!savescreenshot "screenshot.bmp"
+!deletescreenshot
+!return
+
+The only issue with this is that it will overwrite the most recent screenshot each time, but this could be prevented with the use of a variable to count how many times screenshots have been taken.

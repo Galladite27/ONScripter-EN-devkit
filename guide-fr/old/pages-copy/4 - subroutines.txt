@@ -1,0 +1,64 @@
+= Galladite's ONScripter-EN guide, part 4: subroutines =
+So what happens if you want to do something complicated quite frequently? Instead of copying the same code over and over again, you should turn it into a subroutine, which can be called at any point from anywhere else in the script. To create a subroutine, you simply need to add a label, then the code you want to be able to use frequently, then the command "return", all at the bottom under an "end" command. The subroutine can later be called with "gosub *label".
+This will all be explained shortly. For now, consider the following code:
+
+!*define
+!stralias mion,"assets/mion.png"
+!game
+!*start
+!
+!lsp 0,mion,0,0
+!print 1
+!
+!gosub *movemysprite
+!gosub *movemysprite
+!gosub *movemysprite
+!
+!wait 1000
+!end
+!
+!*movemysprite
+!msp 0,20,0
+!print 1
+!return
+
+So what's happening here?
+Well, firstly we load in a sprite in the top left. Secondly, we call the subroutine "*movemysprite" three times. Each time, the interpreter jumps the the label "*movemysprite" at the bottom, then continues from there, executing the msp and print commands. When it reaches the "return", it exits the subroutine and resumes from the line after where it entered the subroutine from. The 3 "gosub" commands do the same thing as the following:
+
+!msp 0,20,0
+!print 1
+!msp 0,20,0
+!print 1
+!msp 0,20,0
+!print 1
+
+As you can see, this has great potential for removing repetative code.
+As a side note, labels can also be jumped to using "goto", similarly to "gosub" but ignoring return commands. This can be used to jump around your script without the expectation of returning to where you came from.
+
+== Making subroutines flexible with arguments/perameters ==
+Subroutines are good, but so far they lack the adaptability of commands in that they have no arguments. In the previous example, there was no way to change how much the *movemysprite subroutine moved the sprite by, or which sprite it moved, for that matter. Well, that changes now, with the use of the "getparam" command. By putting the getparam command under a subroutine's label, it can make the gosub command provide arguments. That is, each time you call a subroutine you can pass in arguments similarly to a normal command.
+The getparam command's description is a bit annoying, so modify the previous script like this and try it out:
+
+replace "gosub *movemysprite" with "gosub *movemysprite 0,20"
+after the line "*movemysprite", add the line "getparam %0,%1"
+replace the line "msp 0,20,0" with "msp %0,%1,0"
+
+This does use variables which will be explained in more detail later, but for now know that the gosub command is passing in the arguments 0 and 20 similarly to with a normal command, and those arguments are being saved into the variables %0 and %1. When it comes to the msp command, the variables used instead of numbers become substituted for the values they hold. For example, if the first argument is 1, %0 will be set to 1 and the first argument of the msp command will become 1. In this way you can now control which sprite is moved and how much it is moved by.
+
+
+== Turning subroutines into commands ==
+One final trick regarding subroutines is that subroutines can be turned into actual commands using the "defsub" command.
+
+$Defsub - definition block only - creates a user-defined command
+$defsub NAME
+$defsub name_of_command_to_make
+
+In order to turn a subroutine into a command, simply define it as normal and then put "defsub subroutinename" into the define block.
+Now the command "gosub *subroutinename" can be shortened to "subroutinename".
+This is compatible with user-defined arguments; "gosub *movemysprite 0,20" from above could be shortened to "movemysprite 0,20" with the one line "defsub movemysprite" in the define block. In this way you can now define your own commands.
+
+Note: if you define a command with the same name as a pre-existing command, your command is still created and the old command can be accesed using "_commandname" e.g. "ld" would become "_ld". However, due to this feature you cannot define a command beginning with an underscore.
+
+Your homework is to make a function which makes a sprite go semi-transparent and accepts the argument of the sprite number.
+Hint 1: use the msp command to make it go semi-transparent
+Hint 2: remember to use print after updating sprites

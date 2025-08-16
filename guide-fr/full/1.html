@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ONScripter-EN Devkit - Guide</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1>ONScripter-EN full guide: 1 - externals and internals of the engine</h1>
+            <p>This page will provide details concerning (1) the files related to the engine and its operation in greater detail, (2) the setup and operation of the engine to bind together the individual purposes of the files into a coherent scheme and provide a segue into discusssing the internals of a game, namely the script, and so then finally (3) the syntax and elements of a script and (4) the structure of a script, after which everything external to the engine and also the topics peripheral to working with the internals of the engine (syntax and structure) should have been at least touched upon, allowing us to proceed in detail with the various internal functions of the engine.</p>
+            <p>Also, in this page you will encounter code blocks. Please note that greyed out text indicates a comment, which as you will shortly learn (if you didn't know already) is not interpreted as a part of the code but is used as a memory aid to the scripter.</p>
+
+            <h2>Involved files, types and locations</h2>
+            <p>Although some information concerning file types was given in the general introduction, this section contains a proper treatment. Unless mentioned otherwise, all the following files are assumed to be ordinarily referenced by a path relative to the engine, the location of which is also referred to as the <i>game root directory</i>. So, for example, if the directory holding the engine contains a subdirectory called "sprites" in turn containing a file called "image.png," that image would be ordinarily referred to as "./sprites/image.png" or simply "sprites/image.png".</p>
+
+            <h3>Script files</h3>
+            <p>Script files contain the script, which is a list of instructions concerning what the game engine should do to produce the game, such as displaying text, displaying images, playing audio, taking user input, and so on. The script may be present in one or more files of differing types. Files of different types (e.g. 0.txt and 0.utf, or 0.txt and nscript.dat) may not be mixed in the same project, and the engine will choose one to use based on a certain internal ordering scheme.</p>
+
+            <br />
+            <p>Firstly, the script may be plaintext, encoded as either Shift-JIS (technically CP932, an extension of SJIS, but either works) or UTF-8. The basic file names for plaintext scripts are <span class="inlinecode">0.txt</span> (SJIS), <span class="inlinecode">0.utf</span> (UTF-8), and <span class="inlinecode">0.utf.txt</span> (UTF-8). The name of the file is used to determine the encoding, rather than anything internal to it. Using a UTF-8 encoded file with a SJIS extension is <i>pretty much</i> fine, since almost all of the relevant SJIS characters have the same encoded value in UTF-8.</p>
+            <p>This guide (and implicitly the two quick-start guides) assume a SJIS script file, since (1) UTF-8 mode is an extension of SJIS mode, and so should be learned after (covered later in this guide), and (2) UTF-8 mode (like the use of proportional fonts) is a new feature which is not yet thoroughly tested or guaranteed to be stable.</p>
+            <p>Another option which is unique to plaintext script files is that multiple script files of the same extension can be used by naming them <span class="inlinecode">00.X</span>, <span class="inlinecode">01.X</span>, and so on (with X being the appropriate extension). The engine will concatenate them and treat them as one script file. This is particularly useful for dividing your script into logical blocks, which can later be converted into a single obfuscated script file for distribution.</p>
+
+            <br />
+            <p>Secondly, the script may be obfuscated. Obfuscated script files are generated from plaintext script files using the provided <a href="../../resources/tools">archive manipulation tools</a> for the purpose of preventing accidental modification by end users. However, de-obfuscation is trivial using the same tools. The file names for obfuscated script files are <span class="inlinecode">nscript.dat</span> (SJIS) and <span class="inlinecode">pscript.dat</span> (UTF-8).</p>
+            <p>Thirdly, the script may be encrypted. There are two types of encrypted script files which use different mechanisms. There are currently no open-source tools to create or extract encrypted script files, however the engine is capable of decrypting and using them in games. The file names for the two mechanisms of encrypted script files are <span class="inlinecode">nscr_sec.dat</span> and <span class="inlinecode">nscript.___</span>. Both are SJIS only; there has yet been no need to add UTF-8 file extensions since there are not the tools to even produce such files, however should that become the case it would be very easy for those extensions to be added to the engine.</p>
+
+            <h3>Asset files</h3>
+            <p>Assets are any files the engine may read or process to use in the course of the game, such as images and audio, which are normally stored as loose files of their various types. Since they can be referred to in the engine by arbitrary paths, they may be stored one or more layers deep within directories relative to the engine; for distribution, a hierarchy of multiple directories and their contents may be collected into a single game archive file. Some of the normal file types are as follows: for images, JPG, PNG, BMP; for audio, MP3, WAV; for video, MPEG.
+            <p>Alternatively, as mentioned above, the individual files can be collected into a single game archive file. Unlike scripts, not all assets must be stored in the same way; it is possible to have a game archive file <i>and</i> loose assets in the same project. The three types of game archive file are <span class="inlinecode">arc.nsa</span>, <span class="inlinecode">arc.sar</span>, and <span class="inlinecode">arc.ns2</span>. The extension specifies the format of the game archive file, all of which can be created and extracted using the same tools linked above. NSA archives are the most common, and also allow for (very effective) NBZ compression of BMP and WAV files to reduce file size, which is an option provided by the relevant tool.</p>
+            <p>In the same way as scripts, multiple game archive files of either NSA or NS2 (not SAR) may be provided, should you want to group assets into logical distinctions additionally to the internal hierarchy of files, break up an excessively large archive into multiple pieces, or for any other reason. The naming scheme for using multiple archives is <span class="inlinecode">arc00.X</span>, with 00 being any two-digit number and X being the appropriate extension.</p>
+
+            <h3>Other game files</h3>
+            <p>Every game must have a font file, traditionally named <span class="inlinecode">default.ttf</span>. However, recent versions of the engine also allow for .otf, .otc, and .ttc font files.</p>
+            <p>Historically, Windows builds of the engine required the inclusion of the file <span class="inlinecode">SDL.dll</span> to be able to use directsound (highly recommended for reducing audio delay). This is no longer required in recent engine versions.</p>
+
+            <p>The file <span class="inlinecode">ons.cfg</span> enjoys the special purpose of containing command-line arguments (in a slightly modified format) which ought to be applied whenever the engine is started, without having to be included manually each time. Options are provided one per line; some options are sufficient by themselves, while others require an additional option to be given, separated by an equals sign with no spaces. So, for example, the command line option <span class="inlinecode">--window-width 720</span> would become <span class="inlinecode">window-width=720</span> in ons.cfg. Some options are OS-specific; see the ONScripter-EN help text (<span class="inlinecode">./onscripter-en -h</span>) for more information on options available for your system. Some options may be covered in this guide, but most will not be.</p>
+
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>Do not neglect the command-line options ONScripter-EN provides; it is due to their usefulness that the file <span class="inlinecode">ons.cfg</span> was created in the first place for making them persistent. Options range from specifying different game root and save directories, to various debugging options, to specifying key files for encrypted scripts, and a lot more.</p>
+            </div>
+
+            <p>A <span class="inlinecode">game.id</span> file may be provided, containing simply the name of the game on a single line (allowing spaces). The purpose of this is for updating NScripter games without modifying the script, giving a name for the save directory; the same effect can be achieved through the use of the <span class="inlinecode">;gameid</span> directive within a script, or through the <span class="inlinecode">gameid</span> option in <span class="inlinecode">ons.cfg</span>. The translation-focused quick-start guide recommends using a game.id file for simplicity; new games ought to use the directive instead.
+
+            <h3>Save files</h3>
+            <p>Save files are not by default stored alongside the game files, but in another location on the user's system. By default, on Windows this is in AppData\Roaming, and in Linux in a hidden directory within the user's home directory. If a game ID is given, the game ID is used as the save directory name. Otherwise, a save directory name is generated based on a hash of the game's script (for example, <span class="inlinecode">ONScripter-46daf</span>). This location, whether derived from the script's hash or from a provided game ID, is the <i>default save location</i>. It can be overridden using the <span class="inlinecode">--save</span> command-line / ons.cfg option - the <i>actual save location</i>. If not overridden, the default save location is also the actual save location. This distinction is relevant to the <span class="inlinecode">envdata</span> save file, covered below.</p>
+
+            <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
+                <p>Due to the default save directory in lieu of a game ID being automatically changed when the script is changed, save file version mismatches are prevented. Therefore, if you do use a game ID (as is strongly recommended), ensure that your first test if you encounter a bug when loading your game is to try with a new save file in case the save file you were trying to load has a game-breaking version mismatch. The engine provides the required commands to give a warning prompt when trying to load an outdated save file.</p>
+            </div>
+
+            <br />
+            <p>Traditional save files (those first used by NScripter) are <span class="inlinecode">envdata</span>, <span class="inlinecode">gloval.sav</span> (sic.), and <span class="inlinecode">saveX.dat</span> (where X is the save number).
+            <p><span class="inlinecode">envdata</span> stores certain global (not save-file-specific) values used by the engine; namely whether the game is fullscreen, whether the game is muted, the ordinary text speed, whether CD audio is being used, and the auto mode text speed. It is the only save file out of any mentioned in this section which ignores an additionally specified actual save directory and saves and loads from the default save directory regardless. This strange behaviour has not been modified so as to protect full backwards-compatibility (which you will find to be a recurring theme in ONScripter-EN).</p>
+            <p><span class="inlinecode">gloval.sav</span> stores a game's global variables, which will be discussed below.</p>
+            <p><span class="inlinecode">saveX.dat</span> stores an individual game state, including all local variable values (as defined by the script and internal to the engine), the location in the script, what images are displayed and audio is playing, and so on, which can be used to load a game's state. This is the save file proper of ONScripter-EN.</p>
+
+            <br />
+            <p>Modern save files (those introduced in ONScripter-EN, and so not compatible with NScripter or ONScripter) are <span class="inlinecode">screen.dat</span> and <span class="inlinecode">*.csv</span> (where * is any value).</p>
+            <p><span class="inlinecode">screen.dat</span> stores the current screen resolution if the script has specified a variable resolution (meaning it can be changed, rather than being a single static value).</p>
+            <p><span class="inlinecode">*.csv</span> stores arbitrary string and/or number values in CSV format, which can be both written and read by the engine. CSV files written by the engine are written to the actual save directory, while CSV files read by the engine may be either from the actual save directory or from inside or outside a game archive like any other asset file, allowing for both hard-coded (and shipped with a game) CSV files for storing large amounts of data externally to the script, as well as modifiable and deletable CSV files for recording and modifying large amounts of arbitrary data. There are very many reasons you may want to use CSV files as opposed to hard-coded values or the default save files for both typical and experimental projects.</p>
+
+            <h3>NScripter compatibility notes</h3>
+            <p>ONScripter-EN is capable of reading all save files, scripts, and game assets and archives used or produced by NScripter. That being said, there are two main differences which require that an NScripter game to be updated in order to use ONScripter-EN, which do not require editing the game's files and are capable of being carried out by the average end user.</p>
+            <p>Firstly, NScripter by default uses the font Sazanami Gothic which is provided by Windows. Modern versions of ONScripter-EN specify fallback fonts for Windows and MacOS, but it is recommended to add a <span class="inlinecode">default.ttf</span> font file to the game root directory for the engine to use (which is necessary rather than just recommended on Linux). This step is mandatory for legacy versions of ONScripter-EN, so it's best to always do this.</p>
+            <p>Secondly, NScripter by default stores save files in the game root directory. Therefore, a <span class="inlinecode">game.id</span> file ought to be created to specify an unchanging and relevantly named default save directory. If the game being updated already has save files created which ought to be read by ONScripter-EN, then those should be moved into the new save directory (which will be created by ONScripter-EN on startup if not already extant).</p>
+            <p>Due to its various enhancements and modifications, ONScripter-EN script and save files are not necessarily compatible with NScripter (if for some reason you wanted to revert your game to that engine). However, if you do not use UTF-8 mode, only use commands and syntax the API reference marks as being supported by NScripter, and don't rely on assumptins specific to ONScripter-EN (such as having unlimited labels by default), the game should work fine with NScripter; likewise, as long as you don't take advantage of extended variable data (described below), the three traditional save files should be compatible with NScripter. This final point is the most likely to be useful - for example, you may end up playing an NScripter game with ONScripter-EN, but the careful behaviour-matching of ONScripter-EN ensures that even the new save files will still be compatible with the original NScripter version of the game.</p>
+
+            <h2>Engine setup and operation</h2>
+            <h3>An overview of setup</h3>
+            <p>Here follows a rough description of how the engine starts up, including the files it checks for and accesses on an ordinary startup.</p>
+            <ol>
+                <li>The engine processes immediate command-line arguments.</li>
+                <li>The engine checks for an <span class="inlinecode">ons.cfg</span> file, and interprets its values like command-line arguments. A list of paths is constructed based on the information available at this point to look for scripts and assets.</li>
+                <li>The game searches for a script file, and interprets a certain portion immediately.</li>
+                <li>The game, based on directives before the define block in the script, initialises key values - in particular, the resolution is set (a <span class="inlinecode">screen.dat</span> save file may be accessed at this point) and if no <span class="inlinecode">;gameid</span> directive was given, checks for a <span class="inlinecode">gameid</span> file to set the default save location (the actual save location, if different, was determined by a command-line or ons.cfg argument).</li>
+                <li>In addition, the <span class="inlinecode">envdata</span> file will be read during early setup.</li>
+                <li>Based on the define block of the script, game archives may be added to the internal list of paths to look in for various resources, and <span class="inlinecode">gloval.sav</span> may be accessed if global variables are enabled.</li>
+                <li>After the define block, all engine setup should be complete and interpretation of the actual game in the program block can begin.</li>
+            </ol>
+
+            <br />
+            <p>Looking at it from a semi-chronological perspective, here are when the various files may be attempted to be accessed:</p>
+            <ul>
+                <p>very early startup (pre-script)</p>
+                <li>ons.cfg - during very early startup</li>
+                <li>envdata - during very early setup</li>
+                <li>font file - during very early startup (loaded into memory)</li>
+                <li>game.id file - during very early startup</li>
+                <br />
+                <p>early startup (pre-define block)</p>
+                <li>screen.dat - potentially during early setup</li>
+                <li>script file - <i>at an abstract level</i> all throughout execution - in reality, loaded into memory during early startup</li>
+                <br />
+                <p>late startup (define block)</p>
+                <li>game archives - potentially during later startup</li>
+                <li>gloval.sav - potentially during later startup</li>
+                <br />
+                <p>post-startup (program block)</p>
+                <li>asset files &amp; game archives - potentially periodically throughout execution as required</li>
+                <li>saveX.dat, *.csv - potentially periodically throughout execution as required</li>
+                <li>screen.dat - potentially during execution</li>
+                <li>envdata, gloval.sav - potentially periodically throughout execution without an explicit instruction to by the script (gloval.sav only if in use)</li>
+            </ul>
+
+            <h3>Setup-related NScript commands and directives</h3>
+            <p>Certain basic setup-related commands and directives which pertain to the things mentioned in this section will be covered right at the end of this page, after commands in general have been covered (under the syntax section), as well as script structure. Other setup-related commands, some of which are very important to most projects, will be covered on later pages.</p>
+
+            <h3>Basics of operation</h3>
+            <p>Once interpretation of the script has begun, ONScripter-EN can be treated almost as a complex state machine. That is, it attempts to execute every command in turn as quickly as possible (although certain instructions it is forced to execute at a particular pace, or with delay) based on inputs (the script, other game files, and user input), waiting whenever it reaches a point where user input is required before continuing along the script. It has different modes which change how inputs affect the system, and so on. But there is no (well, precious little) parallel processing, and execution follows a linear and reproducible path provided the same inputs, which serve to modify the engine's internal state and also cause output to the user. Let us now discuss the syntax of the script, which is what primarily determines what the engine does according to its internal state.</p>
+
+
+            <h2>Introduction to syntax</h2>
+            <p>If examples seem out of order in this section by including things not yet explained, be assured that they will be explained in short order, and it is better to give immediate examples than to give the whole description followed by a large number of disconnected examples.</p>
+            <p>Two perhaps unfamiliar terms must be given before we proceed. Firstly, what the engine refers to as a "name" may be more easily recognised as being a "symbol" in other languages - in other words, a particularly formatted group of characters used to refer to built-in or user-defined values of various types, such as aliases or command names. In the case of ONScripter-EN, a name is a "case-insensitive string of alphanumerics and/or '_'" which "must begin with an alphabet letter or '_'." The use of this generically defined "name" will be covered below when explaining aliases, commands, and labels. Secondly, what the engine refers to as a "sentence" is defined as "a single command, or multiple commands separated by ':'" without any space required, or in other words, one or more commands on a single line. This will be covered below in the section on commands.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; Examples of names:</p>
+                <p>name</p>
+                <p>a_name</p>
+                <p>_another</p>
+                <p>_4th_name</p>
+                <br />
+                <p class="comment">; Examples of sentences:</p>
+                <p>a_command</p>
+                <p>a_command_with_arguments 10,20</p>
+                <p>one_command_with_arg "argument" : another_command</p>
+                <p>lots: of:commands</p>
+            </div>
+
+            <p>In addition, a word on namespaces - due to their being either denoted using specific symbols (such as in the case of labels), or by their being used in mutually exclusive sections of code, and due to NScript not supporting first-class functions, there are individual namespaces for every type of nameable value in ONScripter-EN (counting string and number aliases as one). That is, it is possible to have an alias, label, and command with the same name without there ever being ambiguity as to which is being referenced.</p>
+
+            <br />
+            <p>The purpose of a line in a script may be one of the following: comment (of which directives are a subset), sentence (one or more commands), text, label, or jump target. Each of these purposes will be discussed individually (although there is some overlap in that one line may serve multiple purposes, which will be explained as required), as well as the different things they may contain. A script may have blank lines for clarity, which will be ignored by the engine. Due to their appearance in both commands and text, and their relatively detailed syntax, variables will be specially treated first; also, aliases will be treated as an important aspect of working with both variables and commands.</p>
+
+            <h3>Variables and aliases</h3>
+            <p>An alias is a particular name (as per the above definition) which has a static (unchangeable) value. An alias may be either a string alias (where the value it represents is certain text) or a number alias. Aliases are defined using the <span class="inlinecode">stralias</span> and <span class="inlinecode">numalias</span> commands, which will be covered in a later article. The relevant point concerning syntax is that after being defined, an alias appearing in place of <i>any</i> string or number literal in code will be replaced with the value it represents.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; Define a number alias</p>
+                <p>numalias my_alias,100</p>
+                <br />
+                <p>...</p>
+                <br />
+                <p class="comment">; In this command, "my_alias" will be substituted for the number 100</p>
+                <p>do_a_thing my_alias</p>
+            </div>
+
+            <br />
+            <p>The three types of variable (number, string, and array - the latter of which can only be an array of numbers) are each denoted by a specific symbol, and enumerated according to variable numbers specific to each variable type. For the first part - number variables are prefixed with a <span class="inlinecode">%</span> symbol, string variables with a <span class="inlinecode">$</span> symbol, and array variables with a <span class="inlinecode">?</span> symbol. For the second part - variable numbers are allowed from 0 to 4095, and there is a separate range of numbers for each type of variable (so %0 and $0 can exist independently of each other, since the first 0 is referring to a number variable number, and the second 0 to a string variable number).<p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; In this command, $0 will be substituted for a certain string, and ?0[0] (with ?0 assumed to be a 1d array) will be substituted for a certain number</p>
+                <p>a_command $0,?0[0]</p>
+            </div>
+
+            <br />
+            <p>ONScripter-EN also has a feature called "extended variable data," which allows for variable numbers above 4095 to be used and saved with no extra setup required by the user. This will receive additional treatment under global variables on a later page.</p>
+            <p>Particularly concerning the syntax of referencing array variables - simply the symbol and a number e.g. <span class="inlinecode">?0</span> refers to the array as a whole. Arrays can store any number of values (although the limit is pre-defined when the array is created), and a particular index of the array is referred to using directly adjacent square brackets containing the index number (again, particular to each individual array) e.g. <span class="inlinecode">?0[2]</span> being the third element of the first array (since indexing for variables and arrays, and indeed many numbered sequences of the engine, begins at 0).<p>
+            <p>It is also possible to have multi-dimensional number arrays, again in any number of dimensions, using more sets of directly adjacent square brackets e.g. <span class="inlinecode">?0[0][0]</span>. In the case of that example of a two-dimensional array, <span class="inlinecode">?0[0]</span> would be referring to a simgle dimension of the array and <span class="inlinecode">?0[0][0]</span> an individual value. The number of dimensions of an array is specified alongside the size of each dimension when the array is defined.</p>
+
+            <br />
+            <p>Related to these aliases and variables which can represent / store either numbers or strings, there also exist number and string literals, which mean simple numbers or strings, not somethings which represents them. Number literals contain only characters 0-9, and can be negative (denoted with a prefixed <span class="inlinecode">-</span> symbol, e.g. <span class="inlinecode">-10</span>) or positive, but not with a decimal point. Strings are marked as such (rather than being aliases, commands, &amp;c.) with quotation marks, e.g. <span class="inlinecode">"`a string literal :-)"</span>, and may contain any characters, with quotation marks requiring escaping with a backslash (and backslashes in turn with a backslash), e.g. <span class="inlinecode">"`This quotation mark: \" is escaped with a backslash so it doesn't end the string literal"</span> or <span class="inlinecode">"`Jack says\"hello!\""</span>. Note the use of backticks for string literals containing 1-byte text, explained below in the section on text.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; A command receiving two number arguments and two string arguments</p>
+                <p class="comment">; One of each type of argument is a literal, and the other a variable</p>
+                <p>another_command 10,%0,"`testing",$0</p>
+            </div>
+
+            
+            <h3>Comments</h3>
+            <p>A line beginning with a semicolon (<span class="inlinecode">;</span>) is counted as a comment and is ignored during interpretation; for the two exceptions to this rule, see the below section on jump targets, and the very below section on directives.</p>
+            <p>ONScripter-EN does not have any special syntax for multi-line comments.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; This line is a comment.</p>
+                <p class="comment">; The engine will ignore it entirely during execution.</p>
+                <p class="comment">;The space it not necessary, but adds clarity.</p>
+            </div>
+
+            <p><strong>Overlap</strong> - any semicolon on even a non-comment line which is not part of a string literal will cause the rest of the line after it to be counted as a comment. This can be useful for commenting on individual sentences without adding more lines to the script.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>a_command 10,20 ; Following the semicolon, the rest of the line is treated as a comment.</p>
+            </div>
+
+            <h3>Commands</h3>
+            <p>As described above, a line beginning with a name is counted as a sentence. A sentence may contain multiple commands, separated by a colon (<span class="inlinecode">:</span>) which need not have space on either side to be recognised as such a divider (see examples under "intrduction to syntax"). Each command in a sentence is comprised of a name (the command name), possibly followed (after a space) by comma-separated values of any argument type ONScripter-EN supports, as listed in the API reference under "Argument Type Explanations."</p>
+            <p>Many commands accept number or string arguments. In this case, aliases and variables may be referenced in the format described above (under "variables and aliases"), and their values will be substituted. Other functions require variables themselves as arguments - in this case, a variable must be provided rather than a literal value, since the command wants to work with the variable itself rather than the value it contains.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; An argument requiring a value may be literal or referenced:</p>
+                <p>bgmvol 100</p>
+                <p>bgmvol %0</p>
+                <br />
+                <p class="comment">; An argument requiring a variable must be referenced:</p>
+                <p>inc %0</p>
+            </div>
+
+            <h3>Text</h3>
+            <p>Especially under this heading will be shown various novel features and mentioned not yet covered terminology. We are only concerned here with the syntax - these features will be treated properly on thir own pages later on.</p>
+            <p>A line beginning with a full-width character (whether in SJIS or UTF-8 mode) is counted as text.<p>
+            <p>ONScripter-EN introduces a meanting to the backtick symbol for the sake of English text, allowing it to mark the beginning and end of 1-byte text at any point in the script rather than that being interpreted as a sentence; therefore, a line beginning with a backtick is also counted as text. Another backtick at the end of the line is not required - the line break ends the text. 1-byte text mode prevents some inline text commands from being interpreted, while others are allowed. Note also that 1-byte mode can be entered during string literals, and the end quotation mark automatically leaves that mode (since it is the end of that text).</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>テクストです</p>
+                <p>`This is some 1-byte mode (although multi-byte characters are still allowed) text</p>
+                <p>command "`1-byte text","`gets exited after each string literal"
+            </div>
+
+            <p>Square brackets are used to denote pretext (pre-text) tags, which can pass certain information to a user-defined pre-text processing function. Within the square brackets, values (number or string) are separated by a forward slash. Strings in the tag are not surrounded by quotation marks like ordinary string literals; make sure to surround them in backticks for non-Japanese text.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>[10/20]`English text with a pretext tag</p>
+                <p>[`Taro Mendo`/0001.wav]`Taro speaking.</p>
+            </div>
+
+            <p>Text colour can be changed inline by inserting an RGB value - a hash symbol followed by six heaxadecimal digits.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; Note how 1-byte mode is temporarily exited for the RGB value, then re-entered</p>
+                <p>`White text, followed by `#FF0000`red text</p>
+            </div>
+
+            <p>Variables can be interpolated into text by referencing them as normal. String variables cannot be interpolated in 1-byte mode, while number variables can be. Variables can also be assigned inline using curly brackets, containing comma-separated values alternating between variable and value to assign.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>`A number: %0</p>
+                <p>`A string: `$0</p>
+                <p>`Assigning some values...`{$0,"`hi",%0,10}
+            </div>
+
+            <p>Text buttons can also be created inline using less than and greater than symbols, used to contain the button number and button text.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; The comment below shows what is (1) and is not (0) in 1-byte mode for clarity.</p>
+                <p class="comment">; The characters interpreted as text are marked as 1-byte text,</p>
+                <p class="comment">; while those not marked as such serve a particular function like any other symbols.</p>
+                <br />
+                <p class="comment">;11111111111111111 00 111111 0 1 </p>
+                <p>`Some text with a `&lt;0`button`&gt;`.</p>
+            </div>
+
+            <p>Pauses can be included inline using an exclamation mark, a "w" (wait) or "d" (delay) for whether the pause is click-skippable (w cannot be), and the time in milliseconds.</p>
+            <p>The text speed can be changed and reset in a similar way, using an exclamatin mark, "s," and value (in ms again) to set the text speed, and an exclamation mark with "sd" to set it back to the default.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>`Pause for a second,!w1000 then five seconds,!d5000 but skippable the second time by clicking</p>
+                <p>`Change the !s10text speed!sd for those two words, then reset it`</p>
+            </div>
+
+            <p>An at symbol and a backslash will both cause a clickwait, with the former being a line wait (inline or at the end of a line) and the latter a page wait. An underscore before the clickwait character will make it to be treated as normal text; a slash at the end of a line will cause the newline to be ignored, making the next line a continuation of that text.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>`Waiting after a line@</p>
+                <p>`And at the end of the page\</p>
+                <br />
+                <p>`This symbol: _@ will be printed normally</p>
+                <p>`These two lines/</p>
+                <p>will be treated as one, due to the newline being ignored</p>
+            </div>
+
+            <h3>Labels</h3>
+            <p>A line beginning with an asterisk followed without a space by a name (according to the proper definition) e.g. <span class="inlinecode">*a_label</span> is counted as a label. It has no immediate effect when executed, but acts as a reference point for interpretation of the script to jump to at the instruction of other commands; like a logical heading of sorts for a particular section of, or point in, code.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>*label</p>
+                <p>*another_label</p>
+                <p>*_3_labels</p>
+            </div>
+
+            <h3>Jump targets</h3>
+            <p>A line beginning with and containing a single tilde (<span class="inlinecode">~</span>) is counted as a jump target. Like a label, it serves no immediate effect when executed, but acts as a reference point for two particular commands, <span class="inlinecode">jumpf</span> and <span class="inlinecode">jumpb</span>, to cause interpretation of the script to jump to, in a manner useful for simple iteration or small jumps without needing to create a label and add to the label namespace.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; A jump target:</p>
+                <p>~</p>
+            </div>
+
+            <p><strong>Overlap</strong> - any tilde, even part or a string literal or comment, even on a line serving another purpose, is also counted as a jump target.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment inline">; Beware! even this: </p><p class="inline">~</p><p class="comment inline"> is a jump target!</p>
+            </div>
+
+            <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
+                <p>Like you shouldn't mess around with magnets near electronics even if it's <i>probably</i> fine, do not use tildes in comments to protect against accidentally meddling with jumps. Only use tildes in string literals when necessary, and be careful those do not interfere with the logic.</p>
+            </div>
+
+            <h2>Script structure</h2>
+            <p>A script is divided into the definition and program block. The script begins with potentially certain "directives", and any other commands to run only once at engine startup. Then the label "*define" is given, which marks the beginning of the definition block, which contains commands run once at startup, but also whenever the script is restarted (using a define reset, as opposed to a normal reset, which simply returns to the start of the program block). The definition block is ended with the "game" command, which as well as preventing definition-block commands from being used and allowing for program-block commands to be used, causes various setup steps to be run internally. Program block commands may here follow which are to be run only once (following a define reset), before the label "*start" is given, marking the beginning of the script content which will be run every time a normal reset is given.</p>
+            <p>The two reserved labels serve as markers for when the game needs to perform a normal or define reset. The "game" command causes the actual change of state between the definition and program blocks. In practice, a threefold division of directives, definition block, and program block almost always suffices. It is very rare to find a use case for pre-*define or post-"game" but pre-*start commands.</p>
+            <p>Interpretation of the script will end when reaching an EOF, or the "end" command.
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; Directives</p>
+                <br />
+                <p>*define</p>
+                <br />
+                <p class="comment">; Definition block</p>
+                <br />
+                <p>game</p>
+                <p>*start</p>
+                <br />
+                <p class="comment">; Program block</p>
+                <br />
+                <p>end</p>
+            </div>
+
+            <h3>Directives</h3>
+            <p>Directives provide certain early setup information right at the beginning of the script, pertaining to fundamental things. They are a specially formatted type of comment which actually serves a purpose in the script. They are the only exception to the normal parsing of comments. They are formatted as a semicolon directly followed by the directive name and setting.</p>
+            <p><span class="inlinecode">;modeXXX</span> sets a screen resolution from a set of values defined by NScripter. <span class="inlinecode">;value</span> sets the global variable start boundary for when local variable numbers become global variable numbers. <span class="inlinecode">;gameid</span> sets a game ID without the need for an external file or ons.cfg option. <span class="inlinecode">;$</span> does four things - sets the total number of variables, the global variable start boundary, the screen width (any resolution, or variable), and the maximum number of labels.
+            <p>Traditionally, there is a very particular order for the directives to ensure they are read. Assuming multiple directives are used, the order in NScripter was <span class="inlinecode">;modeXXX</span> followed by <span class="inlinecode">;value</span>. In ONScripter-EN, <span class="inlinecode">;gameid</span> rather alternatively than <span class="inlinecode">;value</span> may follow <span class="inlinecode">;modeXXX</span>. The quite new (but also in NScripter) <span class="inlinecode">;$</span> directive entirely supercedes the <span class="inlinecode">;modeXXX</span> and <span class="inlinecode">;value</span> directives, and so in new scripts there should be used <span class="inlinecode">;$</span> followed by <span class="inlinecode">;gameid</span>.</p>
+            <p>Traditional ordering example:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>;mode800</p>
+                <p>;value500</p>
+            </div>
+            <p>Modern ordering example (providing the same functinality as above, with an additional game ID):</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>;$s800,600g500</p>
+                <p>;gameid example</p>
+            </div>
+
+            <p>Please see the API reference for more information and the possible options for these directives. For new games, it is recommended you follow the modern ordering example.
+
+            <h3>Setup-related NScript commands</h3>
+            <p>We will now very briefly touch on a couple of setup-related commands, which will give us everything we need to create a barebones script with the structure, directives, and some setup commands, ready to get scripting on the next guide page. Other important setup commands will be covered later as required.<p>
+            <p>The <span class="inlinecode">caption</span> command sets the title of the window.</p>
+            <p>The <span class="inlinecode">languag</span>e command, which accepts two values (<span class="inlinecode">japanese</span> and <span class="inlinecode">english</span>), is used for setting certain default values appropriately, such as menu text and kinsoku settings (for making line breaks appear natural in different languages).</p>
+            <p>The <span class="inlinecode">versionstr</span> command sets the name and version of a game to be used solely for information (the "about" dialogue). This is different from the gameid; while the gameid has the functional purpose of being a unique identifier for purposes such as the save directory, the version string in its two parts is purely informational and can be changed and stylised as desired with no functional impact.</p>
+
+            <br />
+            <p>Sample annotated script structure:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>;mode800</p>
+                <p>;gameid sample</p>
+                <p class="comment">; Above: screen resolution, global variable starting number &amp; save directory directives</p>
+                <br />
+                <p class="comment">; ========== BEGIN DEFINITION BLOCK ==========</p>
+                <p class="comment">; Label to mark the beginning of the definition block</p>
+                <p>*define</p>
+                <br />
+
+                <p class="comment">; Basic settings</p>
+                <p>caption "Sample script"</p>
+                <p>language english</p>
+                <p>versionstr "Sample script"," v1.0"</p>
+                <p class="comment">; ========== END DEFINITION BLOCK ==========</p>
+                <br />
+
+                <p class="comment">; Command which causes the engine to switch from definition to program block</p>
+                <p>game</p>
+                <br />
+
+                <p class="comment">; ========== BEGIN PROGRAM BLOCK ==========</p>
+                <p class="comment">; Label to mark the beginning of the program block</p>
+                <p>*start</p>
+                <br />
+
+                <p class="comment">; Game content goes here.</p>
+                <p class="comment">; Currently, with nothing beween the start label and end command, the game will immediately close.</p>
+                <br />
+
+                <p>end</p>
+                <p class="comment">; ========== END PROGRAM BLOCK ==========</p>
+            </div>
+
+            <!--
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>Code, printed in a monospaced font.</p>
+                <p>Beep, boop!</p>
+            </div>
+            <div class="box image"><div class="boxheader"><img class="nomalsizepls" src=../icons/camera.png /><h4>Image</h4></div>
+                <center><img src="images/bg.jpg" /></center>
+            </div>
+            <div class="box quote"><div class="boxheader"><img src=../icons/quote.png /><h4>Quote</h4></div>
+                <p>Oh, the oak and the ash and the bonny ivy tree</p>
+                <p>They do flourish at home in my own country</p>
+            </div>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>If you jump 5 times and then spin clockwise 3 times before spinning the box you get the raygun!!!1!!</p>
+            </div>
+            <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
+                <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
+            </div>
+            --!>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 4: subroutines </h1></p>
+            <p>So what happens if you want to do something complicated quite frequently? Instead of copying the same code over and over again, you should turn it into a subroutine, which can be called at any point from anywhere else in the script. To create a subroutine, you simply need to add a label, then the code you want to be able to use frequently, then the command "return", all at the bottom under an "end" command. The subroutine can later be called with "gosub *label".</p>
+            <p>This will all be explained shortly. For now, consider the following code:</p>
+            
+            <p class="code">*define</p>
+            <p class="code">stralias mion,"assets/mion.png"</p>
+            <p class="code">game</p>
+            <p class="code">*start</p>
+            <p class="code"></p>
+            <p class="code">lsp 0,mion,0,0</p>
+            <p class="code">print 1</p>
+            <p class="code"></p>
+            <p class="code">gosub *movemysprite</p>
+            <p class="code">gosub *movemysprite</p>
+            <p class="code">gosub *movemysprite</p>
+            <p class="code"></p>
+            <p class="code">wait 1000</p>
+            <p class="code">end</p>
+            <p class="code"></p>
+            <p class="code">*movemysprite</p>
+            <p class="code">msp 0,20,0</p>
+            <p class="code">print 1</p>
+            <p class="code">return</p>
+            
+            <p>So what's happening here?</p>
+            <p>Well, firstly we load in a sprite in the top left. Secondly, we call the subroutine "*movemysprite" three times. Each time, the interpreter jumps the the label "*movemysprite" at the bottom, then continues from there, executing the msp and print commands. When it reaches the "return", it exits the subroutine and resumes from the line after where it entered the subroutine from. The 3 "gosub" commands do the same thing as the following:</p>
+            
+            <p class="code">msp 0,20,0</p>
+            <p class="code">print 1</p>
+            <p class="code">msp 0,20,0</p>
+            <p class="code">print 1</p>
+            <p class="code">msp 0,20,0</p>
+            <p class="code">print 1</p>
+            
+            <p>As you can see, this has great potential for removing repetative code.</p>
+            <p>As a side note, labels can also be jumped to using "goto", similarly to "gosub" but ignoring return commands. This can be used to jump around your script without the expectation of returning to where you came from.</p>
+            
+            <h2>Making subroutines flexible with arguments/perameters</h2></p>
+            <p>Subroutines are good, but so far they lack the adaptability of commands in that they have no arguments. In the previous example, there was no way to change how much the *movemysprite subroutine moved the sprite by, or which sprite it moved, for that matter. Well, that changes now, with the use of the "getparam" command. By putting the getparam command under a subroutine's label, it can make the gosub command provide arguments. That is, each time you call a subroutine you can pass in arguments similarly to a normal command.</p>
+            <p>The getparam command's description is a bit annoying, so modify the previous script like this and try it out:</p>
+            
+            <p>replace "gosub *movemysprite" with "gosub *movemysprite 0,20"</p>
+            <p>after the line "*movemysprite", add the line "getparam %0,%1"</p>
+            <p>replace the line "msp 0,20,0" with "msp %0,%1,0"</p>
+            
+            <p>This does use variables which will be explained in more detail later, but for now know that the gosub command is passing in the arguments 0 and 20 similarly to with a normal command, and those arguments are being saved into the variables %0 and %1. When it comes to the msp command, the variables used instead of numbers become substituted for the values they hold. For example, if the first argument is 1, %0 will be set to 1 and the first argument of the msp command will become 1. In this way you can now control which sprite is moved and how much it is moved by.</p>
+            
+            
+            <h2>Turning subroutines into commands</h2></p>
+            <p>One final trick regarding subroutines is that subroutines can be turned into actual commands using the "defsub" command.</p>
+            
+            <p class="definition">Defsub - definition block only - creates a user-defined command</p>
+            <p class="definition">defsub NAME</p>
+            <p class="definition">defsub name_of_command_to_make</p>
+            
+            <p>In order to turn a subroutine into a command, simply define it as normal and then put "defsub subroutinename" into the define block.</p>
+            <p>Now the command "gosub *subroutinename" can be shortened to "subroutinename".</p>
+            <p>This is compatible with user-defined arguments; "gosub *movemysprite 0,20" from above could be shortened to "movemysprite 0,20" with the one line "defsub movemysprite" in the define block. In this way you can now define your own commands.</p>
+            
+            <p>Note: if you define a command with the same name as a pre-existing command, your command is still created and the old command can be accesed using "_commandname" e.g. "ld" would become "_ld". However, due to this feature you cannot define a command beginning with an underscore.</p>
+            
+            <p>Your homework is to make a function which makes a sprite go semi-transparent and accepts the argument of the sprite number.</p>
+            <p>Hint 1: use the msp command to make it go semi-transparent</p>
+            <p>Hint 2: remember to use print after updating sprites</p>
+        </div>
+    </body>
+</html>

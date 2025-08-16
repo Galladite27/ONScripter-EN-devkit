@@ -1,0 +1,222 @@
+= Galladite's ONScripter-EN guide, part 12: variables and arrays =
+I've used variables a couple of times before in this set of lessons, but only to aid something relevant to the previous lessons. Now, I'll explain them from the ground up.
+Also, this lesson won't cover all the possible things to do with variables since there are a lot, especially regarding mathematical calculations.
+One last thing to note is that to print a character variable you must be in full-width character mode. For example, the top line will print "Hello World!" and the bottom will print "$0":
+
+!mov $0,"Hello World!"
+!"$0"
+!`$0`
+
+== Types of variables ==
+There are 2 kinds of variables in ONScripter-EN - numeric and character variables. Numeric variables can hold numbers (positive or negative but no decimals) and character variables can hold text (a.k.a. strings).
+Numeric variables are prefixed with a % and character variables with a $.
+There are 4096 possible variables of each kind, ranging from 0 to 4095. 0-199 are "generic", and 200-4095 are "global". The difference is that generic variable are reset on resets or game restarts, and are saved and loaded alongside the game, however global variables maintain the same value throughout such events.
+To use global variables, you must use the "globalon" command once in the definition block.
+
+$globalon - definition block only - allow the use of global variables
+$globalon
+$globalon
+
+Also, numeric and character variables have seperate namespaces. That is, %0 and $0 are different variables and changing one does not affect the other.
+
+== Substitution ==
+When you put a variable in place of a number or string, its value is substituted into its place.
+For example, if %0 is set to 1000, the following commands are equal:
+
+!delay %0
+!delay 1000
+
+Also, if $3 is set to "test.wav", the following commands are equal:
+
+!wave $3
+!wave "test.wav"
+
+In this way, you can make code which changes based on the values of variables.
+One important thing to note is that you can add a character variable mid-line into a string. For example, if $0 is set to "world", the following commands are equal:
+
+!"Hello world!"@
+!"Hello $0!"@
+
+However, you must know this: variables cannot be substituted into single-byte text. For example, the following will not print "Hello world!" to the screen but "Hello $0!"
+
+!`Hello world!@
+!`Hello $0@
+
+One last interesting thing is that when printing text to the screen, numeric variables can be substituted in unlike in most other cases. For example, if %0 is set to 20, the following commands are equal:
+
+!"I'm 20 years old."@
+!"I'm %0 years old."
+
+== Assigning variables ==
+Both kinds of variables can be assigned with the mov command.
+
+$mov - definition or program block - assign a value to a variable
+$mov %VAR,NUM
+$mov $VAR,STR
+$mov variable,value
+
+For example, the following commands assign 5 to %0 and "hello" to $0:
+!mov %0,5
+!mov $0,"hello"
+
+== Modifying variables ==
+To change a variable's value, you can simply use the mov command again. However, there are several ways to give a variable a value relative to its current value.
+To add or subtract 1 from a numeric variable you can use the "inc" and "dec" commands.
+
+$inc - definition or program block - increment a numeric variable by 1
+$inc %VAR
+$inc variable
+
+$dec - definition or program block - decrement a numeric variable by 1
+$dec %VAR
+$dec variable
+
+Numeric variables can also be added, subtracted, multiplied and divided. In all of these situations, the result is stored in the first variable.
+
+$add - definition or program block - add a number to a numeric variable
+$add %VAR,NUM
+$add variable,number
+
+$sub - definition or program block - subtract a number from a numeric variable
+$sub %VAR,NUM
+$sub variable,number
+
+$mul - definition or program block - multiply a numeric variable by a number
+$mul %VAR,NUM
+$mul variable,number
+
+$div - definition or program block - divide a numeric variable by a number, truncating the remainder
+$div %VAR,NUM
+$div variable,number
+
+The add command also has another use, which is to append a character variable onto the end of another.
+For example, the following will print "Hello world!" to the screen:
+
+!mov $0,"Hello "
+!mov $1,"world!"
+!add $0,$1
+!"$0"
+
+== Forming mathematical expressions ==
+If you want to quickly do a sum but don't want to change the original variables, you can create a mathematical expression using these commands:
+
+$+ - definition or program block - build an expression where the first item is added to the second
+$NUM'+'NUM
+$num1'+'num2
+
+$- - definition or program block - build an expression where the second item is subtracted from the first
+$NUM'-'NUM
+$num1'-'num2
+
+$* - definition or program block - build an expression where the first item is multiplied by the second
+$NUM'*'NUM
+$num1'*'num2
+
+$/ - definition or program block - build an expression where the first item is divided by the second
+$NUM'/'NUM
+$num1'/'num2
+
+For example, the following will double the variable %5 by moving twice the value of %5 into %5:
+
+!mov %5,%5*2
+
+
+The + command also has another use, which is to append two strings.
+For example, the following will print "Hello world!" to the screen:
+
+!mov $0,`Hello`
+!mov $1,` `
+!mov $2,`World`
+!mov $3,`!`
+!mov $4,$0+$1+$2+$3
+!"$4"
+
+== Variable conversions ==
+Now we will convert between number variables and character variables. To do this, we will use the "itoa" and "atoi" commands.
+
+$atoi - definition or program block - convert a character string into a numeric variable
+$atio %VAR,STR
+$atoi save_number_here,string_containing_number
+
+$itoa - definition or program block - convert a numeric variable into a (half-width digit) character string
+$itoa $VAR,NUM
+$itoa save_string_here,number
+
+$itoa2 - definition or program block - convert a numeric variable into a (full-width digit) character string
+$itoa2 $VAR,NUM
+$itoa2 save_string_here,number
+
+As an example, the following will convert the number 47 into a string and print it to the screen:
+
+!mov %0,47
+!itoa $0,%0
+!"$0"
+
+== String manipulation ==
+Two commonly used commands in relation to character variables are "len" and "mid".
+
+$len - definition or program block - get the length of a string
+$len %VAR,STR
+$len save_length_here,string
+
+$mid - definition or program block - extract substring from string
+$mid $VAR,STR,NUM,NUM
+$mid save_substring_here,string,substring_starting_index,halfwidth_characters_count
+
+Remember with "mid" that in computing, indices often begin at 0. For example, this will print out "World" (The "H" is character 0):
+
+!mov $0,"Hello World!"
+!mid $1,$0,6,5
+!"$1"
+
+== Arrays ==
+I've rarely used arrays in ONScripter-EN but if you want to use them, this is how.
+Arrays begin with a question mark, followed by the array ID, then the location along its one or more dimensions in square brackets.
+For example, this is referring to item (2,1) of array 1: ?1[2][1]
+To visualise this for if you aren't familiar with arrays:
+
+$Array 1 (sample contents)
+$xx = ?1[2][1]
+$
+$         X axis
+$         0  1  2  3
+$        +--+--+--+--+
+$Y axis 0|  |  |  |  |
+$        +--+--+--+--+
+$       1|  |  |xx|  |
+$        +--+--+--+--+
+
+With this example, bear in mind that each axis could go on for a lot longer.
+Any arrays which you will use must be defined in the definition block, along with the sizes of their dimensions.
+To do this, use the dim command (I won't give the full explaination, it's pretty self-explanitory):
+
+!*define
+!dim ?0[9][19] ;This will allow you to use array 0 with 2 dimensions of 10 cells and 20 cells (remember the counting starts at 0)
+!game
+!*start
+!click
+!end
+
+To write to a cell of an array, you can use mov:
+
+!*define
+!dim ?0[9][19]
+!game
+!*start
+!mov ?0[0][0],10 ;This will set cell (0,0) of ?0 to 10. Arrays can only hold numbers I think.
+!mov3 ?0[0][1],11,12,13 ;This will set cells (0,1), (0,2) and (0,3) of ?0 to 11, 12 and 13
+!click
+!end
+
+To read from the cell of an array, you can simply give the array and index:
+
+!*define
+!dim ?0[9][19]
+!game
+!*start
+!mov ?0[0][0],10
+!mov3 ?0[0][1],11,12,13
+!itoa $0,?0[0][2]+1 ;This will convert (0,2) of ?0 plus one to a half-width digit and save it into $0
+!"$0" ;This will print "13"
+!click
+!end

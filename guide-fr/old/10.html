@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 10: log, skip and auto modes </h1></p>
+            <h2>Log mode</h2></p>
+            <p>Log mode is enabled by default and can be accessed with the right and left arrow keys of by scrolling up and down.</p>
+            <p>As always, first here are the settings:</p>
+            
+            <p class="definition">maxkaisoupage - definition block only - set the maximum number of pages to be stored by log mode</p>
+            <p class="definition">maxkaisoupage NUM</p>
+            <p class="definition">maxkaisoupage number-of-pages</p>
+            
+            <p class="definition">lookbackbutton - definition block only - load button images for use in log mode</p>
+            <p class="definition">lookbackbutton STR,STR,STR,STR</p>
+            <p class="definition">lookbackbutton page-up-active,page-up-inactive,page-down-active,page-down-inactive</p>
+            
+            <p>For lookbackbutton, each string should be a filename. By default these are "uoncur.bmp","uoffcur.bmp","doncur.bmp","doffcur.bmp" . These images MUST be the same size or the command will fail. Log mode buttons cannot be animated. The buttons' positions cannot be changed once set.</p>
+            
+            <p class="definition">lookbackcolor - definition block only - set the text colour for log mode</p>
+            <p class="definition">lookbackcolor COLOR</p>
+            <p class="definition">lookbackcolor colour</p>
+            
+            <p class="definition">lookbackvoice - definition block only - designate a wav file to play back when the pagedown/pageup button is clicked in log mode.</p>
+            <p class="definition">lookbackvoice STR</p>
+            <p class="definition">lookbackvoice filename</p>
+            
+            <p class="definition">lookbacksp - definition block only - use the given sprites as lookback buttons instead of the default images</p>
+            <p class="definition">lookbacksp NUM,NUM</p>
+            <p class="definition">lookbacksp sprite_id_1,sprite_id_2</p>
+            
+            <p>Since log mode's functionality is built into ONScripter-EN, there isn't much in terms of program block commands. Howeber, you can forcefully flush the log mode buffer (i.e. remove all saved text history) using the program-block-only command "lookbackflush".</p>
+            
+            <h2>Skip mode</h2></p>
+            <p>Skip mode is again built in and is triggered using control. However, there are a few related commands.</p>
+            
+            <p class="definition">kidokuskip - definition block only - enable the use of "skip to next choice" mode to be toggled with kidokumode</p>
+            <p class="definition">kidokuskip</p>
+            <p class="definition">kidokuskip</p>
+            
+            <p class="definition">kidokumode - program block only - toggle between regular skip (stops at unread text) and "skip to next choice" mode (stops at the next choice)</p>
+            <p class="definition">kidokumode NUM</p>
+            <p class="definition">kidokumode 0_or_1</p>
+            
+            <p class="definition">mode_wave_demo - definition block only - this makes it so that wav files are played during "skip to next chioce" mode when normally they aren't</p>
+            <p class="definition">mode_wave_demo</p>
+            <p class="definition">mode_wave_demo</p>
+            
+            <p class="definition">skipoff - program block only - forcefully exit skip mode</p>
+            <p class="definition">skipoff</p>
+            <p class="definition">skipoff</p>
+            
+            <p>There is no skipon command, but you can use "systemcall skip". If you wanted to, you could use defsub to create a "skipon" command.</p>
+            
+            <h2>Auto mode</h2></p>
+            <p>Auto mode is similar to the other modes; it's functionality is pre-defined but it has a couple of settings.</p>
+            
+            <p class="definition">automode - definition block only - enables the use of auto mode (although I don't think you actually need this line for it to be enabled using the "a" key)</p>
+            <p class="definition">automode</p>
+            <p class="definition">automode</p>
+            
+            <p class="definition">automode_time - definition block only - sets the delay at the end of a line in milliseconds</p>
+            <p class="definition">automode_time NUM</p>
+            <p class="definition">automode_time time_in_ms</p>
+        </div>
+    </body>
+</html>

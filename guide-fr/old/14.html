@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 14: date acquisition and screenshots  </h1></p>
+            <h2>Date and time acquisition</h2></p>
+            <p>The date command will retrieve the current date in numeric values.</p>
+            
+            <p class="definition">date - program block only - retrieves the current date in numeric values</p>
+            <p class="definition">date %VAR,%VAR,%VAR</p>
+            <p class="definition">date year,month,date</p>
+            
+            <p>The time command will retrieve the current time.</p>
+            
+            <p class="definition">time - program block only - retrieves the current time</p>
+            <p class="definition">time %VAR,%VAR,%VAR</p>
+            <p class="definition">time hour,minute,second</p>
+            
+            <h2>Screenshot management</h2></p>
+            <p>Screenshots can be taken and saved to memory with the "getscreenshot", "savescreenshot", and "deletescreenshot" commands.</p>
+            
+            <p class="definition">getscreenshot - program block only - collect a screenshot and save it to memory</p>
+            <p class="definition">getscreenshot NUM,NUM</p>
+            <p class="definition">getscreenshot width,height</p>
+            
+            <p class="definition">savescreenshot - program block only - save a screenshot from memory to a file as a bitmap (.bmp) image</p>
+            <p class="definition">savescreenshot STR</p>
+            <p class="definition">savescreenshot filename</p>
+            
+            <p class="definition">deletescreenshot - program block only - delete the screenshot currently saved in memory from memory</p>
+            <p class="definition">deletescreenshot</p>
+            <p class="definition">deletescreenshot</p>
+            
+            <p>This process could be simplified with a custom command:</p>
+            
+            <p class="code">;mode800</p>
+            <p class="code">*define</p>
+            <p class="code">defsub screenshot</p>
+            <p class="code">game</p>
+            <p class="code">*start</p>
+            <p class="code">click</p>
+            <p class="code">end</p>
+            <p class="code">*screenshot</p>
+            <p class="code">getscreenshot 800,600</p>
+            <p class="code">savescreenshot "screenshot.bmp"</p>
+            <p class="code">deletescreenshot</p>
+            <p class="code">return</p>
+            
+            <p>The only issue with this is that it will overwrite the most recent screenshot each time, but this could be prevented with the use of a variable to count how many times screenshots have been taken.</p>
+        </div>
+    </body>
+</html>

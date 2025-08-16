@@ -1,0 +1,31 @@
+body {
+    background-color: #773030;
+}
+
+div.content {
+    background-color: #AA5555;
+    margin: auto;
+    padding: 20px 20px 20px 20px;
+    width: 1024px;
+}
+
+h1 {
+    text-align: center;
+}
+
+p.code {
+    background-color: #FF8080;
+    font-family: monospace;
+    font-size: 15px;
+}
+
+p.definition {
+    background-color: #7777FF;
+    font-family: monospace;
+    font-size: 15px;
+}
+
+p.left {
+    padding-left: 10px;
+    text-align: left;
+}

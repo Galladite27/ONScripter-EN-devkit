@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 13: control flow </h1></p>
+            <p>This section will cover a little more on managing the flow of a program and making decisions.</p>
+            
+            <h2>Notif</h2></p>
+            <p>We've already covered the if command, but there is also a notif command, which works in an identical manner except the code is only executed if the statement is false. For example, the following will print "Not equal":</p>
+            
+            <p class="code">mov %0,10</p>
+            <p class="code">mov %1,20</p>
+            <p class="code">if %0 == %1 "Equal"</p>
+            <p class="code">notif %0 == %1 "Not equal"</p>
+            
+            <p>Of course you could just use the != condition but this is just another way.</p>
+            
+            <h2>For loops</h2></p>
+            <p>If you want to repeat a certain instruction several times, you can use the "for" command. It can count from one number to another, incrementing by a set number each time, running a piece of code over and over again until the second number is reached.</p>
+            <p>The piece of code to be repeated is terminated with the "next" command.</p>
+            <p>The for loop can also be terminated early using the "break" command.</p>
+            
+            <p class="definition">for %VAR=NUM to NUM[ step NUM]</p>
+            
+            <p>For example, the following line will print even numbers from 0 to 10:</p>
+            
+            <p class="code">for %0=0 to 12 step 10</p>
+            <p class="code">itoa $0,%0</p>
+            <p class="code">"$0"</p>
+            <p class="code">next</p>
+            
+            <p>And the following will print just the number 1:</p>
+            
+            <p class="code">for %0=1 to 10</p>
+            <p class="code">itoa $0,%0</p>
+            <p class="code">"$0"</p>
+            <p class="code">break</p>
+            <p class="code">next ;This line is never reached within the loop, but will be after the loop has been ended by the break command</p>
+        </div>
+    </body>
+</html>

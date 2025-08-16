@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <title>Galladite's site</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="content">
+            <p class="left"><a rel="home" href="index.html">back</a></p>
+            <h1> Galladite's ONScripter-EN guide, part 3: standing images </h1></p>
+            <p>Standing images provide three positions on the screen (left, centre and right) where images can be displayed, modified and removed. This can be achieved by sprites, but if you frequently have 1-3 characters onscreen this method can clean up your code a bit. They are easier to use (albeit less flexible) than sprites. Also, I haven't checked but I'd imagine this is how higurashi manages character sprites since there are only ever 3 and they are always in the same positions.</p>
+            
+            <h2>Configuration</h2></p>
+            <p>Standing images, since they have less flexibility than sprites, have a few settings which can be configured.</p>
+            
+            <p class="definition">Underline - definition or program block - specifies the ground line for standing pictures; the default is 479</p>
+            <p class="definition">underline NUM</p>
+            <p class="definition">underline ground_line_Y_coordinate</p>
+            
+            <p class="definition">Humanz - definition block only - designates the image priority when sprites and standing pictures overlap; for example, sprites with the id of the given number or above are drawn over the top of standing images and the rest below</p>
+            <p class="definition">humanz NUM</p>
+            <p class="definition">humanz sprite_id</p>
+            
+            <p class="definition">Windowback - definition block only - inserts the text window at the same level as the standing pictures (ignore this for now)</p>
+            <p class="definition">windowback</p>
+            <p class="definition">windowback</p>
+            
+            <p class="definition">Humanorder - program block only - specifies the overlapping priority for standing images; the string should be the 3 letters l, c and r e.g. "rlc" for right above left above centre</p>
+            <p class="definition">humanorder STR,EFFECT</p>
+            <p class="definition">humanorder "order",effect</p>
+            
+            <p class="definition">Humanpos - definition or program block - specifies the standard x-coordinates for the standing image positions; the defaults are 160, 320 and 480</p>
+            <p class="definition">humanpos NUM,NUM,NUM</p>
+            <p class="definition">humanpos left_X_coordinate,centre_X_coordinate,right_X_coordinate</p>
+            
+            <p>None of these have to be set, but consider changing them if you are changing the window size using ;mode800 or similar.</p>
+            
+            <h2>Standing images</h2></p>
+            <p>There are 3 commands to control standing images. Since standing images contain their own effect arguments, they do not require the use of print.</p>
+            
+            <p class="definition">Ld - program block only - loads a standing picture; the curly braces mean one of that list e.g.: ld r,"assets/rena.png",1</p>
+            <p class="definition">ld {l,c,r},STR,EFFECT</p>
+            <p class="definition">ld position,image_to_load,effect</p>
+            
+            <p class="definition">Cl - program block only - clears a standing image; use "a" as the first perameter to clear all</p>
+            <p class="definition">cl {l,c,r,a},EFFECT</p>
+            <p class="definition">cl position,effect</p>
+            
+            <p class="definition">Tal - program block only - set the opacity of a standing pictre (0-255)</p>
+            <p class="definition">tal {l,c,r},NUM,EFFECT</p>
+            <p class="definition">tal position,opacity,effect</p>
+            
+            <h2>Is that it?</h2></p>
+            <p>Since this chapter has very little to explain in terms of new concepts, just new commands, you should spend time playing with the given commands to get used to them. Sorry :)</p>
+            
+            <p>Just in case you need it, here is an example animation made using my assets folder:</p>
+            
+            <p class="code">;mode800</p>
+            <p class="code">*define</p>
+            <p class="code"></p>
+            <p class="code">caption "Test"</p>
+            <p class="code">language english</p>
+            <p class="code"></p>
+            <p class="code">stralias background,"assets/bg.jpg"</p>
+            <p class="code">stralias mion,"assets/mion.png"</p>
+            <p class="code"></p>
+            <p class="code">effect 2,17,3000 ;mosaic in</p>
+            <p class="code">effect 3,10,1000 ;slow fade</p>
+            <p class="code">effect 3,10,5000 ;fast fade</p>
+            <p class="code"></p>
+            <p class="code">game</p>
+            <p class="code">*start</p>
+            <p class="code"></p>
+            <p class="code">bg background,2</p>
+            <p class="code"></p>
+            <p class="code">ld r,mion,3</p>
+            <p class="code">ld l,mion,3</p>
+            <p class="code">wait 1000</p>
+            <p class="code"></p>
+            <p class="code">tal l,100,3</p>
+            <p class="code">wait 1000</p>
+            <p class="code"></p>
+            <p class="code">cl a,3</p>
+            <p class="code">wait 1000</p>
+            <p class="code"></p>
+            <p class="code">bg black,3</p>
+            <p class="code">end</p>
+        </div>
+    </body>
+</html>

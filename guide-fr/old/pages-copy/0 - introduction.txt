@@ -1,0 +1,29 @@
+= Galladite's ONScripter-EN guide, part 0: introduction =
+Hello and welcome to my guide to ONScripter-EN! This is structured so that anyone, even without any prior programming experience, should be able to create a visual novel. However, if anything needs clarifying, please do ask. Also, if I've got anything wrong, don't hesitate to correct me.
+
+!Throughout this guide, code blocks will be formatted like this...
+$... and command definitions will be formatted like this.
+
+== History ==
+For a history lesson on *NScripter, check out this page:
+https://kaisernet.org/onscripter/
+
+== Installing ==
+To get set up, you need:
+-A working build of ONScripter-EN for your OS
+-A default.ttf file
+-On windows, an SDL.dll file
+All of these files should be placed in the same folder. Nothing else which may be included in builds such as licenses is needed.
+For this set of tutorials, you might also want my testing assets folder (https://galladite.net/~galladite/nscripter/bits-n-bobs/assets) if you don't want to find images yourself.
+
+Builds of ONScripter-EN can be found here:
+https://galladite.net/~galladite/nscripter/resources/onscripter-en/builds/
+These files should include SDL.dll and default.ttf
+For windows, you shoud almost certainly choose the dsound version.
+
+A common choice for default.ttf (which can be any truetype font you like) is sazanami gothic, a copy of which can be downloaded here if not included in the build:
+https://galladite.net/~galladite/nscripter/resources/bits-n-bobs/sazanami-gothic.ttf
+
+== Resources ==
+https://kaisernet.org/onscripter/api/NScrAPI-framed.html *NScripter command reference
+https://galladite.net/~galladite/nscripter/mirrors/index.html Mirrors of *NScripter related websites
