@@ -6,82 +6,82 @@
     </head>
     <body>
         <div class="content">
-            <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN full guide: 0 - further introduction</h1>
+            <p class="left"><a rel="home" href="index.html">retour</a></p>
+            <h1>ONScripter-EN full guide: 0 - Informations additionnelles</h1>
 
-            <p>Welcome!</p>
-            <p>Before you begin reading, know that while this guide is not <i>intended</i> for complete beginners, it is <i>possible</i> to read this rather than the quick-start guide if you really want to. While all the fundamentals of using the engine will be covered, just like in both of the quick-start guides, there will be a lot more theory and discussion, and a slower pacing overall, more like a textbook than a Wikihow article - but if that's your thing, it will surely lead to a more detailed and nuanced understanding.</p>
-            <p>That being said, even this is not a complete guide. For a full understanding of the engine, its capabilities, and how to exploit them, you will become very familiar with the API reference. In addition, you will certainly need experience, whether that is acquired by poking at or working with existing games, or by making your own.</p>
-            <p>However, this devkit as a whole aims to provide you with those things you may need, namely (1) a structured guide, (2) good reference documentation, and (3) the materials required to use and experiment with the engine. All that's left is your will.</p>
+            <p>Bienvenue !</p>
+            <p>Avant que vous ne commenciez à lire, sachez que ce guide n'a pas pour <i>intention</i> d'être pour de complets débutants, il est <i>possible</i> de lire ceci plutôt que le guide de démarrage rapide si vous le souhaitez vraiment. Bien que tous les fondamentaux de l’utilisation du moteur seront abordés, comme dans les deux guides de démarrage rapide, Il y aura beaucoup plus de théories et de discussions, et un rythme plus lent par dessus, se rapprochant plus d'un livre qu'un tutoriel textuel - mais si c'est votre truc, cela vous mênera à une compréhension plus détaillée et nuancée.</p>
+            <p>Cela étant dit, ce guide n'est pas exhaustif. Pour une compréhension complète du moteur, ses capacités, et comment les exploiter, vous devrez vous familiariser avec la référence API. De plus, il vous faudra accumuler de l'expérience, que cela soit en <i>s'inspirant</i> ou en travaillant sur des jeux existants, ou en faisant le votre.</p>
+            <p>Cependant, ce kit de développement dans son ensemble vise à vous fournir les éléments dont vous pourriez avoir besoin, nommé (1) un guide structuré, (2) bonne documentation de référence, et (3) le matériel requis pour utiliser et expérimenter avec le moteur. Tout ce qui manque est votre motivation.</p>
 
-            <h2>Comparison to similar engines</h2>
-            <p>Hopefully, you will know by now from the general introduction that ONScripter-EN is descended from ONScripter, which is in turn based on NScripter. However, I will present here a brief comparison of ONScripter-EN to other engines in the same family, so that you will understand the niche it fulfils and how it excels above the rest, especially since 2023. You will see that, for non-Japanese-language projects (and even for many of those), ONScripter-EN is the clear choice. ONScripterYuri has some interesting features and selling points, and is the only real contender to ONScripter-EN for 99% of new projects.</p>
+            <h2>Comparaison à des moteurs similaires</h2>
+            <p>Avec un peu de lecture, vous saurais maitenant depuis l'introduction générale qu'ONScripter-EN descend d'ONScripter, qui a son tour est basé sur NScripter. Cependant, je vais vous présenter ici une brève comparaison d'ONScripter-EN avec les autres moteurs de la même famille, ainsi vous comprendrez que la niche qu'il remplie et comment il excelle au dessus du reste, spécialement depuis 2023. Vous verrez que, pour un projet non japonais (et même pour beaucoup d'autre), ONScripter-EN est le choix par défaut. ONScripterYuri avait quelques fonctionnalités et attraits intéressants, et qu'il est le réel concurrent à ONScripter-EN pour 99% des nouveaux projets.</p>
 
 
             <table>
                 <tr>
-                    <th>Name</th>
+                    <th>Nom</th>
                     <th>Niche</th>
                     <th>Status</th>
                 </tr>
                 <tr>
                     <td>NScripter</td>
-                    <td>The original; old-school Japanese NVL games</td>
-                    <td>Abandoned (?) since 2018, Windows-only</td>
+                    <td>L'original; Moteur de visual novel de l'ancienne école. Code source non disponible</td>
+                    <td>Abandonné (?) depuis 2018, Disponible unique sur Windows</td>
                 </tr>
                 <tr>
                     <td>ONScripter</td>
                     <td>Open-source, cross-platform</td>
-                    <td>Stalled development, poor English support, behind ONScripter-EN in features</td>
+                    <td>Développement arrêté, support de l'anglais pauvre, derrière ONScripter-EN en fonctionnalté</td>
                 </tr>
                 <tr>
-                    <td>PONScripter</td>
-                    <td>Proportional font support (primarily)</td>
-                    <td>Abandoned since 2011; proportional fonts now in ONScripter-EN</td>
+                   <td>PONScripter</td>
+                    <td>Support des polices proportionnelles (principalement)</td>
+                    <td>Abandonné depuis 2011; Support des polices proportionnelles actuellement dans ONScripter-EN</td>
                 </tr>
                 <tr>
                     <td>ONSlaught</td>
-                    <td>Ground-up reconstruction with SDL2</td>
-                    <td>Abandoned since 2015, lackluster API (but still somewhat usable)</td>
+                    <td>Reconstruction complète de zéro avec SDL2</td>
+                    <td>Abandoné depuis 2015, API médiocre (mais reste utilisable)</td>
                 </tr>
                 <tr>
                     <td>ONScripter-RU</td>
-                    <td>Specific games support, notably Umineko</td>
-                    <td>Do not use for other projects</td>
+                    <td>Support de jeux spécifiques, notamment Umineko</td>
+                    <td>À ne pas utiliser pour d'autres projets</td>
                 </tr>
                 <tr>
                     <td>ONScripterYuri</td>
-                    <td>Re-enhancement of ONScripter; web, LUA, SDL2, UTF-8</td>
-                    <td>Active; some interesting features, but not as featureful as ONScripter-EN in other regards and lacking the simplicity &amp; continuity of ONScripter-EN</td>
+                    <td>Réamélioration d'ONScripter; web, LUA, SDL2, UTF-8</td>
+                    <td>Active; quelques fonctionnalités intéressantes, mais pas autant qu'ONScripter-EN à d'autres égards et lui manque la simplicité &amp; la continuité d'ONScripter-EN</td>
                 </tr>
                 <tr>
-                    <td>Many others</td>
-                    <td>Various ONScripter modifications over the years, often to add support for a single language or feature</td>
-                    <td>Various states (mostly abandoned), but little to no support</td>
+                    <td>Beaucoup d'autre</td>
+                    <td>Une variété de modifications d'ONScripter à travers les années, souvent pour ajouter le support d'une langue ou une fonctionnalité</td>
+                    <td>Plusieurs états (souvent dans l'abandon), mais peu à pas de support</td>
                 </tr>
                 <tr>
                     <td>ONScripter-EN</td>
-                    <td>The historical English-language version, with continued support &amp; recently more modernisation features (without sacrificing full backwards-compatibility)</td>
-                    <td>Active, supported, and well-documented</td>
+                    <td>L'historique version anglaise, avec un support continue &amp; récemment plus de fonctionnalités de modernisations (sans sacrifier la rétrocompatibilité complète)</td>
+                    <td>Active, supportée, et bien documentée</td>
                 </tr>
             </table>
 
-            <div class="box quote"><div class="boxheader"><img src=../icons/quote.png /><h4>Quote</h4></div>
+            <div class="box quote"><div class="boxheader"><img src=../icons/quote.png /><h4>Citation</h4></div>
                 <p>"This whole syntax may be considered a bug: it is inconvenient, irregular, and needlessly difficult to parse. Don’t blame me: I didn’t design it, I’m just documenting it."</p>
                 <p>"The entire design of this interpreter is arguably a bug"</p>
                 <p>- A Sekai Project employee, concerning PONScripter
             </div>
 
-            <h2>Using the API reference</h2>
-            <p>By the time you are done with this guide, you will be very familiar with the API reference (see the "resources" page). It is a reference manual for the scripting language (NScript) which NScripter and derivative games are written in. Observe:</p>
+            <h2>Utiliser la référence d'API</h2>
+            <p>Lorsque vous en aurez fini avec ce guide, vous serez familiarisé avec la référence d'API (regardez la page "resources"). C'est le manuel de référence pour le langage de programation (NScript) avec lequel les jeux NScripter et ses dérivés sont écrit. Observez:</p>
 
             <div class="box image"><div class="boxheader"><img class="nomalsizepls" src=../icons/camera.png /><h4>Image</h4></div>
                 <center><img src="images/0-api.png" /></center>
             </div>
             <ol>
-                <li>Command categories</li>
-                <li>List of all commands</li>
-                <li>Main window, showing command and other information, including general information, syntax, and parameters</li>
+                <li>Catégorie de la commande</li>
+                <li>Liste de toutes les commandes</li>
+                <li>Fenêtre principale, montre les commandes et d'autres informations, incluant des informations générales, de syntaxes, et des paramètres</li>
             </ol>
             <br />
 
@@ -89,21 +89,21 @@
                 <center><img src="images/0-api-detail.png" /></center>
             </div>
             <ol>
-                <li>Where the command can be used (definition block, program block, both)</li>
-                <li>Which engines (and engine versions) support the command</li>
-                <li>Command name</li>
-                <li>Command category</li>
-                <li>The numer and types of "arguments" (parameters) which the command accepts</li>
-                <li>A description of the purpose and usage of each argument</li>
-                <li>Command description</li>
-                <li>Maintainer notes concerning niche uses or points of concern</li>
-                <li>Usage examples</li>
-                <li>Related commands</li>
-                <li>General links</li>
+                <li>L'emplacement où la commande peut être utilisée (bloc de définition, bloc programme, les deux)</li>
+                <li>Quel moteur (et version du moteur) supporte la commande</li>
+                <li>Nom de la commande</li>
+                <li>La catégorie de la commande</li>
+                <li>Le nombre et le type de l'"argument" (paramètres) que la commande accepte</li>
+                <li>Une description de l'utilité et de l'usage de chaque commande</li>
+                <li>Description de la commande </li>
+                <li>Notes de mainteneur concernant un usage niche ou des points préoccupants</li>
+                <li>Examples d'usage </li>
+                <li>Commandes liées</li>
+                <li>Lien général.</li>
             </ol>
 
             <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
-                <p>Use the bloody API reference!!!</p>
+                <p>Utilisez la sanglante référence API !!!</p>
             </div>
 
             <h2>Division of the guide</h2>
@@ -147,3 +147,4 @@
         </div>
     </body>
 </html>
+ <
