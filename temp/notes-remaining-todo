@@ -6,8 +6,6 @@ Quoth chaoskaiser:
 Layout of web pages (will be hosted or available as archive download for offline usage):
 - guide
     * general quick-start guide
-        - choices (basics of labels, select)
-        - congratulations, encouragement to continue, try modifying parts of script given in template, join Discord for help
     * translator quick-start guide
         - downloading and working with provided template (downloading, running to confirm working, editing script file)
         - translating text (extracting & repacking scripts, normal text, choices, text buttons, clickwaits, language command, 1-byte mode)

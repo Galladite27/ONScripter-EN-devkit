@@ -8,13 +8,76 @@
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
             <h1>ONScripter-EN general quick-start guide: 5 - player choices</h1></p>
-            <p>Now we will look at how to make choices for the player to take.
+            <p>Now we will look at how to make choices for the player to take. Rather than being given instructions and examples, for this section we'll look at one worked example due to the larger amount of new concepts. Please do try to replicate and expand on this yourself for practice.</p>
 
-            <h2>Labels</h2>
+            <h2>Labels & jumps</h2>
+            <p>Before we add a choice, we need to look at labels. These are, as the name may suggest, names which refer to a certain point in the script. If you've had a look at the beginning part of the script in the template, you'll already have seen two. They are denoted by an asterisk followed by a simple word (allowing underscores), for example <span class="inlinecode">*my_label</span>. The two already in the script are <span class="inlinecode">*define</span> and <span class="inlinecode">*start</span>.
+            <p>These labels will serve as markers for the different outcomes of the choice - if the first option is picked, one label will be jumped to; if the second option, then another, and so on - and as you will see shortly, the <span class="inlinecode">goto</span> command can also be used to jump to labels arbitrarily. Let us construct some sample dialogue with two routes, ready to add a choice to:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Ask a question</p>
+                <p>`Do you prefer apples or oranges?@</p>
+                <br />
+                <p class="comment">; Outcome if apples are chosen:</p>
+                <p>*apples</p>
+                <p>`Ooh, they're my favourite too!@</p>
+                <br />
+                <p class="comment">; Outcome if oranges are chosen:</p>
+                <p>*oranges</p>
+                <p>`Hmm, I prefer apples.@</p>
+                <br />
+                <p class="comment">; Story continues from both routes</p>
+                <p>`Either way, see you soon!\</p>
+            </div>
+
+            <p>Do you see the issue here? If "apples" is chosen, then after the line of dialogue for "apples" is printed, since the interpreter goes line-by-line unless interrupted, it will then pass over and print out the line of dialogue for "oranges" as well! We need to end each section with a jump, so we can force them to go to the same place after the choice-specific text. Let's add a label to converge to, and use the <span class="inlinecode">goto</span> command to jump to it after the choices' text:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Ask a question</p>
+                <p>`Do you prefer apples or oranges?@</p>
+                <br />
+                <p class="comment">; Outcome if apples are chosen:</p>
+                <p>*apples</p>
+                <p>`Ooh, they're my favourite too!@</p>
+                <p style="color: red;">goto *after_apples_oranges</p>
+                <br />
+                <p class="comment">; Outcome if oranges are chosen:</p>
+                <p>*oranges</p>
+                <p>`Hmm, I prefer apples.@</p>
+                <p style="color: red;">goto *after_apples_oranges</p>
+                <br />
+                <p class="comment">; Story continues from both routes</p>
+                <p style="color: red;">*after_apples_oranges</p>
+                <p>`Either way, see you soon!\</p>
+            </div>
+            <p>Great! Now we're ready to add the choice selection!</p>
 
             <h2>Choices</h2>
+            <p>The command we will use for choices is the <span class="inlinecode">select</span> command. It workd like <span class="inlinecode">goto</span>, except that it gives the player a list of choices, and jumps to a label depending on the choice taken. It takes a variable number of arguments - it can take as many choice options as you like, but each one has to be followed by a corresponding label. Let us add this to the above code:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Ask a question</p>
+                <p>`Do you prefer apples or oranges?@</p>
+                <p style="color: red;">select "`Apples!",*apples,"`Oranges!",*oranges</p>
+                <br />
+                <p class="comment">; Outcome if apples are chosen:</p>
+                <p>*apples</p>
+                <p>`Ooh, they're my favourite too!@</p>
+                <p>goto *after_apples_oranges</p>
+                <br />
+                <p class="comment">; Outcome if oranges are chosen:</p>
+                <p>*oranges</p>
+                <p>`Hmm, I prefer apples.@</p>
+                <p>goto *after_apples_oranges</p>
+                <br />
+                <p class="comment">; Story continues from both routes</p>
+                <p>*after_apples_oranges</p>
+                <p>`Either way, see you soon!\</p>
+            </div>
+            <p>Althoug there are a fair number of symbols in the line, let's break it down and see how logical it is. Firstly, we have four arguments (string, label, string, label) each separated by commas. We can look at each element individually. The string is surrounded by speech marks, and has a backtick at the beginning, just after the opening quotation mark. This wasn't used in strings earlier, but was used in printed text - a simple rule of thumb is to begin lines of text with a backtick, and also begin strings which will/may be printed to the screen with a backtick. The filenames weren't, so we didn't need to worry there. The labels are as we covered above, denoted by an asterisk.</p>
 
             <h2>Putting it all together</h2>
+            <p>Now, we have the ability to add branching and reconvening paths to our game! This code put into the template project should cause a choice, like this:
+            <div class="box image"><div class="boxheader"><img class="nomalsizepls" src=../icons/camera.png /><h4>Image</h4></div>
+                <center><img src="images/5-putting-it-together.png" /></center>
+            </div>
 
 <!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
