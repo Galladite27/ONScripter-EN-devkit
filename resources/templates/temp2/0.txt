@@ -51,10 +51,13 @@ game
 setcursor 0,":l/4,200,0;assets/cursor0.bmp",3,8
 setcursor 1,":l/4,200,0;assets/cursor1.bmp",5,12
 
+bgm "bgm/afternoon-in-paris.ogg"
 bg bg_alley,1
-ld l,sp_girl2,1
-ld r,sp_miontoko,1
-`"Get a load of this guy!"@
+
+ld l,sp_girl2,2
+ld r,sp_miontoko,2
+
+v0001: `"Get a load of this guy!"@
 
 end
 ; ========== END PROGRAM BLOCK ==========

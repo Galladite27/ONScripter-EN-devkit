@@ -7,8 +7,41 @@
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN general quick-start guide: 0 - using the provided template</h1></p>
+            <h1>ONScripter-EN general quick-start guide: 4 - BGM & voicelines</h1></p>
+            <p>We will now move onto audio. For simplicity, we will be using MP3 audio for BGM and WAV audio for voicelines (as provided by the template). In a real game it is best to use entirely WAV in many cases, since ONScripter-EN has multiple audio systems and DWave, which is one of two WAV-based sound systems, is by far the best and most comprehensive.</p>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>The size of WAV files can be reduced, often by a half, when packing all the assets into a game resources file ready for distribution. This is due to the NBZ compression which is an option provided by the <span class="inlinecode">nsamake</span> tool. More on this in the full guide, page 28</p>
+            </div>
 
+            <h2>BGM</h2>
+            <p>To play BGM, we will use the <span class="inlinecode">bgm</span> command. It takes one argument, the filename of the song, which it plays indefinitely on loop.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>bgm "bgm/afternoon-in-paris.mp3"</p>
+            </div>
+            <p>As usual, aliases can be used, which the template project provides.
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>bgm bgm_paris</p>
+            </div>
+            <p>BGM playback can be stopped at any point using the <span class="inlinecode">bgmstop</span> command.
+
+            <h2>Voicelines</h2>
+            <p>Although there exist individual commands to play audio files once, there are simple shorthands for playing numbered voicelines.</p>
+            <p>The <span class="inlinecode">v</span> command, which has a special syntax, is the shorthand for playing WAV files. It is simply typed as <span class="inlinecode">vXXX: </span> (with "XXX" being any number of digits), with a line of text following, and it will play the voiceline at the beginning of that line of text. The specific file it plays is <span class="inlinecode">voice/XXX.wav</span>, with XXX being the number given. For example, the following line will play a zombie moan before printing the line of text to the screen with a clickwait:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>v0001: `Braaaaains!@</p>
+            </div>
+
+            <h2>Putting it all together</h2>
+            <p>The example at the end of the last page could have music and a voiceline added to it like this:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>bgm "bgm/afternoon-in-paris.ogg"</p>
+                <p>bg bg_alley,1</p>
+                <p>ld l,sp_girl2,2</p>
+                <p>ld r,sp_miontoko,2</p>
+                <p>v0001: `"Get a load of this guy!"@</p>
+            </div>
+
+<!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -26,6 +59,7 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
+--!>
             
         </div>
     </body>
