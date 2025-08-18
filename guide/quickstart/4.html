@@ -25,8 +25,8 @@
             <p>BGM playback can be stopped at any point using the <span class="inlinecode">bgmstop</span> command.
 
             <h2>Voicelines</h2>
-            <p>Although there exist individual commands to play audio files once, there are simple shorthands for playing numbered voicelines.</p>
-            <p>The <span class="inlinecode">v</span> command, which has a special syntax, is the shorthand for playing WAV files. It is simply typed as <span class="inlinecode">vXXX: </span> (with "XXX" being any number of digits), with a line of text following, and it will play the voiceline at the beginning of that line of text. The specific file it plays is <span class="inlinecode">voice/XXX.wav</span>, with XXX being the number given. For example, the following line will play a zombie moan before printing the line of text to the screen with a clickwait:</p>
+            <p>Although there exist commands to play audio files once, there are simple shorthands for playing numbered voicelines. The <span class="inlinecode">v</span> command, which looks a little different to other commands, is the shorthand for playing WAV files.</p>
+            <p>It is simply typed as <span class="inlinecode">vXXX:</span> (with "XXX" being any number of digits), with a normal line of text following - it then plays the voiceline at the beginning of that line of text. The specific file it plays is <span class="inlinecode">voice/XXX.wav</span>, with XXX being the number given. For example, the following line will play a zombie moan before printing the line of text to the screen with a clickwait:</p>
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>v0001: `Braaaaains!@</p>
             </div>
