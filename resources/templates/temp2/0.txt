@@ -1,5 +1,5 @@
 ;mode800
-;gameid template1
+;gameid template2
 ; Above: screen resolution, global variable starting number & save directory directives
 
 ; ========== BEGIN DEFINITION BLOCK ==========
@@ -25,12 +25,16 @@ rmenu "`Save",save,"`Load",load,"`Log",lookback
 
 ; Aliases for BGs, sprites, BGMs, SFX
 stralias bg_alley,"bg/01.jpg"
-stralias bg_street,"bg/01.jpg"
-stralias bg_moon,"bg/01.jpg"
+stralias bg_street,"bg/02.jpg"
+stralias bg_moon,"bg/03.jpg"
 stralias sp_girl1,"sprites/character1.png"
 stralias sp_girl2,"sprites/character2.png"
 stralias sp_girl3,"sprites/character3.png"
 stralias sp_miontoko,"sprites/miontoko.png"
+
+; Defining effects
+effect 2,6,1000  ; 1-second left-moving curtain
+effect 3,10,2000 ; 2-second pixelwise crossfade
 ; ========== END DEFINITION BLOCK ==========
 
 ; Command which causes the engine to switch from definition to program block
@@ -44,6 +48,7 @@ game
 setcursor 0,":l/4,200,0;assets/cursor0.bmp",3,8
 setcursor 1,":l/4,200,0;assets/cursor1.bmp",5,12
 
+bg "bg/01.jpg",2
 `Game goes here.\
 
 end

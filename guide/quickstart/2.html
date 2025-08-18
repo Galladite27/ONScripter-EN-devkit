@@ -8,7 +8,81 @@
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
             <h1>ONScripter-EN general quick-start guide: 0 - using the provided template</h1></p>
+            <p>We will now learn how to draw backgrounds, also covering simple transition effects.</p>
 
+            <h2>Plain colour backgrounds</h2>
+            <p>The <span class="inlinecode">bg</span> command is used to draw backgrounds. To use a command, we simply begin the line with its name, potentially followed by a space and comma-separated values (called "arguments") which tell the command <i>how</i> it should carry out its purpose. In the case of the <span class="inlinecode">bg</span> command, the two arguments we must provide are the background to use and the number of the effect by which to transition to it. For now, the effect number will be 1.</p>
+            <p>To draw a black or white background, you can simply use the word "black" or "white" as the argument.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>bg white,1</p>
+                <p>`The background is white.@</p>
+                <p>bg black,1</p>
+                <p>`The background is now black.@</p>
+            </div>
+            <p>To draw any other colour, provide the RGB value of that colour as a hex code for the first argument. You can use an online RGB colour picker to get this value.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>bg #FF0000,1</p>
+                <p>`The background is pure red.@</p>
+                <p>bg #FF44FF,1</p>
+                <p>`The background is purple.@</p>
+            </div>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>If you draw text after changing the colour of the background, you will notice that the background appears dimmed. This dimming is a default property of the "text window" which the text is drawn within, and can be changed or disabled.</p>
+            </div>
+
+            <h2>Image backgrounds</h2>
+            <p>In order to draw an image background, we can provide the filename of the image for the first argument <i>in speech marks</i> (<span class="inlinecode">""</span>) - this is because while "black" and "white" are special values, a file name is a "string," and so must be marked as such with speech marks.. Provide its path relative to the engine; that is, if the image is in the same directory as the engine, simply give its name. If it's in a subdirectory, also provide that. The given example is for the template project.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>bg "bg/01.jpg",1</p>
+                <p>`The background is a street.@</p>
+            </div>
+            <p>If you look in the files of the template project, you will see that the backgrounds are stored in a directory called "bg" relative to the engine, which is why we begin the filename with "<span class="inlinecode">bg/</span>."
+
+            <h3>String aliases</h3>
+            <p>We can make this easier for ourselves by creating our own "special values" using "string aliases". To do this, we use the <span class="inlinecode">stralias</span> command which <i>must</i> be used in the definition block. The template project already has string aliases for the three backgrounds provided; if you want to add your own, please follow that as a template for your own convenience. It accepts two arguments - the name of the alias (the "special value" to assign) and the associated string (in this case, a filename).</p>
+            <p>Look at this example in the template project:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>stralias bg_alley,"bg/01.jpg"</p>
+            </div>
+            <p>This makes the word bg_alley to refer to the string "bg/01.jpg." With this definition in place, we can use our more human-readable name with the <span class="inlinecode">bg</span> command:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>bg bg_alley,1</p>
+            </div>
+
+            <h2>Effects</h2>
+            <p>Up until this point, we have been using effect number 1 for drawing the background, but now we will make our own effects. Effect numbers 0 and 1 are reserved - 0 is a quite technical effect which will not be covered here, and 1 is an instant transition. Efffect numbers 2-255 can be defined by the user with the <span class="inlinecode">effect</span> command which, like stralias, must be used in the definition block. Though more advanced things can be done with it, we will just cover the usage of the command in terms of built-in effects which ship with the engine.</p>
+            <p>To assign a built-in effect to an effect number, use the <span class="inlinecode">effect</span> command with three arguments - the effect number to assign, the built-in effect number, and the desired duration of the transition in milliseconds. The list of built-in effect numbers which can be used with this command (taken from the API reference) is as follows:</p>
+            <ol>
+                <li>Instantaneous display</li>
+                <li>Left-sided shutter</li>
+                <li>Right-sided shutter</li>
+                <li>Upwards shutter</li>
+                <li>Downwards shutter</li>
+                <li>Left-moving curtain</li>
+                <li>Right-moving curtain</li>
+                <li>Upwards curtain</li>
+                <li>Downwards curtain</li>
+                <li>Pixelwise crossfade</li>
+                <li>Left-moving scroll</li>
+                <li>Right-moving scroll</li>
+                <li>Upwards scroll</li>
+                <li>Downwards scroll</li>
+                <li>Fade via mask pattern (ignore for now)</li>
+                <li>Mosaic out (ignore for now)</li>
+                <li>Mosaic in</li>
+                <li>Crossfade via mask (ignore for now)</li>
+            </ol>
+            <p>For example, to define effect number 2 as a 1-second left-moving curtain, we would use the <span class="inlinecode">effect</span> command like this:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>effect 2,6,1000</p>
+            </div>
+            <p>Or, in other words, we are telling the engine "define effect number 2 as being built-in effect 6 with a 1000 millisecond duration." After being defined once in the define block, the effect number can then be used as desired throughout the rest of the script.</p>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>Since usage of the <span class="inlinecode">effect</span> command can seem cryptic, it may help you to put a comment with each effect you define to tell you in human terms what the effect is.</p>
+            </div>
+            <p>As before, please refer to the template project to see how it defines effects, and try using them to change the background with yourself.</p>
+
+<!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -26,6 +100,7 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
+--!>
             
         </div>
     </body>

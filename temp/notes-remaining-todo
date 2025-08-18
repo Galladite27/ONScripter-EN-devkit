@@ -6,7 +6,6 @@ Quoth chaoskaiser:
 Layout of web pages (will be hosted or available as archive download for offline usage):
 - guide
     * general quick-start guide
-        - displaying backgrounds with effects (bg command, aliases & effects already provided)
         - displaying sprites (standing images ONLY, drawing and clearing, aliases & effects already provided)
         - bgm, sfx & voice (mp3 only - bgm, mp3, mv - all files provided in template)
         - choices (basics of labels, select)
