@@ -51,26 +51,7 @@ game
 setcursor 0,":l/4,200,0;assets/cursor0.bmp",3,8
 setcursor 1,":l/4,200,0;assets/cursor1.bmp",5,12
 
-bgm "bgm/afternoon-in-paris.ogg"
-bg bg_alley,1
-ld l,sp_girl2,2
-ld r,sp_miontoko,2
-;v0001: `"Get a load of this guy!"@
-
-
-`Do you prefer apples or oranges?@
-select "`Apples!",*apples,"`Oranges!",*oranges
-
-*apples
-`Ooh, they're my favourite too!@
-goto *after_apples_oranges
-
-*oranges
-`Hmm, I prefer apples.@
-goto *after_apples_oranges
-
-*after_apples_oranges
-`Either way, see you soon!\
+`Game goes here.\
 
 end
 ; ========== END PROGRAM BLOCK ==========
