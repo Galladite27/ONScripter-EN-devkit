@@ -30,6 +30,10 @@ stralias bg_moon,"bg/03.jpg"
 stralias sp_girl1,":a;sprites/character1.png"
 stralias sp_girl2,":a;sprites/character2.png"
 stralias sp_miontoko,":l;sprites/miontoko.png"
+stralias bgm_paris,"bgm/afternoon-in-paris.mp3"
+stralias bgm_higurashi,"bgm/higurashi.mp3"
+stralias sfx_hit,"sfx/hit.mp3"
+stralias sfx_thunder,"sfx/thunder.mp3"
 
 ; Defining effects
 effect 2,6,1000  ; 1-second left-moving curtain
