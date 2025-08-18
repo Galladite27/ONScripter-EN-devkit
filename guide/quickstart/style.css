@@ -50,6 +50,9 @@ span.inlinecode {
 p.comment {
     color: #666666;
 }
+p.highlight {
+    color: #ff0000;
+}
 .inline {
     display: inline;
 }

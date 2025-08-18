@@ -37,15 +37,15 @@
                 <p class="comment">; Outcome if apples are chosen:</p>
                 <p>*apples</p>
                 <p>`Ooh, they're my favourite too!@</p>
-                <p style="color: red;">goto *after_apples_oranges</p>
+                <p class="highlight">goto *after_apples_oranges</p>
                 <br />
                 <p class="comment">; Outcome if oranges are chosen:</p>
                 <p>*oranges</p>
                 <p>`Hmm, I prefer apples.@</p>
-                <p style="color: red;">goto *after_apples_oranges</p>
+                <p class="highlight">goto *after_apples_oranges</p>
                 <br />
                 <p class="comment">; Story continues from both routes</p>
-                <p style="color: red;">*after_apples_oranges</p>
+                <p class="highlight">*after_apples_oranges</p>
                 <p>`Either way, see you soon!\</p>
             </div>
             <p>Great! Now we're ready to add the choice selection!</p>
@@ -55,7 +55,7 @@
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p class="comment">; Ask a question</p>
                 <p>`Do you prefer apples or oranges?@</p>
-                <p style="color: red;">select "`Apples!",*apples,"`Oranges!",*oranges</p>
+                <p class="highlight">select "`Apples!",*apples,"`Oranges!",*oranges</p>
                 <br />
                 <p class="comment">; Outcome if apples are chosen:</p>
                 <p>*apples</p>
