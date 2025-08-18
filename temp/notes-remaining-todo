@@ -39,7 +39,7 @@ Layout of web pages (will be hosted or available as archive download for offline
         -       SECTION 6: menus and gameplay loops & structures
         - system calls (systemcall - cover each option, mention when, if not already, they will be explained)
         - other modes & discussion of gameplay structures (CHANGE TITLE IN INDEX) (log (maxkaisoupage, lookbackbutton, lookbackcolor, lookbackvoice, lookbacksp), skip (kidokuskip, kidokumode, mode_wave_demo, skipoff), auto (automode, automode_time), exaplain how each can be reaced (keybinds, systemcall, other))
-        - menu customisation (creating main menus (looping with buttons in-detail, perhaps case studies?), rgosub, system calls in-context, savegame & loadgame, savefileexist & savefileremove, maybe saveon & saveoff & savepoint, screenshots, date acquisition, eien case study?)
+        - menu customisation (rmenu, creating main menus (looping with buttons in-detail, perhaps case studies?), rgosub, system calls in-context, savegame & loadgame, savefileexist & savefileremove, maybe saveon & saveoff & savepoint, screenshots, date acquisition, eien case study?)
         -       SECTION 7: other noteworthy features
         - other text options (tateyoko, ruby text, kinsoku)
         - video playback (avi, mpegplay, movie, converting properly to mpeg (ffmpeg))
