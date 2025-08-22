@@ -7,8 +7,6 @@ Layout of web pages (will be hosted or available as archive download for offline
 - guide
     * general quick-start guide
     * translator quick-start guide
-        - downloading and working with provided template (downloading, running to confirm working, editing script file)
-        - translating text (extracting & repacking scripts, normal text, choices, text buttons, clickwaits, language command, 1-byte mode)
         - localising images (extracting & repacking archives, archive compression for BMP, information about file hierarchies (making sure you tell the engine to look in the right place) changing image commands, aliases may be required)
         - replacing videos & audio (video commands, audio commands including shorthands)
         - similar conclusion, what else you might find, what to do next

@@ -7,8 +7,46 @@
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN translation-focused quick-start guide: 0 - using the provided template</h1></p>
+            <h1>ONScripter-EN translation-focused quick-start guide: 1 - translating text</h1></p>
+            <p>Before we begin replacing text in a script, we have to be able to edit the script. As you may remember from the general introduction, ONScripter-EN allows for game scripts to be in either plaintext (likely <span class="inlinecode">0.txt</span>) or obfuscated (likely <span class="inlinecode">nscript.dat</span>) formats. To edit, it must be in plaintext format - if it isn't already, we will convert it to be. When it comes to the game you are translating, you will have to check which format the script is in; for the sake of this guide, the template gives an obfuscated script named <span class="inlinecode">nscript.dat</span> so that we can practice extracting the script - if this is not applicable to your game, you may skip this section.</p>
+            <p>Also, very rarely, a game may have a script in another format, such as the encrypted <span class="inlinecode">nscr_sec.dat</span> and <span class="inlinecode">nscript.___</span> - this is beyond the scope of this guide.</p>
 
+            <h2>Extracting script archives</h2>
+            <p>To extract a script archive, we will need to use the program named <span class="inlinecode">nscdec</span> from the archive file tools. Move that program into the same folder as the obfuscated script file (<span class="inlinecode">nscript.dat</span>). We will now need to use the terminal/cmd - don't worry, it's just one command! - in order to tell the tool to extract the script. Open a terminal/cmd window in the current folder (in Windows, this can be done by typing <span class="inlinecode">cmd</span> in the address bar and pressing enter), then run the following command: <span class="inlinecode">.\nscdec.exe nscript.dat 0.txt</span> (Windows) or <span class="inlinecode">./nscdec nscript.dat 0.txt</span> (Linux). This will have run the tool, telling it to extract nscript.dat into 0.txt. You may now close the terminal/cmd window. Move the obfuscated script somewhere save to ensure the engine reads the extacted script instead of it.</p>
+
+            <h2>Editing the script</h2>
+            <p>To edit the script (<span class="inlinecode">0.txt</span>), open it in a plaintext editor such as vim, notepad or notepad++. Make sure you do not change the encoding of the file. Before the bulk of the text is translated, we will make one simple change - we will put the engine in English mode. This sets certain default values to be in English, amongst other things. To do this, search the script for the line reading <span class="inlinecode">*define</span>. Then, directly after it, insert a line reading <span class="inlinecode">language english</span>. This command was only implemented in ONScripter-EN, so there is no chance a game made with NScripter will already have a language command elsewhere specifying Japanese.</p>
+
+            <h2>Translating text</h2>
+            <p>Read through the script, replacing lines requiring translation as you go. Every line which contains simply Japanese text by itself is printed dialogue and will require translating. Some lines containing commands will have text in speech marks <span class="inlinecode">""</span> which requires translating, but some won't. It's up to you to work this out and only translate what is needed - for example, file names should not be changed, since this is not printed text but a reference to a file the engine needs.</p>
+            <p>Whenever you see text that needs translating, it is <strong>very important</strong> that you make the first character of the translated text to be a backtick (<span class="inlinecode">`</span>) character - this marks the text as being "1-byte" text, letting the engine know when Latin script text should be treated as plain text rather than a command.</p>
+            <p>If you need to know the meaning of a command to help you determine if its string arguments require translating, please refer to the API reference in the "resources" section of this devkit. A guide to using it can be found in the full guide, page 0, under the heading of "Using the API reference."</p>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>If you want to add notes to yourself, or leave a copy of the untranslated line next to each translated line for future reference, know that any line beginning with a semicolon (<span class="inlinecode">;</span>) is a "comment" and will be ignored by the engine - you can write whatever you like there!</p>
+            </div>
+
+            <p>Examples:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Line of printed dialogue:</p>
+                <p class="comment">; 私は田中です。@</p>
+                <p>`My name is Tanaka.@</p>
+                <br />
+                <p class="comment">; A choice presented to the user:</p>
+                <p class="comment">; select "左に行く",*hidari,"右に行く",*migi</p>
+                <p>select "`Go left",*hidari,"`Go right",*migi</p>
+                <br />
+                <p class="comment">; Non-dialogue line which seems to include text requiring translation:</p>
+                <p class="comment">; rmenu "セーブ",save,"ロード"</p>
+                <p>rmenu "`Save",save,"`Load"</p>
+                <br />
+                <p class="comment">; Non-dialogue line not in need of translation</p>
+                <p>stralias screen_blood_1,"CG/ryuuketu1.png"</p>
+            </div>
+
+            <h2>Repacking script archives</h2>
+            <p>This stage, where we will convert the script back into an obfuscated script file (which should only be done after all work is completed, just before distribution), is again optional. Follow the instructions as above for extracting a script archive, except using the tool named <span class="inlinecode">nscmake</span> and using the command <span class="inlinecode">.\nscmake.exe 0.txt</span> (Windows) or <span class="inlinecode">./nscmake 0.txt</span> (Linux). Again remember this time to move the plaintext script somewhere safe to ensure the engine uses this obfuscated script file.</p>
+
+<!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -26,6 +64,7 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
+--!>
             
         </div>
     </body>
