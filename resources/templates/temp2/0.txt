@@ -51,7 +51,9 @@ game
 setcursor 0,":l/4,200,0;assets/cursor0.bmp",3,8
 setcursor 1,":l/4,200,0;assets/cursor1.bmp",5,12
 
+; Sample text
 `Game goes here.\
 
+; Manually exit the script
 end
 ; ========== END PROGRAM BLOCK ==========
