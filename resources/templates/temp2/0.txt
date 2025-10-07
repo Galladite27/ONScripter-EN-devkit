@@ -13,7 +13,7 @@
 ;globalon
 
 ; Basic settings
-language english
+; English language setting removed in this template for you to add it as the tutorial recommends
 versionstr "Template 1"," v1.0"
 caption "Template 1"
 
@@ -23,13 +23,14 @@ lookbackbutton "assets/uoncur.bmp","assets/uoffcur.bmp","assets/doncur.bmp","ass
 ; Set basic right-click menu
 rmenu "`Save",save,"`Load",load,"`Log",lookback
 
-; Aliases for BGs, sprites, BGMs, SFX
+; Aliases for BGs, sprites, BGMs, SFX - these may need translating (for practice)
 stralias bg_alley,"bg/01.jpg"
 stralias bg_street,"bg/02.jpg"
 stralias bg_moon,"bg/03.jpg"
 stralias sp_girl1,":a;sprites/character1.png"
 stralias sp_girl2,":a;sprites/character2.png"
 stralias sp_miontoko,":l;sprites/miontoko.png"
+stralias sp_sampletext,":c;sprites/stock.png"
 stralias bgm_paris,"bgm/afternoon-in-paris.mp3"
 stralias bgm_higurashi,"bgm/higurashi.mp3"
 stralias sfx_hit,"sfx/hit.mp3"
@@ -51,8 +52,13 @@ game
 setcursor 0,":l/4,200,0;assets/cursor0.bmp",3,8
 setcursor 1,":l/4,200,0;assets/cursor1.bmp",5,12
 
-; Sample text
-`Game goes here.\
+; Set BG and draw a Japanese sprite - the latter will need replacing in the game files with an edited version
+bg bg_street
+lsp sp_sampletext,100,100
+
+; Sample text for you to translate - also plays voicelines for you to replace the files for
+v0001: `テスト。@
+v0002: `これはサンプルテキストです。\
 
 ; Manually exit the script
 end
