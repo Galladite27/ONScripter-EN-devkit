@@ -19,8 +19,6 @@ Layout of web pages (will be hosted or available as archive download for offline
 - guide
     * general quick-start guide
     * translator quick-start guide
-        - replacing videos & audio (video commands, audio commands including shorthands)
-        - similar conclusion, what else you might find, what to do next
     * full guide (for new games and major modifications)
         - TODO: Page 1: add section on ruby text syntax
         -       SECTION 1: images and backgrounds (making a working script, so we can discuss backend / theory stuff)
