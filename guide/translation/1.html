@@ -7,50 +7,36 @@
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN translation-focused quick-start guide: 1 - translating text</h1>
-            <p>Before we begin replacing text in a script, we have to be able to edit the script. As you may remember from the general introduction, ONScripter-EN allows for game scripts to be in either plaintext (likely <span class="inlinecode">0.txt</span>) or obfuscated (likely <span class="inlinecode">nscript.dat</span>) formats. To edit, it must be in plaintext format - if it isn't already, we will convert it to be. When it comes to the game you are translating, you will have to check which format the script is in; for the sake of this guide, the template gives an obfuscated script named <span class="inlinecode">nscript.dat</span> so that we can practice extracting the script - if this is not applicable to your game, you may skip this section.</p>
-            <p>Also, very rarely, a game may have a script in another format, such as the encrypted <span class="inlinecode">nscr_sec.dat</span> and <span class="inlinecode">nscript.___</span> - this is beyond the scope of this guide.</p>
+            <h1>ONScripter-EN translation-focused quick-start guide: 1 - using the script and game archive tools</h1>
+            <p>When working with existing games, it is very likely that the script and/or game resources will be stored in obfuscated files. To save me from repeating myself, we will in this article cover extracting and repacking script and game archives.</p>
 
-            <h2>Extracting script archives</h2>
-            <p>To extract a script archive, we will need to use the program named <span class="inlinecode">nscdec</span> from the archive file tools. Move that program into the same folder as the obfuscated script file (<span class="inlinecode">nscript.dat</span>). We will now need to use the terminal/cmd - don't worry, it's just one command! - in order to tell the tool to extract the script. Open a terminal/cmd window in the current folder (in Windows, this can be done by typing <span class="inlinecode">cmd</span> in the address bar and pressing enter), then run the following command: <span class="inlinecode">.\nscdec.exe nscript.dat 0.txt</span> (Windows) or <span class="inlinecode">./nscdec nscript.dat 0.txt</span> (Linux). This will have run the tool, telling it to extract nscript.dat into 0.txt. You may now close the terminal/cmd window. Move the obfuscated script somewhere save to ensure the engine reads the extacted script instead of it.</p>
+            <h2>Generic process</h2>
+            <p>In general, each tool will be used in a similar way. Each section below will cover a specific process using a specific tool, but in general, the process will involve (1) copying a program from the archive file tools (available for download from this devkit's resources page) into the same direrctory as the files to be modified, then (2) using cmd (Windows) or another shell (Linux, other) to run that program to have it interact with the appropriate files. In Windows, a terminal can be opened in the current directory from File Explorer by typing <span class="inlinecode">cmd</span> in the address bar and pressing enter.</p>
+            <p>After running the appropriate command and it having completed, the terminal may be closed; also, the old file(s) should be moved somewhere else and replaced with the newly created file(s).</p>
+            <p>It is important to note that these processes are intended to be used only at the beginning and end of working on a project (at the beginning to make the files accessible for modification, and at the end for distribution) - the engine can read un-obfuscated and un-packed scripts and game resources just fine. So, there is no need to repack script or game archives just for testing - leave them extracted while you work on them.</p>
 
-            <h2>Editing the script</h2>
-            <p>To edit the script (<span class="inlinecode">0.txt</span>), open it in a plaintext editor such as vim, notepad or notepad++. Make sure you do not change the encoding of the file. Before the bulk of the text is translated, we will make one simple change - we will put the engine in English mode. This sets certain default values to be in English, amongst other things. To do this, search the script for the line reading <span class="inlinecode">*define</span>. Then, directly after it, insert a line reading <span class="inlinecode">language english</span>. This command was only implemented in ONScripter-EN, so there is no chance a game made with NScripter will already have a language command elsewhere specifying Japanese.</p>
+            <h2>Extracting script archives (nscript.dat => 0.txt)</h2>
+            <p>To extract a script archive, we will need to use the program named <span class="inlinecode">nscdec</span> from the archive file tools. Move that program into the same folder as the obfuscated script file (<span class="inlinecode">nscript.dat</span>), open a terminal window in that directory, then run the following command: <span class="inlinecode">.\nscdec.exe nscript.dat 0.txt</span> (Windows) or <span class="inlinecode">./nscdec nscript.dat 0.txt</span> (Linux). Move the obfuscated script somewhere safe to ensure the engine reads the extacted script instead of it.</p>
 
-            <h2>Translating text</h2>
-            <p>Read through the script, replacing lines requiring translation as you go. Every line which contains simply Japanese text by itself is printed dialogue and will require translating. Some lines containing commands will have text in speech marks <span class="inlinecode">""</span> which requires translating, but some won't. It's up to you to work this out and only translate what is needed - for example, file names should not be changed, since this is not printed text but a reference to a file the engine needs.</p>
-            <p>Whenever you see text that needs translating, it is <strong>very important</strong> that you make the first character of the translated text to be a backtick (<span class="inlinecode">`</span>) character - this marks the text as being "1-byte" text, letting the engine know when Latin script text should be treated as plain text rather than a command.</p>
-            <p>If you need to know the meaning of a command to help you determine if its string arguments require translating, please refer to the API reference in the "resources" section of this devkit. A guide to using it can be found in the full guide, page 0, under the heading of "Using the API reference."</p>
+            <h2>Repacking script archives (0.txt => nscript.dat)</h2>
+            <p>To repack a script archive, we will need to use the tool named <span class="inlinecode">nscmake</span> and the command <span class="inlinecode">.\nscmake.exe 0.txt</span> (Windows) or <span class="inlinecode">./nscmake 0.txt</span> (Linux). Move the plaintext script somewhere safe to ensure the engine uses this obfuscated script file.</p>
+
+            <h2>Extracting game archives (*.nsa / *.sar / *.ns2 => multiple files / directories)</h2>
+            <p>Firstly, locate the game archive file(s). The main name you are looking for is <span class="inlinecode">arc.nsa</span>, however any file ending in <span class="inlinecode">.nsa</span>, <span class="inlinecode">.sar</span> or <span class="inlinecode">.ns2</span> will do - just remember the original name.</p>
+            <p>To extract the archive, we will use the appropriate tool, named after the file type + "dec" (for example, <span class="inlinecode">nsadec.exe</span> for an archive named <span class="inlinecode">arc.nsa</span>. In a terminal, type the name of the tool, followed by <span class="inlinecode">-o out</span>, followed by the name of the game archive file - for example, <span class="inlinecode">.\nsadec.exe -o out arc.nsa</span> (Windows) or <span class="inlinecode">./nsadec -o out arc.nsa</span> (Linux). This will extract all the resources from the archive into the new directory named "out."</p>
+            <p>To make the engine able to read the resources, you will need to take them out of the folder named "out," so that they are in the same directory as the engine. But don't lose track of which files came from the archive, so that we can repack them later. Move the old game archive somewhere safe to ensure the engine reads the extracted files instead of it.</p>
+
+            <h2>Repacking game archives (multiple files / directories => arc.nsa)</h2>
+            <p>For the sake of this guide, we will create an NSA format game archive, since it is common and supports compression of WAV and BMP files (which these steps will enable).</p>
+            <p>To repack the archive, you will need the tool <span class="inlinecode">nsamake</span> in the same directory as the directory named "out" (created before); ensure that all the resources you want in the archive are put back in the "out" directory. Then, open a terminal in that directory as before, and use the command <span class="inlinecode">.\nsamake.exe arc.nsa -d out</span> (Windows) or <span class="inlinecode">./nsamake arc.nsa -d out</span> (Linux). Move the extracted resources somewhere safe to ensure the engine reads the game archive instead of them.<p>
             <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
-                <p>If you want to add notes to yourself, or leave a copy of the untranslated line next to each translated line for future reference, know that any line beginning with a semicolon (<span class="inlinecode">;</span>) is a "comment" and will be ignored by the engine - you can write whatever you like there!</p>
+            <p>If the file is of the <span class="inlinecode">.nsa</span> filetype, you can enable compression of all <span class="inlinecode">.bmp</span> and <span class="inlinecode">.wav</span> files by adding the option <span class="inlinecode">-e</span> before the <span class="inlinecode">-i</span> option (for example, <span class="inlinecode">nsamake.exe arc.nsa -e -d out</span>). This will take longer to create the game archive file, and may slightly impact performance in-game on older hardware, but will greatly reduce the size of the file.</p>
             </div>
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
-                <p>In almost all cases, the game you are translating will be in Japanese, English, or <i>maybe</i> Russian. These languages' characters are supported by the Shift JIS character encoding which NScripter (and by default, ONScripter-EN) uses. If the language you are translating into requires characters not supported by this character encoding, consider enabling UTF-8 mode. This can be done simply by renaming the script from a Shift-JIS name to its equivalent UTF-8 name. For more information (including these names), please see the section "Script files" under page 1 of the full guide.</p>
+                <p>Be careful about not touching the structure of the file hierarchy, and running these tools with the correct options and from the correct directories, otherwise it could cause the engine not to be able to find the rersources, even within the game archive.</p>
             </div>
 
 
-            <p>Examples:</p>
-            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
-                <p class="comment">; Line of printed dialogue:</p>
-                <p class="comment">; 私は田中です。@</p>
-                <p>`My name is Tanaka.@</p>
-                <br />
-                <p class="comment">; A choice presented to the user:</p>
-                <p class="comment">; select "左に行く",*hidari,"右に行く",*migi</p>
-                <p>select "`Go left",*hidari,"`Go right",*migi</p>
-                <br />
-                <p class="comment">; Non-dialogue line which seems to include text requiring translation:</p>
-                <p class="comment">; rmenu "セーブ",save,"ロード"</p>
-                <p>rmenu "`Save",save,"`Load"</p>
-                <br />
-                <p class="comment">; Non-dialogue line not in need of translation</p>
-                <p>stralias screen_blood_1,"CG/ryuuketu1.png"</p>
-            </div>
-
-            <h2>Repacking script archives</h2>
-            <p>This stage, where we will convert the script back into an obfuscated script file (which should only be done after all work is completed, just before distribution), is again optional. Follow the instructions as above for extracting a script archive, except using the tool named <span class="inlinecode">nscmake</span> and using the command <span class="inlinecode">.\nscmake.exe 0.txt</span> (Windows) or <span class="inlinecode">./nscmake 0.txt</span> (Linux). Again remember this time to move the plaintext script somewhere safe to ensure the engine uses this obfuscated script file.</p>
-
-<!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -68,7 +54,6 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
---!>
             
         </div>
     </body>

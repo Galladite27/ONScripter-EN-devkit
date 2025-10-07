@@ -7,62 +7,44 @@
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN translation-focused quick-start guide: 0 - using the provided template</h1>
+            <h1>ONScripter-EN translation-focused quick-start guide: 2 - translating text</h1>
+            <p>Before we begin replacing text in a script, we have to be able to edit the script. As you may remember from the general introduction, ONScripter-EN allows for game scripts to be in either plaintext (likely <span class="inlinecode">0.txt</span>) or obfuscated (likely <span class="inlinecode">nscript.dat</span>) formats. To edit, it must be in plaintext format - if it isn't already, then convert it to be.</p>
+            <p>Also, very rarely, a game may have a script in another format, such as the encrypted <span class="inlinecode">nscr_sec.dat</span> and <span class="inlinecode">nscript.___</span> - this is beyond the scope of this guide.</p>
 
-<!--
+            <h2>Editing the script</h2>
+            <p>To edit the script (<span class="inlinecode">0.txt</span>), open it in a plaintext editor such as vim, notepad or notepad++. Make sure you do not change the encoding of the file. Before the bulk of the text is translated, we will make one simple change - we will put the engine in English mode. This sets certain default values to be in English, amongst other things. To do this, search the script for the line reading <span class="inlinecode">*define</span>. Then, directly after it, insert a line reading <span class="inlinecode">language english</span>. This command was only implemented in ONScripter-EN, so there is no chance a game made with NScripter will already have a language command elsewhere specifying Japanese.</p>
 
-The steps I used (I think) for future reference are:
-* Open the image (with a transparent BG) in GIMP
-* Go to the "channels" tab (next to layers) and hide all but alpha
-* Go to Layer -> New from Visible
-* Reset the colour channels
-* Go to Image -> Canvas Size and resize it to be double the width
-* Select the alpha layer with the "alignment" tool (on the same spot as the "move" tool), select "Relative to Image," put in an Offset X of the (half-width) image width, and click Distribute Left
-* Add a layer at the bottom of the stack and right-click -> remove the alpha channel to give it a white BG
-* Image -> Scale Image as required and export as BMP
-
---!>
-
-            <h2>Extracting and repacking game archives</h2>
-            <p>In order to extract image files for translation, and to replace the old images with their translated equivalents, it is very likely you will have to work with a game archive file using the provided archive file tools (see the "resources" section of this devkit).</p>
-            <p>Firstly, locate the game archive file(s). The main name you are looking for is <span class="inlinecode">arc.nsa</span>, however any file ending in <span class="inlinecode">.nsa</span>, <span class="inlinecode">.sar</span> or <span class="inlinecode">.ns2</span> will do - just remember the original name.</p>
-            <p>To extract the archive, you will need to use the command line. First, ensure the appropriate tool (named after the file type + "dec") and the archive file are in the same directory (for example, <span class="inlinecode">nsadec.exe</span> and <span class="inlinecode">arc.nsa</span>). Then, open a terminal in that directory (on Windows, shift-right click on the directory and select "Open command window here"; on Linux, you should already know this). Finally, type the name of the tool, followed by <span class="inlinecode">-o out</span>, followed by the name of the game archive file (for example, <span class="inlinecode">nsadec.exe -o out arc.nsa</span>). This will extract all the resources from the archive into the new directory named "out."</p>
-            <p>To repack the archive, you will need the appropriate tool (this time, named after the file type + "make") in the same directory as before (so that the directory containing the extracted resources is next to the tool); also, make sure to remove the old game archive file. Then, open a terminal in that directory as before, and type the name of the tool, followed by the name of the <i>original</i> game archive file (before it was initially extracted), then by <span class="inlinecode">-d out</span> (for example, <span class="inlinecode">nsamake.exe arc.nsa -d out</span>). You should be left with a new game archive file with the same name as the old one. Put this back where the original one was and test your game.<p>
+            <h2>Translating text</h2>
+            <p>Read through the script, replacing lines requiring translation as you go. Every line which contains simply Japanese text by itself is printed dialogue and will require translating. Some lines containing commands will have text in speech marks <span class="inlinecode">""</span> which requires translating, but some won't. It's up to you to work this out and only translate what is needed - for example, file names should not be changed, since this is not printed text but a reference to a file the engine needs.</p>
+            <p>Whenever you see text that needs translating, it is <strong>very important</strong> that you make the first character of the translated text to be a backtick (<span class="inlinecode">`</span>) character - this marks the text as being "1-byte" text, letting the engine know when Latin script text should be treated as plain text rather than a command.</p>
+            <p>If you need to know the meaning of a command to help you determine if its string arguments require translating, please refer to the API reference in the "resources" section of this devkit. A guide to using it can be found in the full guide, page 0, under the heading of "Using the API reference."</p>
             <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
-            <p>If the file is of the <span class="inlinecode">.nsa</span> filetype, you can enable compression of all <span class="inlinecode">.bmp</span> and <span class="inlinecode">.wav</span> files by adding the option <span class="inlinecode">-e</span> before the <span class="inlinecode">-i</span> option (for example, <span class="inlinecode">nsamake.exe arc.nsa -e -d out</span>). This will take longer to create the game archive file, and may slightly impact performance in-game on older hardware, but will greatly reduce the size of the file.</p>
+                <p>If you want to add notes to yourself, or leave a copy of the untranslated line next to each translated line for future reference, know that any line beginning with a semicolon (<span class="inlinecode">;</span>) is a "comment" and will be ignored by the engine - you can write whatever you like there!</p>
             </div>
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
-                <p>Be careful about not touching the structure of the file hierarchy, and running these tools with the correct options and from the correct directories, otherwise it could cause the engine not to be able to find the rersources, even within the game archive.</p>
+                <p>In almost all cases, the game you are translating will be in Japanese, English, or <i>maybe</i> Russian. These languages' characters are supported by the Shift JIS character encoding which NScripter (and by default, ONScripter-EN) uses. If the language you are translating into requires characters not supported by this character encoding, consider enabling UTF-8 mode. This can be done simply by renaming the script from a Shift-JIS name to its equivalent UTF-8 name. For more information (including these names), please see the section "Script files" under page 1 of the full guide.</p>
             </div>
 
-            <h2>Testing changes without repacking the script</h2>
-            <p>It is unnecessary to rebuild the game archive directory every time you want to test changes made to its files. If you take all the contents of the directory containing the extracted resources and put them in the same directory as the engine, script, &amp;c., then the engine will be able to read them as normal. If you do this, make sure you temporarily remove the old game archive file so that you know the engine is reading the extracted files and not the game archive file.<p>
 
-            <h2>Locating and replacing images</h2>
-            <p>While the resources are extracted, you can browse through the files to find images which need translating, edit them, and then replace the original with the new versions. Make sure you keep the resolution and other such factors the same, so that it integrates seamlessly into the place of the old asset.</p>
+            <p>Examples:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Line of printed dialogue:</p>
+                <p class="comment">; 私は田中です。@</p>
+                <p>`My name is Tanaka.@</p>
+                <br />
+                <p class="comment">; A choice presented to the user:</p>
+                <p class="comment">; select "左に行く",*hidari,"右に行く",*migi</p>
+                <p>select "`Go left",*hidari,"`Go right",*migi</p>
+                <br />
+                <p class="comment">; Non-dialogue line which seems to include text requiring translation:</p>
+                <p class="comment">; rmenu "セーブ",save,"ロード"</p>
+                <p>rmenu "`Save",save,"`Load"</p>
+                <br />
+                <p class="comment">; Non-dialogue line not in need of translation</p>
+                <p>stralias screen_blood_1,"CG/ryuuketu1.png"</p>
+            </div>
 
-            <h2>Transparency and alpha masks</h2>
-            <p>ONScripter-EN offers multiple methods for implementing transparency in images, and so we must treat this briefly so as to equip you to identify and prevent related issues.</p>
-            <p>It is possible that an image whose format supports alpha channels (such as PNG) has the transparency information baked into the image. Make sure to keep this consistent: if there is an alpha channel, keep it; if not, don't add one.
-            <p>If you open an image for editing and notice the background is composed of a flat colour (often a bright one), the script is set up for this to be replaced by transparency. Either the top-left or top-right pixel of the image will be used to determine this colour; ensure you do not disturb this in your modifications.</p>
-            <p>If you open an image and see what appears to be a copy of the image to the right of the coloured image, but as a silhouette, the script is set up for the right half of the image to contain the transparency information for the left half. In this case, I have prepared a method outlined below for how to replicate this.</p>
-            <p>If you find that for each image, there is a corresponding silhouette of it but in a different file, the script is set up to use the silhouettes as masks for the colour images as before. If this is the case, follow the method I will now give for the previous case, but then split the image in half to create the colour and silhouette files.
-            <p>Here is a method for taking an image with a silhouette and producing your own:</p>
-            <ol>
-                <li>Open the image, use Image -&gt; Canvas Size to cut off the existing silhouette (if present)</li>
-                <li>Right-click the layer and select Add Alpha Channel</li>
-                <li>Modify the image as required to translate its contents, using transparency as normal</li>
-                <li>Go to the "channels" tab (next to layers by default) and hide all but alpha</li>
-                <li>Go to Layer -&gt; New from Visible</li>
-                <li>Reset (un-hide) the colour channels</li>
-                <li>Go to Image -&gt; Canvas Size and resize it to be double the width</li>
-                <li>Select the new layer containing the alpha channel data with the "alignment" tool (on the same spot as the "move" tool), select "Relative to Image," put in an Offset X of the (half-width) image width, and click Distribute Left</li>
-                <li>Add a layer at the bottom of the stack and right-click -&gt; remove the alpha channel to give it a white BG</li>
-                <li>Export as BMP (assuming this was the original format)</li>
-            </ol>
-            <p>TODO: double check these instructions</p>
-
-            <!--
+<!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -80,7 +62,7 @@ The steps I used (I think) for future reference are:
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
-            --!>
+--!>
             
         </div>
     </body>

@@ -7,9 +7,47 @@
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN translation-focused quick-start guide: 0 - using the provided template</h1>
-            <p>Sample paragraph for demo</p>
+            <h1>ONScripter-EN translation-focused quick-start guide: 3 - localising images</h1>
 
+            <h2>Locating and replacing images</h2>
+            <p>While the game resources are extracted from the game archive, you can browse through the files to find images which need translating, edit them, and then replace the original with the new versions. Make sure you keep the resolution and other such factors the same, so that it integrates seamlessly into the place of the old asset.</p>
+
+<!--
+
+The steps I used (I think) for future reference are:
+* Open the image (with a transparent BG) in GIMP
+* Go to the "channels" tab (next to layers) and hide all but alpha
+* Go to Layer -> New from Visible
+* Reset the colour channels
+* Go to Image -> Canvas Size and resize it to be double the width
+* Select the alpha layer with the "alignment" tool (on the same spot as the "move" tool), select "Relative to Image," put in an Offset X of the (half-width) image width, and click Distribute Left
+* Add a layer at the bottom of the stack and right-click -> remove the alpha channel to give it a white BG
+* Image -> Scale Image as required and export as BMP
+
+--!>
+
+            <h2>Transparency and alpha masks</h2>
+            <p>ONScripter-EN offers multiple methods for implementing transparency in images, and so we must treat this briefly so as to equip you to identify and prevent related issues.</p>
+            <p>It is possible that an image whose format supports alpha channels (such as PNG) has the transparency information baked into the image. Make sure to keep this consistent: if there is an alpha channel, keep it; if not, don't add one.
+            <p>If you open an image for editing and notice the background is composed of a flat colour (often a bright one), the script is set up for this to be replaced by transparency. Either the top-left or top-right pixel of the image will be used to determine this colour; ensure you do not disturb this in your modifications.</p>
+            <p>If you open an image and see what appears to be a copy of the image to the right of the coloured image, but as a silhouette, the script is set up for the right half of the image to contain the transparency information for the left half. In this case, I have prepared a method outlined below for how to replicate this.</p>
+            <p>If you find that for each image, there is a corresponding silhouette of it but in a different file, the script is set up to use the silhouettes as masks for the colour images as before. If this is the case, follow the method I will now give for the previous case, but then split the image in half to create the colour and silhouette files.
+            <p>Here is a method for taking an image with a silhouette and producing your own (using GIMP):</p>
+            <ol>
+                <li>Open the image, use Image -&gt; Canvas Size to cut off the existing silhouette (if present)</li>
+                <li>Right-click the layer and select Add Alpha Channel</li>
+                <li>Modify the image as required to translate its contents, using transparency as normal</li>
+                <li>Go to the "channels" tab (next to layers by default) and hide all but alpha</li>
+                <li>Go to Layer -&gt; New from Visible</li>
+                <li>Reset (un-hide) the colour channels</li>
+                <li>Go to Image -&gt; Canvas Size and resize it to be double the width</li>
+                <!--<li>Select the new layer containing the alpha channel data with the "alignment" tool (on the same spot as the "move" tool), select "Relative to Image," put in an Offset X of the (half-width) image width, and click Distribute Left</li>-->
+                <li>Select the new layer containing the alpha channel data with the "alignment" tool (on the same spot as the "move" tool), select "Relative to Image," and click Distribute Right</li>
+                <li>Add a layer at the bottom of the stack and right-click -&gt; remove the alpha channel to give it a white BG</li>
+                <li>Export as BMP (bitmap)</li>
+            </ol>
+
+            <!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -27,6 +65,7 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
+            --!>
             
         </div>
     </body>
