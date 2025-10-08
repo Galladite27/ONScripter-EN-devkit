@@ -30,7 +30,7 @@ stralias bg_moon,"bg/03.jpg"
 stralias sp_girl1,":a;sprites/character1.png"
 stralias sp_girl2,":a;sprites/character2.png"
 stralias sp_miontoko,":l;sprites/miontoko.png"
-stralias sp_sampletext,":c;sprites/stock.png"
+stralias sp_sampletext,":l;sprites/stock.png"
 stralias bgm_paris,"bgm/afternoon-in-paris.mp3"
 stralias bgm_higurashi,"bgm/higurashi.mp3"
 stralias sfx_hit,"sfx/hit.mp3"
@@ -57,8 +57,8 @@ bg bg_street
 lsp sp_sampletext,100,100
 
 ; Sample text for you to translate - also plays voicelines for you to replace the files for
-v0001: `ãƒ†ã‚¹ãƒˆã€‚@
-v0002: `ã“ã‚Œã¯ã‚µãƒ³ãƒ—ãƒ«ãƒ†ã‚­ã‚¹ãƒˆã§ã™ã€‚\
+v0001: ƒeƒXƒgB@
+v0002: ‚±‚ê‚ÍƒTƒ“ƒvƒ‹ƒeƒLƒXƒg‚Å‚·B\
 
 ; Manually exit the script
 end
