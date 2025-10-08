@@ -54,7 +54,7 @@ setcursor 1,":l/4,200,0;assets/cursor1.bmp",5,12
 
 ; Set BG and draw a Japanese sprite - the latter will need replacing in the game files with an edited version
 bg bg_street
-lsp sp_sampletext,100,100
+lsp sp_sampletext,50,90
 
 ; Sample text for you to translate - also plays voicelines for you to replace the files for
 v0001: テスト。@
