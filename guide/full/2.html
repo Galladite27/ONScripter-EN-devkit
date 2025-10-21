@@ -53,7 +53,7 @@
             </table>
             <p>The copy transparency mode does not apply transparency at all.</p>
             <p>The leftup and rightup transparency modes rely on the intended transparent portions of the image being a solid colour which can be substituted for transparency. Ensure there is no feathering between the image and the colour, as only the exact colour is replaced. This method can lead to jagged edges.</p>
-            <p>The alphablend and mask transparency modes work in a similar manner. Both depend on there existing a second copy of the image (a mask) where black represents total opaqueness, white total transparency, and any shade in-between an intermediate level of transparency. For alphablend, the image is twice the ordinary width with the right half being the mask; with mask the mask is storerd in a separate file with its name provided.</p>
+            <p>The alphablend and mask transparency modes work in a similar manner as one another. Both depend on there existing a second copy of the image (a mask) where black represents total opaqueness, white total transparency, and any shade in-between an intermediate level of transparency. For alphablend, the image is twice the ordinary width with the right half being the mask; with mask the mask is storerd in a separate file with its name provided.</p>
 
             <br />
             <p>Here is a method for taking an image and producing a silhouette for use with the alphablend transparency mode (using GIMP):</p>
@@ -95,8 +95,6 @@
             </div>
 
             <h2>Effects and printing</h2>
-            <p>Built in effects, the effect commands, effect masks, DLLs</p>
-
             <p>Effects are referenced by effect number, which ranges from 0-255 - however, effects 0 and 1 are reserved and so user-definable effects range from 2-255.</p>
             <p>In ONScripter-EN, many commands require an effect by which to write the changes they make to the screen. However, many others do not by default write their changes to the screen, and so the changes require explicitly writing to the screen to be made visible to the user using the <span class="inlinecode">print</span> command (which accepts one argument, that being an effect number).</p>
             <p>Effect 0 causes changes to be written to memory, but not to the screen; effect 1 causes changes to be written to the screen instantly, or in other words without effect.</p>
@@ -119,6 +117,53 @@
                 <p>...</p>
                 <p>print 1</p>
             </div>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>If you're having trouble with commands seemingly not doing anything when they ought to be displaying to the screen, in addition to checking the API ref for usage notes make your first sanity check to be adding a <span class="inlinecode">print 1</span> after the offending line.</p>
+            </div>
+
+            <h3>Defining effects</h3>
+            <p>ONScripter-EN provides a variety of built-in effects. However, to use these, you must define an effect number based on one of these effects using the define block only command <span class="inlinecode">effect</span>, which takes three arguments - the effect number to assign to, the built-in effect number, and the desired duration of the transition in milliseconds. The list of built-in effect numbers which can be used with this command (taken from the API reference) is as follows:</p>
+            <ol>
+                <li>Instantaneous display</li>
+                <li>Left-sided shutter</li>
+                <li>Right-sided shutter</li>
+                <li>Upwards shutter</li>
+                <li>Downwards shutter</li>
+                <li>Left-moving curtain</li>
+                <li>Right-moving curtain</li>
+                <li>Upwards curtain</li>
+                <li>Downwards curtain</li>
+                <li>Pixelwise crossfade</li>
+                <li>Left-moving scroll</li>
+                <li>Right-moving scroll</li>
+                <li>Upwards scroll</li>
+                <li>Downwards scroll</li>
+                <li>Fade via mask pattern</li>
+                <li>Mosaic out (after using, screen state is uncertain like with effect 0)</li>
+                <li>Mosaic in</li>
+                <li>Crossfade via mask (processor intensive)</li>
+            </ol>
+            <p>Please note that effects 14 and 18 require a fourth argument, a mask (as explained above) by which to transition, with white areas fading slowly and black areas fading quickly.</p>
+            <p>In addition, built-in effect 99 will be discussed below.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Sets effect 2 to be an upwards shutter of one second</p>
+                <p>effect 2,4,1000</p>
+                <br />
+                <p class="comment">; Sets effect 3 to be a two second masked fade</p>
+                <p>effect 3,15,2000,"m3.bmp"</p>
+            </div>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>The <span class="inlinecode">print</span> command can be used with a built-in effect rather than an effect defined by the <span class="inlinecode">effect</span> command, for example as a one-off. To do this, in place of the effect number use a built-in effect number with any other required arguments, such as <span class="inlinecode">print 4,1000</span> for the same one-second upwards shutter as defined above.</span></p>
+            </div>
+
+            <h3>Effect DLLs</h3>
+            <p>NScripter also supports effects provided by DLLs, which ONScripter-EN supports in a limited manner (due to its platform independence) through emulation.</p>
+            <p>Built-in effect 99 can be used with a fourth argument (like effects 14 and 18 above), with that argument being a string containing the DLL name, a slash, and any parameters to be passed to the DLL. In ONScripter-EN, four effects are supported (and no actual DLL file must exist, since they are internal to the engine) - breakup.dll, cascade.dll, trvswave.dll, and whirl.dll.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Sets effect 2 to be a whirl of one second</p>
+                <p>effect 2,99,1000,"whirl.dll"</p>
+            </div>
+            <p>TODO: review the source code to see what arguments these effects accept, since I can't find public documentation about this.</p>
 
             <h2>Backgrounds</h2>
             <p>Solid colours, image backgrounds, clearing, bg over a portion of the screen?</p>
