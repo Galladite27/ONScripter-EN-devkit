@@ -8,10 +8,92 @@
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
             <h1>ONScripter-EN full guide: 2 - sprites & backgrounds</h1></p>
-            <h2>Image types &amp; transparency modes</h2>
-            <p>PNG, JPG, BMP, transparency</p>
-            <h2>Aliases &amp; accessing resources</h2>
-            <p>Check to what extent this was discussed in articles 0 and 1</p>
+            <p>This page will detail the usage of sprites and backgrounds, in the course of things also discussing aliases and effects. The reason for starting with this is so that we can produce visible effects with the syntax of normal (non-text) commands, leading afterwards into discussing things which produce no immediately visible effect such as labels and variables; and also because we will touch on aliases, effects and file types &amp; access which are useful common topics to get out of the way. However, I do admit that this topic could just have easily been covered later on.</p>
+
+            <h2>Image formats &amp; transparency modes</h2>
+            <p>ONScripter-EN supports three image formats: PNG, JPG, and BMP. The benefits and use cases of each are roughly the same (or, at least, the same as ordinary use cases such as small file size; that is, none of the formats particularly lend themselves towards any special use case in ONScripter-EN) except that BMP files can be compressed using NBZ compression in NSA archives, making them more practical than they otherwise might be with their potentially large file sizes.</p>
+            <p>Though an image format may support it (namely PNG), ONScripter-EN cannot interpret alpha channels. Instead, there are five "transparency modes" which can be used, three of which can be set as defaults using the define block only command <span class="inlinecode">transmode</span> (with leftup being the default), in order to display images with transparency. The transparency modes are enabled on a per-image basis by adding a prefix to a file name when providing it to an image display function (for sprites or standing images). Please see the table below for an overview of these modes, as well as how they are set.</p>
+            <table rules=rows>
+                <tr>
+                    <th style="width: 10%">Mode</th>
+                    <th style="width: 55%">Definition</th>
+                    <th style="width: 15%">Default</th>
+                    <th style="width: 20%">Per-image</th>
+                </tr>
+                <tr>
+                    <td>Leftup</td>
+                    <td>The color of the top-left pixel will be used as the transparent color</td>
+                    <td><span class="inlinecode">transmode l</span></td>
+                    <td><span class="inlinecode">":l;filename.bmp"</span></td>
+                </tr>
+                <tr>
+                    <td>Rightup</td>
+                    <td>The color of the top-right pixel will be used as the transparent color</td>
+                    <td></td>
+                    <td><span class="inlinecode">":r;filename.bmp"</span></td>
+                </tr>
+                <tr>
+                    <td>Copy</td>
+                    <td>Shows the image as-is, no transparency settings</td>
+                    <td><span class="inlinecode">transmode c</span></td>
+                    <td><span class="inlinecode">":c;filename.bmp"</span></td>
+                </tr>
+                <tr>
+                    <td>Alphablend</td>
+                    <td>The right half of the image contains alpha-level data for the left half</td>
+                    <td><span class="inlinecode">transmode a</span></td>
+                    <td><span class="inlinecode">":a;filename.bmp"</span></td>
+                </tr>
+                <tr>
+                    <td>Mask</td>
+                    <td>Uses the given file as alpha-level data for the main image</td>
+                    <td></td>
+                    <td><span class="inlinecode">":mfilename.bmp;filename.bmp"</span></td>
+                </tr>
+            </table>
+            <p>The copy transparency mode does not apply transparency at all.</p>
+            <p>The leftup and rightup transparency modes rely on the intended transparent portions of the image being a solid colour which can be substituted for transparency. Ensure there is no feathering between the image and the colour, as only the exact colour is replaced. This method can lead to jagged edges.</p>
+            <p>The alphablend and mask transparency modes work in a similar manner. Both depend on there existing a second copy of the image (a mask) where black represents total opaqueness, white total transparency, and any shade in-between an intermediate level of transparency. For alphablend, the image is twice the ordinary width with the right half being the mask; with mask the mask is storerd in a separate file with its name provided.</p>
+
+            <br />
+            <p>Here is a method for taking an image and producing a silhouette for use with the alphablend transparency mode (using GIMP):</p>
+            <ol>
+                <li>Right-click the layer (assuming one layer with transparency) and select Add Alpha Channel</li>
+                <li>Modify the image as required to translate its contents, using transparency as normal</li>
+                <li>Go to the "channels" tab (next to layers by default) and hide all but alpha</li>
+                <li>Go to Layer &rarr; New from Visible</li>
+                <li>Reset (un-hide) the colour channels</li>
+                <li>Go to Image &rarr; Canvas Size and resize it to be double the width</li>
+                <!--<li>Select the new layer containing the alpha channel data with the "alignment" tool (on the same spot as the "move" tool), select "Relative to Image," put in an Offset X of the (half-width) image width, and click Distribute Left</li>-->
+                <li>Select the new layer containing the alpha channel data with the "alignment" tool (on the same spot as the "move" tool), select "Relative to Image," and click Distribute Right</li>
+                <li>Add a layer at the bottom of the stack and right-click &rarr; remove the alpha channel to give it a white BG</li>
+                <li>Export the image as BMP (bitmap) or PNG without alpha channel</li>
+            </ol>
+
+            <h2>Aliases</h2>
+            <p>The syntax of aliases was already covered in page 1, which is most of what you need to know about their usage since it is quite simple. The define block only commands <span class="inlinecode">stralias</span> and <span class="inlinecode">numalias</span> are used to define aliases. Each takes two arguments, those being the alias name and the value for it to become associated with. After that point, any instance of the alias name in place of a string or number literal will be substituted with the alias's associated value.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; Define a number alias</p>
+                <p>numalias my_alias,100</p>
+                <br />
+                <p>...</p>
+                <br />
+                <p class="comment">; In this command, "my_alias" will be substituted by the number 100</p>
+                <p>do_a_thing my_alias</p>
+            </div>
+            <p>In the context of filenames and particularly transparency modes, one of the use cases for this will become clear. Instead of giving a filename every time we want to reference an image (or otther file), we can define an alias once and then use that alias to reference the file. This can also let us easily use a non-default transparency mode for a certain file without specifying it each time. Both of these things reduce visual clutter, also making it easier to change every instance of a file name or its transparency mode at once.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p class="comment">; Define a string alias</p>
+                <p>stralias sp_girl_happy,":a;sprites/girl/happy.png"</p>
+                <br />
+                <p>...</p>
+                <br />
+                <p class="comment">; Easily reference the filename with its transparency mode multiple times</p>
+                <p>ld l,sp_girl_happy</p>
+                <p>ld c,sp_girl_happy</p>
+                <p>ld r,sp_girl_happy</p>
+            </div>
+
             <h2>Effects</h2>
             <p>Built in effects, the effect commands, effect masks, DLLs</p>
             <h2>Backgrounds</h2>

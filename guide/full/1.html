@@ -136,12 +136,7 @@
             <h3>Variables and aliases</h3>
             <p>An alias is a particular name (as per the above definition) which has a static (unchangeable) value. An alias may be either a string alias (where the value it represents is certain text) or a number alias. Aliases are defined using the <span class="inlinecode">stralias</span> and <span class="inlinecode">numalias</span> commands, which will be covered in a later article. The relevant point concerning syntax is that after being defined, an alias appearing in place of <i>any</i> string or number literal in code will be replaced with the value it represents.</p>
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
-                <p class="comment">; Define a number alias</p>
-                <p>numalias my_alias,100</p>
-                <br />
-                <p>...</p>
-                <br />
-                <p class="comment">; In this command, "my_alias" will be substituted for the number 100</p>
+                <p class="comment">; In this command, the pre-defined number alias "my_alias" will be substituted with its associated value as an argument to the do_a_thing command</p>
                 <p>do_a_thing my_alias</p>
             </div>
 
