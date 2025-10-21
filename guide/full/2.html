@@ -22,7 +22,7 @@
                 </tr>
                 <tr>
                     <td>Leftup</td>
-                    <td>The color of the top-left pixel will be used as the transparent color</td>
+                    <td>The color of the top-left pixel will be used as the transparent color (i.e. every pixel of the same colour as the top-left pixel is made transparent)</td>
                     <td><span class="inlinecode">transmode l</span></td>
                     <td><span class="inlinecode">":l;filename.bmp"</span></td>
                 </tr>
@@ -53,6 +53,9 @@
             </table>
             <p>The copy transparency mode does not apply transparency at all.</p>
             <p>The leftup and rightup transparency modes rely on the intended transparent portions of the image being a solid colour which can be substituted for transparency. Ensure there is no feathering between the image and the colour, as only the exact colour is replaced. This method can lead to jagged edges.</p>
+            <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
+                <p>Ensure that you set a strong an otherwise unused colour (such as pure magenta) as the background when using leftup or rightup transparency modes, to ensure that no other parts of the image are accidentally made transparent (e.g. whites of eyes or bright spots on white clothing)</p>
+            </div>
             <p>The alphablend and mask transparency modes work in a similar manner as one another. Both depend on there existing a second copy of the image (a mask) where black represents total opaqueness, white total transparency, and any shade in-between an intermediate level of transparency. For alphablend, the image is twice the ordinary width with the right half being the mask; with mask the mask is storerd in a separate file with its name provided.</p>
 
             <br />
