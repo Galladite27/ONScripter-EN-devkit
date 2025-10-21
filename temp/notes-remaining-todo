@@ -20,7 +20,6 @@ Layout of web pages (will be hosted or available as archive download for offline
     * general quick-start guide
     * translator quick-start guide
     * full guide (for new games and major modifications)
-        - TODO: Page 1: add section on ruby text syntax
         -       SECTION 1: images and backgrounds (making a working script, so we can discuss backend / theory stuff)
         - sprites & backgrounds (image types, aliases, backgrounds, effects, drawing basic sprites, animated sprites, sprite manipulation)
         - standing images (drawing & clearing standing images, key settings)
