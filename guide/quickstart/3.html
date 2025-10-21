@@ -3,6 +3,7 @@
     <head>
         <title>ONScripter-EN Devkit - Guide</title>
         <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
     </head>
     <body>
         <div class="content">
@@ -17,7 +18,7 @@
             <h2>Drawing standing images</h2>
             <p>To draw standing images, we will use the <span class="inlinecode">ld</span> command (short for load). It takes three arguments - the position (either <span class="inlinecode">l</span>, <span class="inlinecode">c</span> or <span class="inlinecode">r</span>), the filename of the sprite to draw, and the effect by which to draw it. For example:
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
-                <p>ld l,sprites/character2.png,1</p>
+                <p>ld l,"sprites/character2.png",1</p>
             </div>
             <p>If you try this out now, you may notice the edges of the sprite to be just a little jagged. This is because we are dealing with transparency now - different transparency modes are a topic for a later article.</p>
             <p>Like before, the filename can be represented by an alias to make it easier for us. Using the alias already provided in the template project, the line above could also be written like this:</p>
