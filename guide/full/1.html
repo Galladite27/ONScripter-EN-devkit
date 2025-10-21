@@ -208,6 +208,12 @@
                 <p>[`Taro Mendo`/0001.wav]`Taro speaking.</p>
             </div>
 
+            <p>Brackets are used to specify ruby text (if ruby text is enabled), within which two arbitrary pieces of text (not quoted) are given, separated by a slash, with the second being rendered as ruby text to the first. The brackets and slash must be outside of one-byte mode.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
+                <p>(紙芝居/かみしばい)` `(DREADFUL/horrible)</p>
+            </div>
+            <p>&rarr; <ruby>紙芝居<rt>かみしばい</rt></ruby> <ruby>DREADFUL<rt>horrible</rt></ruby></p>
+
             <p>Text colour can be changed inline by inserting an RGB value - a hash symbol followed by six heaxadecimal digits.</p>
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
                 <p class="comment">; Note how 1-byte mode is temporarily exited for the RGB value, then re-entered</p>
