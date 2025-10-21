@@ -94,10 +94,35 @@
                 <p>ld r,sp_girl_happy</p>
             </div>
 
-            <h2>Effects</h2>
+            <h2>Effects and printing</h2>
             <p>Built in effects, the effect commands, effect masks, DLLs</p>
+
+            <p>Effects are referenced by effect number, which ranges from 0-255 - however, effects 0 and 1 are reserved and so user-definable effects range from 2-255.</p>
+            <p>In ONScripter-EN, many commands require an effect by which to write the changes they make to the screen. However, many others do not by default write their changes to the screen, and so the changes require explicitly writing to the screen to be made visible to the user using the <span class="inlinecode">print</span> command (which accepts one argument, that being an effect number).</p>
+            <p>Effect 0 causes changes to be written to memory, but not to the screen; effect 1 causes changes to be written to the screen instantly, or in other words without effect.</p>
+            <p>So, since some commands require an effect number, they can be delayed in being made visible to the user by using effect 0 - the changes will then be made at the next usage of the <span class="inlinecode">print</span> command; also, the command which accept no effect number can be displayed with effect by immediately being followed by a <span class="inlinecode">print</span> command; so, in this way, any command's visible effects can be made to be either immediate or delayed. As for why some are immediate and some delayed by default, it seems that the rule is that the most commonly used method is the default (of course, there is also some plain inconsistency).</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; BG command requires an effect - draw immediately</p>
+                <p>bg black,1</p>
+                <br />
+                <p class="comment">; BG command requires an effect - delay drawing</p>
+                <p>bg black,0</p>
+                <p>...</p>
+                <p>print 1</p>
+                <br />
+                <p class="comment">; Monocro command doesn't require an effect - draw immediately</p>
+                <p>monocro #888888</p>
+                <p>print 1</p>
+                <br />
+                <p class="comment">; Monocro command doesn't require an effect - delay drawing</p>
+                <p>monocro #888888</p>
+                <p>...</p>
+                <p>print 1</p>
+            </div>
+
             <h2>Backgrounds</h2>
             <p>Solid colours, image backgrounds, clearing, bg over a portion of the screen?</p>
+
             <h2>Sprites</h2>
             <p>Sprite numbers, lsp and related, trans modes, animated sprites, sprite manipulation</p>
 
