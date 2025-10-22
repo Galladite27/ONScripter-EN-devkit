@@ -13,7 +13,7 @@
             <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
                 <p>For this section we are glossing over transparency modes, which are ways of determining what part of a sprite should be transparent. The default is called "leftup" - any pixel which is the same colour as the top-left pixel of the image is counted as transparent. While an imperfect method, this should work <i>well enough</i> for our current purposes.</p>
             </div>
-            <p>Standing images are basically three "slots" referred to as l, c, and r (for left, centre, and right) which can each have either a sprite drawn in them or be empty. There are default positions and other values for standing images; don't worry about this for now - the defaults are just fine for most purposes.</p>
+            <p>Standing images are basically three "slots" referred to as l, c, and r (for left, centre, and right) which can each either have a sprite drawn in them or be empty. There are default positions and other values for standing images; don't worry about this for now - the defaults are just fine for most purposes.</p>
 
             <h2>Drawing standing images</h2>
             <p>To draw standing images, we will use the <span class="inlinecode">ld</span> command (short for load). It takes three arguments - the position (either <span class="inlinecode">l</span>, <span class="inlinecode">c</span> or <span class="inlinecode">r</span>), the filename of the sprite to draw, and the effect by which to draw it. For example:

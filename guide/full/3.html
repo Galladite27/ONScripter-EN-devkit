@@ -8,8 +8,55 @@
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN full guide: 0 - further introduction, division of the guide</h1></p>
+            <h1>ONScripter-EN full guide: 3 - standing images</h1></p>
+            <p>Standing images are an alternative to sprites, made to simplify drawing character sprites which are very often drawn in the same locations with the same basic settings.</p>
+            <p>Standing images have three "slots," referred to as l, c, and r (for left, centre, and right) which can either have a sprite drawn in them or be empty. There are certain default values provided relating to these slots which can be changed by the user.</p>
 
+            <h2>Drawing &amp; clearing standing images</h2>
+            <p>TODO: check if ld can accept an image processing tag like lsp</p>
+            <p>Standing images can be drawn using the <span class="inlinecode">ld</span> command. It takes three arguments - the position (either <span class="inlinecode">l</span>, <span class="inlinecode">c</span> or <span class="inlinecode">r</span>), the filename of the sprite to draw, and the effect by which to draw it. For example:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>ld l,"sprites/character2.png",1</p>
+            </div>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>Since standing images are "slots" which can either be empty or hold a single sprite at a time, if you try and draw a sprite to a slot already containing a sprite, the old one will be replaced by the new one. This saves you from having to clear the slot each time you want to draw to it.</p>
+            </div>
+
+            <p>The <span class="inlinecode">cl</span> command is used to clear standing images. It takes two arguments - the slot and the effect, as before. This time, <span class="inlinecode">a</span> can also be provided as a slot, which will cause all slots to be cleared. For example, this will immediately clear all standing images:
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>cl a,1</p>
+            </div>
+
+            <p>Finally, the <span class="inlinecode">tal</span> command is used to change the transparency of standing images. It takes three arguments - the position, the opacity value (0-255), and the effect.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Draw sprite as immediately translucent rather than drawing then making translucent</p>
+                <p>ld c,"sprites/sprite.png",0</p>
+                <p>tal c,200,1</p>
+            </div>
+
+            <h2>Standing image settings</h2>
+            <p>The co-ordinates of standing images can be set using the <span class="inlinecode">underline</span> and <span class="inlinecode">humanpos</span> commands; the former sets the Y level of all standing images, while the latter sets the X level of each of the three standing images. You will notice NScripter's Engrish really shining through in some of the standing image related commands, haha.</p>
+            <p>TODO: check if this needs to be followed by a print command</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Reset default values</p>
+                <p>underline 479</p>
+                <p>humanpos 160,320,480</p>
+            </div>
+
+            <p>The overlapping priority of standing images can be set with <span class="inlinecode">humanorder</span>, which takes a string containing the three positions' representative letters in decreasing order of priority and the effect; the priority of standing images against sprites (where sprites TODO CHECK THIS above/below and including the priority are drawn above standing images) can be set with <span class="inlinecode">humanz</span>, which takes a number as the Z level of standing images.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Reset default values</p>
+                <p class="comment">; TODO check if the humanorder command is actually the default, also change API ref to note this</p>
+                <p>humanz 25</p>
+                <p>humanorder "rcl",1</p>
+            </div>
+
+
+
+
+<span class="inlinecode"></span>
+
+<!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -27,6 +74,7 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
+-->
             
         </div>
     </body>

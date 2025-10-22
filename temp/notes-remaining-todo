@@ -20,9 +20,6 @@ Layout of web pages (will be hosted or available as archive download for offline
     * general quick-start guide
     * translator quick-start guide
     * full guide (for new games and major modifications)
-        -       SECTION 1: images and backgrounds (making a working script, so we can discuss backend / theory stuff)
-        - sprites & backgrounds (image types, aliases, backgrounds, effects, drawing basic sprites, animated sprites, sprite manipulation)
-        - standing images (drawing & clearing standing images, key settings)
         -       SECTION 2: control flow & variables
         - labels (goto, gosub, defsub, getparam, return, note about using variables safely, subroutine hooks (loadgosub, pretextgosub, rgosub, selgosub, textgosub), note on ~ & jumpf & jumpb)
         - variables (types (number, string, array) (local, global & globalon), setting values, unary & binary operators & commands, debug command (now we know of variables))
