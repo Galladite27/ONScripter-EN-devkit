@@ -3,12 +3,42 @@
     <head>
         <title>ONScripter-EN Devkit - Guide</title>
         <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
     </head>
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN general quick-start guide: 0 - using the provided template</h1></p>
+            <h1>ONScripter-EN - Guide de Démarrage Rapide Général: 1 - Afficher du texte</h1></p>
+            <p>Open the script and scroll to near the bottom, where you see the line reading "<span class="inlinecode">`Game goes here.\</span>." Portions of the above code may be mentioned as appropriate throughout this guide, however we will begin with the single most important element of a novel game - the dialogue.</p>
+            <p>Anything put here in the script (if you want, you can remove the single line of text already in the template and start fresh) will be interpreted as code for the game when the engine is run - everything above in the script is related to the setup of the engine and not the game itself. The engine reads lines <i>one after another</i>, continuing to the end of the script <i>unless interrupted</i>.</p>
+            <p>Finally before we begin, a couple more mandatory notes concerning the script: firstly, the script is broken into two main sections, those being the define block and the program block. The define block contains setup information, and the program block contains the content of the game. Secondly, any line beginning with a semicolon (<span class="inlinecode">;</span>) is considered by the engine to be a "comment," and is therefore not a part of the program. These comments can contain anything, commonly notes from the scripter to himself. In the template script you will see comments annotating everything there already, and marking clearly the boundaries of the aforementioned define and program blocks.
 
+            <h2>Afficher du texte</h2>
+            <p>Displaying text in ONScripter-EN is very simple. To mark a line as being English (or otherwise non-Japanese) text, begin it with a backtick character (<span class="inlinecode">`</span>) as seen in the line of text already in the template. Then, you may put whatever arbitrary text you want after it, and when the engine reaches that line of the script it will simply display that line of text on-screen. Large amounts of dialogue can therefore be written in the script almost verbatim.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>`This is a valid line of text in the NScript language.</p>
+                <p>`This line is as well!</p>
+            </div>
+            <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
+                <p>Certain symbols, such as the percentage symbol, may have functional purposes even within lines of text. These functional purposes, as well as avoiding them, are discussed in the full guide, page 1, under the heading of "Text."</p>
+            </div>
+
+            <h2>Clickwait characters</h2>
+            <p>If you have already tried writing your own lines of text in the template (which you should be doing, by the way!), you may have noticed that the text is printed out but without pause at the end. This is because we need to <i>tell</i> the engine to pause at the end of a line!</p>
+            <p>ONScripter-EN has two "clickwait characters," <span class="inlinecode">@</span> and <span class="inlinecode">\</span>, which when used at the end of (or even in the middle of) a line of text will cause the engine to pause when it reaches it, waiting for the user to click before it continues. The difference? An at symbol causes a linewait, whereas a backslash causes a pagewait; the former will cause subsequent lines to appear on the same page, while the latter will cause subsequent lines to appear on a new page, erasing the old one.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>`This is on the first page.@</p>
+                <p>`As is this.@</p>
+                <p>`And also this.\</p>
+                <p>`This line is on the second page.@</p>
+                <p>`As is this.\</p>
+            </div>
+            <p>Try it out!</p>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>You may also notice that the animated icon indicating that the line of text is completed and the user may click changes depending on whether the engine has reached a linewait or pagewait. These icons are stored in the "assets" directory, and the engine is told to use them in the script.</p>
+            </div>
+
+<!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -26,6 +56,7 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
+--!>
             
         </div>
     </body>
