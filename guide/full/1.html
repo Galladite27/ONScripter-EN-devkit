@@ -144,7 +144,7 @@
             <br />
             <p>The three types of variable (number, string, and array - the latter of which can only be an array of numbers) are each denoted by a specific symbol, and enumerated according to variable numbers specific to each variable type. For the first part - number variables are prefixed with a <span class="inlinecode">%</span> symbol, string variables with a <span class="inlinecode">$</span> symbol, and array variables with a <span class="inlinecode">?</span> symbol. For the second part - variable numbers are allowed from 0 to 4095, and there is a separate range of numbers for each type of variable (so %0 and $0 can exist independently of each other, since the first 0 is referring to a number variable number, and the second 0 to a string variable number).<p>
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div><br />
-                <p class="comment">; In this command, $0 will be substituted for a certain string, and ?0[0] (with ?0 assumed to be a 1d array) will be substituted for a certain number</p>
+                <p class="comment">; In this command, $0 will be substituted for a certain string, and ?0[0] (with ?0 assumed to be a one-dimensional array) will be substituted for a certain number</p>
                 <p>a_command $0,?0[0]</p>
             </div>
 
