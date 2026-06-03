@@ -13,8 +13,7 @@
             <p>Standing images have three "slots," referred to as l, c, and r (for left, centre, and right) which can either have a sprite drawn in them or be empty. There are certain default values provided relating to these slots which can be changed by the user.</p>
 
             <h2>Drawing &amp; clearing standing images</h2>
-            <p>TODO: check if ld can accept an image processing tag like lsp</p>
-            <p>Standing images can be drawn using the <span class="inlinecode">ld</span> command. It takes three arguments - the position (either <span class="inlinecode">l</span>, <span class="inlinecode">c</span> or <span class="inlinecode">r</span>), the filename of the sprite to draw, and the effect by which to draw it. For example:</p>
+            <p>Standing images can be drawn using the <span class="inlinecode">ld</span> command. It takes three arguments - the position (either <span class="inlinecode">l</span>, <span class="inlinecode">c</span> or <span class="inlinecode">r</span>), the filename / image processing tag of the sprite to draw, and the effect by which to draw it. For example:</p>
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>ld l,"sprites/character2.png",1</p>
             </div>
@@ -36,23 +35,22 @@
 
             <h2>Standing image settings</h2>
             <p>The co-ordinates of standing images can be set using the <span class="inlinecode">underline</span> and <span class="inlinecode">humanpos</span> commands; the former sets the Y level of all standing images, while the latter sets the X level of each of the three standing images. You will notice NScripter's Engrish really shining through in some of the standing image related commands, haha.</p>
-            <p>TODO: check if this needs to be followed by a print command</p>
+            <p>Both of these commands require not just a print call, but for the images to be re-drawn to their slots with <span class="inlinecode">ld</span> for the changes to take effect.</p>
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p class="comment">; Reset default values</p>
                 <p>underline 479</p>
                 <p>humanpos 160,320,480</p>
             </div>
 
-            <p>The overlapping priority of standing images can be set with <span class="inlinecode">humanorder</span>, which takes a string containing the three positions' representative letters in decreasing order of priority and the effect; the priority of standing images against sprites (where sprites TODO CHECK THIS above/below and including the priority are drawn above standing images) can be set with <span class="inlinecode">humanz</span>, which takes a number as the Z level of standing images.</p>
+            <p>The overlapping priority of standing images can be set (without needing to re-draw the sprites) with <span class="inlinecode">humanorder</span>, which takes a string containing the three positions' representative letters in decreasing order of priority and the effect; the priority of standing images against sprites (where sprites with a number less than or equal to the priority are drawn above standing images) can be set with <span class="inlinecode">humanz</span>, which takes a number as the Z level of standing images.</p>
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p class="comment">; Reset default values</p>
-                <p class="comment">; TODO check if the humanorder command is actually the default, also change API ref to note this</p>
                 <p>humanz 25</p>
                 <p>humanorder "rcl",1</p>
             </div>
-
-
-
+            <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
+                <p>As of 2026-06-03, ONScripter-EN has the default for <span class="inlinecode">humanz</span> as 499. This is possibly be a bug and may be subject to change.</p>
+            </div>
 
 <span class="inlinecode"></span>
 

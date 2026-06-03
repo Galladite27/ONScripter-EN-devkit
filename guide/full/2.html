@@ -13,7 +13,7 @@
 
             <h2>Image formats &amp; transparency modes</h2>
             <p>ONScripter-EN supports three image formats: PNG, JPG, and BMP. The benefits and use cases of each are roughly the same (or, at least, the same as ordinary use cases such as small file size; that is, none of the formats particularly lend themselves towards any special use case in ONScripter-EN) except that BMP files can be compressed using NBZ compression in NSA archives, making them more practical than they otherwise might be with their potentially large file sizes.</p>
-            <p>Though an image format may support it (namely PNG), ONScripter-EN cannot interpret alpha channels. Instead, there are five "transparency modes" which can be used, three of which can be set as defaults using the define block only command <span class="inlinecode">transmode</span> (with leftup being the default), in order to display images with transparency. Alternatively, the transparency modes are enabled on a per-image basis by adding a prefix to a file name when providing it to an image display function (for sprites or standing images). Please see the table below for an overview of these modes, as well as how they are set.</p>
+            <p>Though an image format may support it (namely PNG), ONScripter-EN cannot interpret alpha channels. Instead, there are five "transparency modes" which can be used, three of which can be set as defaults using the define block only command <span class="inlinecode">transmode</span> (with leftup being the default), in order to display images with transparency. Alternatively, the transparency modes are enabled on a per-image basis using an image processing tag rather than just a file name when providing it to an image display function (for sprites or standing images). Please see the table below for an overview of these modes, as well as how they are set.</p>
             <table rules=rows>
                 <tr>
                     <th style="width: 10%">Mode</th>
@@ -52,10 +52,15 @@
                     <td><span class="inlinecode">":mfilename.bmp;filename.bmp"</span></td>
                 </tr>
             </table>
+
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>The image processing tags (which include, for example, transparency modes) are described very well and in good detail with examples in the API reference guide's section for the <span class="inlinecode">lsp</span> command. Please do read that section; I will not unnecessarily repeat it all here - however I am giving some information about them where necessary, both here and below when discussing animated sprites.</p>
+            </div>
+
             <p>The copy transparency mode does not apply transparency at all.</p>
             <p>The leftup and rightup transparency modes rely on the intended transparent portions of the image being a solid colour which can be substituted for transparency. Ensure there is no feathering between the image and the colour, as only the exact colour is replaced. This method can lead to jagged edges.</p>
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
-                <p>Ensure that you set a strong an otherwise unused colour (such as pure magenta) as the background when using leftup or rightup transparency modes, to ensure that no other parts of the image are accidentally made transparent (e.g. whites of eyes or bright spots on white clothing)</p>
+                <p>Ensure that you set a strong and otherwise unused colour (such as pure magenta) as the background when using leftup or rightup transparency modes, to ensure that no other parts of the image are accidentally made transparent (e.g. whites of eyes or bright spots on white clothing)</p>
             </div>
             <p>The alphablend and mask transparency modes work in a similar manner to one another. Both depend on there existing a second copy of the image (a mask) where black represents total opaqueness, white total transparency, and any shade in-between an intermediate level of transparency. For alphablend, the image is twice the ordinary width with the right half being the mask; with mask the mask is storerd in a separate file with its name provided.</p>
 
@@ -167,7 +172,7 @@
                 <p class="comment">; Sets effect 2 to be a whirl of one second</p>
                 <p>effect 2,99,1000,"whirl.dll"</p>
             </div>
-            <p>TODO: review the source code to see what arguments these effects accept, since I can't find public documentation about this.</p>
+            <p>Because I cannot find information about how the parameters for these DLLs are intended to be used, all I can do is explain how the engine parses them. For <span class="inlinecode">breakup.dll</span>, seemingly the only emulated effect which supports DLL parameters, the first character being <span class="inlinecode">l</span> causes the mode to be "lower;" the second character being <span class="inlinecode">l</span> causes the mode to be "left;" the third character being any character from <span class="inlinecode">A</span> to <span class="inlinecode">Z</span> (note the caps) causes the mode to be "jumble;" and finally the third character being <span class="inlinecode">p</span> or <span class="inlinecode">P</span> causes the mode to be "pileup." So, for pileup mode you would need to call the command something like <span class="inlinecode">effect 2,99,1000,"breakup.dll/--P"</span>. Yes, I know it's ridiculous.</p>
 
             <h2>Backgrounds</h2>
             <p>The <span class="inlinecode">bg</span> command can be used to draw backgrounds. It takes two argument; for the first argument either "black" or "white," a colour (hex code), or filename, and then for the second argument an effect.</p>
@@ -186,8 +191,13 @@
 
             <h2>Sprites</h2>
             <p>Like effects (and many other things in the engine), sprites are numbered independently, with sprite numbers ranging from 0-999 (and enhanced sprite numbers from 0-255). If you try to draw to an existing sprite number, the old sprite will simply be overwritten.</p>
-            <p>TODO discuss sprite priority</p>
-            <p>The lsp command is used to display sprites; it accepts a sprite number, image filename (or processing tag), top-left X co-ordinate, top-left Y co-ordinate, and optionally an opacity value (from 0-255). The image processing tags (which include, for example, transparency modes) are described very well and in good detail with examples in the API reference guide's section for the <span class="inlinecode">lsp</span> command. Please do read that section; I will not unnecessarily repeat it here.</p>
+            <p>The lower the sprite number, the higher the priority (meaning the Z-order) - sprite 10 will be drawn above 11, for example. For information on how this relates to standing images, please see page 3. For information on how the text window (via <span class="inlinecode">windowback</span>) may relate to image priority, please see page 9.</p>
+            <p>The lsp command is used to display sprites; it accepts a sprite number, image filename (or processing tag), top-left X co-ordinate, top-left Y co-ordinate, and optionally an opacity value (from 0-255).</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p class="comment">; Simply drawing a sprite</p>
+                <p>lsp 0,":l;sprites/character.png",10,10</p>
+            </div>
+
             <p>The <span class="inlinecode">csp</span> command is used with a sprite number to clear that sprite; the <span class="inlinecode">vsp</span> command is used with a sprite number and either a 0 or 1 to toggle the visibility of a sprite; the <span class="inlinecode">msp</span> and <span class="inlinecode">amsp</span> commands are used to modify sprites' position and opacity, relatively and absolutely respectively.</p>
             <p>Enhanced sprites are like sprites, except that they can also have a rotation and X and Y scaling. They have their own set of commands similar to normal sprite commands but with a number 2 on the end, e.g. <span class="inlinecode">lsp2</span>, <span class="inlinecode">msp2</span>, &amp;c., due to their different properties and independent indexing.</p>
 
