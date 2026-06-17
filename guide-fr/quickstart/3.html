@@ -3,12 +3,51 @@
     <head>
         <title>ONScripter-EN Devkit - Guide</title>
         <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
     </head>
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN general quick-start guide: 0 - using the provided template</h1></p>
+            <h1>ONScripter-EN - Guide de Démarrage Rapide Général: 3 - Afficher des sprites (personnages)</h1></p>
+            <p>We will now learn how to display character sprites. While ONScripter-EN provides several methods for drawing sprites, we will for the time being only concern ourselves with the simplest method and the most convenient for drawing character sprites - standing images. Sprites in ONScripter-EN may be BMP, JPG or PNG.</p>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>For this section we are glossing over transparency modes, which are ways of determining what part of a sprite should be transparent. The default is called "leftup" - any pixel which is the same colour as the top-left pixel of the image is counted as transparent. While an imperfect method, this should work <i>well enough</i> for our current purposes.</p>
+            </div>
+            <p>Standing images are basically three "slots" referred to as l, c, and r (for left, centre, and right) which can each either have a sprite drawn in them or be empty. There are default positions and other values for standing images; don't worry about this for now - the defaults are just fine for most purposes.</p>
 
+            <h2>Drawing standing images</h2>
+            <p>To draw standing images, we will use the <span class="inlinecode">ld</span> command (short for load). It takes three arguments - the position (either <span class="inlinecode">l</span>, <span class="inlinecode">c</span> or <span class="inlinecode">r</span>), the filename of the sprite to draw, and the effect by which to draw it. For example:
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>ld l,"sprites/character2.png",1</p>
+            </div>
+            <p>If you try this out now, you may notice the edges of the sprite to be just a little jagged. This is because we are dealing with transparency now - different transparency modes are a topic for a later article.</p>
+            <p>Like before, the filename can be represented by an alias to make it easier for us. Using the alias already provided in the template project, the line above could also be written like this:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>ld l,sp_girl2,1</p>
+            </div>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>Since standing images are "slots" which can either be empty or hold a single sprite at a time, if you try and draw a sprite to a slot already containing a sprite, the old one will be replaced by the new one. This saves you from having to clear the slot each time you want to draw to it.</p>
+            </div>
+
+            <h2>Clearing standing images</h2>
+            <p>The <span class="inlinecode">cl</span> command is used to clear standing images. It takes two arguments - the slot and the effect, as before. This time, <span class="inlinecode">a</span> can also be provided as a slot, which will cause all slots to be cleared. For example, this will immediately clear all standing images:
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>cl a,1</p>
+            </div>
+
+            <h2>Putting it all together</h2>
+            <p>We have now covered the basic visual elements of a novel game. Putting together what we have learned so far, using the following code in the template project will produce the subsequent result:</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>bg bg_alley,1</p>
+                <p>ld l,sp_girl2,1</p>
+                <p>ld r,sp_miontoko,1</p>
+                <p>`"Get a load of this guy!"@</p>
+            </div>
+            <div class="box image"><div class="boxheader"><img class="nomalsizepls" src=../icons/camera.png /><h4>Image</h4></div>
+                <center><img src="images/3-putting-it-together.png" /></center>
+            </div>
+
+<!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -26,6 +65,7 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
+--!>
             
         </div>
     </body>

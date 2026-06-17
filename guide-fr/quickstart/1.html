@@ -3,12 +3,43 @@
     <head>
         <title>ONScripter-EN Devkit - Guide</title>
         <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
     </head>
     <body>
         <div class="content">
             <p class="left"><a rel="home" href="index.html">back</a></p>
-            <h1>ONScripter-EN general quick-start guide: 0 - using the provided template</h1></p>
+            <h1>ONScripter-EN - Guide de Démarrage Rapide Général: 1 - Afficher du texte</h1></p>
+            <p>Ouvrez le script et diriger vous proche du bas, jsuqu'à la ligne "<span class="inlinecode">`Game goes here.\</span>." Certaines parties du code au-dessus de cette ligne pourront être mentionnées au cours de ce guide, cependant nous allons commencer avec l'élément le plus important d'une jeu roman - le dialogue.</p>
+            <p>Tout ce qui est mis dans ce script (si vous voulez, retirez la ligne de texte déjà existance dans le squellette et reprenez sur des bases fraîches) vont être interprétés comme du code pour le jeu quand le moteur est exécuté - tout ce qui est au-dessus est lié à l'initialisation du moteur et non pas du jeu lui-même. Le moteur lit les lignes <i>une après l'autre</i>, continuant jusqu'à la fin du script <i>jusqu'à être arrété</i>.</p>p
+            <p>Après que nous aillions commencé, un certain nombre de trivia concernant le script: premièrement, le script est coupé en deux sections principales, celle étant le bloc de définition (define) et le bloc programme (start), le bloc de définition contient les information d'intitialisation, et le bloc de programme contient le contenu du jeu. Deuxièmement, chaque ligne avec un point-virgule (<span class="inlinecode">;</span>) est considéré par le moteur comme un "commentaire", et ne faisant pas partie du programme. Ces commentaires peuvent contenir n'importe quoi, souvent des notes pour le développeur pour lui-même. Dans le script squelette vous verrez des commentaires annotant tout ce qu'il y a déjà, et marquant clairement les limites du blocs de définition et du bloc programme précédemment nommées.</p>
+             
+                
+        <h2>Afficher du texte</h2>
+            <p>Afficher du texte dans Onscripter-EN est très simple. Pour marquer qu'une ligne est écrite en caractète non-japonais, commencer par un accent grave (<span class="inlinecode">`</span>) comme vu dans la ligne de texte déjà présente. Ainsi, vous pouvez mettre tout le texte que vous voulez après, et quand le moteur atteindra cette ligne du script, il affichera simplement la ligne de texte à l'écran. De large portion de dialogue peuvent donc être écrit quasiment mot pour mot.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>`Ceci est une ligne de texte valide dans le langage d'Nscripter.</p>
+                <p>`Cette ligne l'est tout autant!</p>
+            </div>
+            <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
+                <p>Certains symboles, comme le pourcent (%), peuvent avoir une fonctione attribué même à l'intérieur d'une ligne de texte. Ces fonctions, comme la manière de les éviter, sont traités dans le guide complet, en page 1, dans la catégorie "Texte."</p>
+            </div>
 
+            <h2>Paramètre de mise en pause de clics</h2>
+            <p>Si vous avre déjà essayer d'écrire votre propre ligne de texte dans le script fourni (ce que vous devriez faire, de tout manière!), vous remarquerez que le texte s'affiche sans pause. C'est car nous avons besoin de de <i>dire</i> au moteur de se mettre en pause à la fin de la ligne!</p>
+            <p>Onscripter-EN a deux "caractère de mise en pause", <span class="inlinecode">@</span> et <span class="inlinecode">\</span>, qui quand utiliser à la fin d'une (et/ou même même au milier d'une) ligne de texte va causer la pause du moteur quand il sera atteint, attendant que l'utilisateur clique avant de continuer. La différence ? Un arobase cause une attente simple de texte tandis que la barre oblique va faire attendre pour un changement de page effaçant ainsi les lignes précédentes.</p>
+            <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
+                <p>`Ceci est la première page.@</p>
+                <p>`Comme celle ci.@</p>
+                <p>`Et aussi celle ci.\</p>
+                <p>`Celle ligne est sur la seconde page@</p>
+                <p>`Commce celle-ci.\</p>
+            </div>
+            <p>Essayez de votre coté!</p>
+            <div class="box tip"><div class="boxheader"><img src=../icons/onsen.png /><h4>Tip</h4></div>
+                <p>Vous pourrez aussi remarquer que l'icone animé indique qu'une ligne de texte est complété et que l'utilisateur peut cliquer change en fonction d'une attente pour une nouvelle ligne ou une nouvelle page. Ces icones sont stoqué dans le dossier "assets", et le moteur a pour consigne de les utiliser dans le script.</p>
+            </div>
+
+<!--
             <div class="box code"><div class="boxheader"><img src=../icons/cog.png /><h4>Code</h4></div>
                 <p>Code, printed in a monospaced font.</p>
                 <p>Beep, boop!</p>
@@ -26,6 +57,7 @@
             <div class="box warning"><div class="boxheader"><img src=../icons/warning.png /><h4>Warning</h4></div>
                 <p>Don't set fire to your hair (or poke a stick at a grizzly bear).</p>
             </div>
+--!>
             
         </div>
     </body>
